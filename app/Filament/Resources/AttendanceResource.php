@@ -81,6 +81,7 @@ class AttendanceResource extends Resource
                 // Tables\Columns\TextColumn::make('updated_at')
                 //     ->dateTime(),
             ])
+            ->defaultSort('check_in', 'desc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
