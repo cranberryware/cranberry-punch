@@ -27,6 +27,16 @@ class AttendanceKiosk extends Page
         return strval(__('open-attendance::open-attendance.section.attendance-kiosk.title'));
     }
 
+
+    public function mount(): void
+    {
+        if(!auth()->user()->can("clock attendances") || !auth()->user()->employee) {
+            abort(403);
+            return;
+        }
+        parent::mount();
+    }
+
     protected static function shouldRegisterNavigation(): bool
     {
         return auth()->user()->can("clock attendances") && auth()->user()->employee;
@@ -37,17 +47,17 @@ class AttendanceKiosk extends Page
         return [
             Action::make('attendance_clock')
                 ->label(function (): string {
-                    return (auth()->user()->employee->clocked_out())
+                    return (auth()->user()->employee && auth()->user()->employee->clocked_out())
                         ? __('open-attendance::open-attendance.attendance-kiosk.button.clock-in')
                         : __('open-attendance::open-attendance.attendance-kiosk.button.clock-out');
                 })
                 ->icon(function (): string {
-                    return (auth()->user()->employee->clocked_out())
+                    return (auth()->user()->employee && auth()->user()->employee->clocked_out())
                         ? 'heroicon-o-login'
                         : 'heroicon-o-logout';
                 })
                 ->color(function (): string {
-                    return (auth()->user()->employee->clocked_out())
+                    return (auth()->user()->employee && auth()->user()->employee->clocked_out())
                         ? 'success'
                         : 'danger';
                 })

@@ -6,8 +6,7 @@ use Spatie\LaravelSettings\Settings;
 
 class AttendanceSettings extends Settings
 {
-
-    public array $work_ips;
+    public array $ip_locations;
 
     public static function group(): string
     {

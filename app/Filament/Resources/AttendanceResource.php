@@ -19,7 +19,6 @@ class AttendanceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
-
     protected static function getNavigationGroup(): ?string
     {
         return strval(__('open-attendance::open-attendance.section.group-attendance-management'));
@@ -65,8 +64,14 @@ class AttendanceResource extends Resource
                 Tables\Columns\TextColumn::make('check_in')->dateTime()
                     ->label(strval(__('open-attendance::open-attendance.table.attendance.check-in')))
                     ->sortable(),
+                Tables\Columns\TextColumn::make('check_in_location')->dateTime()
+                    ->label(strval(__('open-attendance::open-attendance.table.attendance.check-in-location')))
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('check_out')->dateTime()
                     ->label(strval(__('open-attendance::open-attendance.table.attendance.check-out')))
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('check_out_location')->dateTime()
+                    ->label(strval(__('open-attendance::open-attendance.table.attendance.check-out-location')))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label(strval(__('open-attendance::open-attendance.table.attendance.user')))

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Scopes\AttendanceScope;
 use App\Settings\AttendanceSettings;
+use App\Support\Utility;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -43,8 +44,13 @@ class Attendance extends Model
     {
         static::addGlobalScope(new AttendanceScope);
         static::saving(function ($model) {
-            if ($model->isDirty('check_in_ip') && in_array($model->check_in_ip, app(AttendanceSettings::class)->work_ips)) {
-                // $model->setAttribute('check_in_location', )
+            if ($model->isDirty('check_in')) {
+                $model->setAttribute('check_in_ip', request()->ip());
+                $model->setAttribute('check_in_location', Utility::get_location_from_ip(request()->ip()));
+            }
+            if ($model->isDirty('check_out')) {
+                $model->setAttribute('check_out_ip', request()->ip());
+                $model->setAttribute('check_out_location', Utility::get_location_from_ip(request()->ip()));
             }
         });
     }
