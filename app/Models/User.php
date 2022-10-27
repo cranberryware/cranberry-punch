@@ -66,4 +66,15 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasOne(Employee::class);
     }
+
+    /**
+     * > This function returns the attendances of the user
+     *
+     * @return The attendances for the user.
+     */
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
 }

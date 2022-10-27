@@ -19,8 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('employee_id');
             $table->unsignedBigInteger('user_id');
 
-            $table->date('check_in');
-            $table->date('check_out')->nullable(true);
+            $table->dateTime('check_in');
+            $table->dateTime('check_out')->nullable(true);
 
             $table->double('worked_hours')->virtualAs('TIMESTAMPDIFF(SECOND, check_in, check_out)/3600');
 

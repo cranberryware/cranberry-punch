@@ -211,4 +211,16 @@ class Employee extends Model
     {
         return $this->belongsTo(Department::class);
     }
+
+
+    /**
+     * > This function returns the attendances of the employee
+     *
+     * @return The attendances for the employee.
+     */
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
 }
