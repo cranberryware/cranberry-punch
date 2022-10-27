@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Scopes\AttendanceScope;
+use App\Settings\AttendanceSettings;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,11 +33,20 @@ class Attendance extends Model
         'user_id',
         'check_in',
         'check_out',
+        'check_in_ip',
+        'check_in_location',
+        'check_out_ip',
+        'check_out_location',
     ];
 
     protected static function booted()
     {
         static::addGlobalScope(new AttendanceScope);
+        static::saving(function ($model) {
+            if ($model->isDirty('check_in_ip') && in_array($model->check_in_ip, app(AttendanceSettings::class)->work_ips)) {
+                // $model->setAttribute('check_in_location', )
+            }
+        });
     }
 
     /**

@@ -24,6 +24,11 @@ return new class extends Migration
 
             $table->double('worked_hours')->virtualAs('TIMESTAMPDIFF(SECOND, check_in, check_out)/3600');
 
+            $table->ipAddress('check_in_ip')->nullable(true);
+            $table->string('check_in_location')->nullable(true);
+            $table->ipAddress('check_out_ip')->nullable(true);
+            $table->string('check_out_location')->nullable(true);
+
             $table->softDeletes();
             $table->timestamps();
         });

@@ -8,7 +8,7 @@ return [
      * put them (manually) here.
      */
     'settings' => [
-        // \App\Settings\EmailSettings::class
+        \App\Settings\AttendanceSettings::class
     ],
 
     /*

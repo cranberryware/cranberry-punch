@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f9cf57e30d7b6c0bf08e7ecac2d05fc5",
+    "content-hash": "f798f562328eafded7d81d14033644bf",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -9750,75 +9750,6 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
-        },
-        {
-            "name": "yepsua/filament-range-field",
-            "version": "v0.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yepsua/filament-range-field.git",
-                "reference": "b5aa30ef2e2ed709ed5e668afa0cb72fdff010a4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yepsua/filament-range-field/zipball/b5aa30ef2e2ed709ed5e668afa0cb72fdff010a4",
-                "reference": "b5aa30ef2e2ed709ed5e668afa0cb72fdff010a4",
-                "shasum": ""
-            },
-            "require": {
-                "filament/filament": "^2.0",
-                "illuminate/contracts": "^8.0|^9.0",
-                "php": "^8.0",
-                "spatie/laravel-package-tools": "^1.9.2"
-            },
-            "require-dev": {
-                "nunomaduro/collision": "^6.0",
-                "nunomaduro/larastan": "^2.0.1",
-                "orchestra/testbench": "^7.0",
-                "pestphp/pest": "^1.21",
-                "pestphp/pest-plugin-laravel": "^1.1",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan-deprecation-rules": "^1.0",
-                "phpstan/phpstan-phpunit": "^1.0",
-                "phpunit/phpunit": "^9.5",
-                "spatie/laravel-ray": "^1.26"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Yepsua\\Filament\\FilamentRangeFieldServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Yepsua\\Filament\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Omar Yepez",
-                    "email": "oyepez003@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "The missing range/slider field for the Filament forms.",
-            "homepage": "https://github.com/yepsua/filament-range-field",
-            "keywords": [
-                "filament-range-field",
-                "laravel",
-                "yepsua"
-            ],
-            "support": {
-                "issues": "https://github.com/yepsua/filament-range-field/issues",
-                "source": "https://github.com/yepsua/filament-range-field/tree/v0.3.1"
-            },
-            "time": "2022-09-15T12:46:11+00:00"
         }
     ],
     "packages-dev": [

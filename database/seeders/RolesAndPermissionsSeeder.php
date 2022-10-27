@@ -31,6 +31,11 @@ class RolesAndPermissionsSeeder extends Seeder
         ]);
 
         Permission::create([
+            'name' => "manage attendance settings",
+            'guard_name' => "web",
+        ]);
+
+        Permission::create([
             'name' => "clock attendances",
             'guard_name' => "web",
         ]);
@@ -61,6 +66,7 @@ class RolesAndPermissionsSeeder extends Seeder
                 'create designations',
                 'update departments',
                 'delete departments',
+                'manage attendance settings',
             ]);
 
         Role::create(['name' => 'employee'])
