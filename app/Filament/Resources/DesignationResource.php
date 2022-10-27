@@ -27,12 +27,12 @@ class DesignationResource extends Resource
 
     protected static function getNavigationGroup(): ?string
     {
-        return strval(__('employee-management::employee-management.section.group-employee-management'));
+        return strval(__('open-attendance::open-attendance.section.group-open-attendance'));
     }
 
     public static function getLabel(): string
     {
-        return strval(__('employee-management::employee-management.section.designations'));
+        return strval(__('open-attendance::open-attendance.section.designations'));
     }
 
     public static function form(Form $form): Form
@@ -41,12 +41,12 @@ class DesignationResource extends Resource
             ->schema([
                 Card::make()->schema([
                     TextInput::make('name')
-                        ->label(strval(__('employee-management::employee-management.form.designation.name')))
-                        ->placeholder(strval(__('employee-management::employee-management.form.designation.name')))
+                        ->label(strval(__('open-attendance::open-attendance.form.designation.name')))
+                        ->placeholder(strval(__('open-attendance::open-attendance.form.designation.name')))
                         ->required(),
                     Select::make('department_id')
-                        ->label(strval(__('employee-management::employee-management.form.input.designation.department')))
-                        ->placeholder(strval(__('employee-management::employee-management.form.input.designation.department')))
+                        ->label(strval(__('open-attendance::open-attendance.form.input.designation.department')))
+                        ->placeholder(strval(__('open-attendance::open-attendance.form.input.designation.department')))
                         ->relationship('department', fn () => "name"),
                 ])
             ]);
@@ -57,10 +57,10 @@ class DesignationResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label(__('employee-management::employee-management.table.designation.name'))
+                    ->label(__('open-attendance::open-attendance.table.designation.name'))
                     ->sortable(),
                 TextColumn::make('department.name')
-                    ->label(__('employee-management::employee-management.table.department.name'))
+                    ->label(__('open-attendance::open-attendance.table.department.name'))
                     ->sortable(),
             ])
             ->filters([

@@ -15,7 +15,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
 
         $policies = ['viewAny', 'view', 'create', 'update', 'delete', 'restore', 'forceDelete'];
-        $models = ['employees', 'departments', 'designations', 'users', 'permissions', 'roles'];
+        $models = ['attendances', 'employees', 'departments', 'designations', 'users', 'permissions', 'roles'];
         foreach ($policies as $policy) {
             foreach ($models as $model) {
                 Permission::create([

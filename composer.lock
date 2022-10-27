@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ed510e771ce24243bd800918827b872",
+    "content-hash": "f9cf57e30d7b6c0bf08e7ecac2d05fc5",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -2737,43 +2737,6 @@
                 }
             ],
             "time": "2022-10-26T14:07:24+00:00"
-        },
-        {
-            "name": "jerrygaoyang/laravel-jwt",
-            "version": "v1.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jerrygaoyang/laravel-jwt.git",
-                "reference": "ebaa32027f38a030f9ee09c3f0df21666de8dfc9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jerrygaoyang/laravel-jwt/zipball/ebaa32027f38a030f9ee09c3f0df21666de8dfc9",
-                "reference": "ebaa32027f38a030f9ee09c3f0df21666de8dfc9",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Jerry\\JWT\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "gaoyang",
-                    "email": "917616767@qq.com"
-                }
-            ],
-            "description": "jwt auth for encode decode and token expire_in authenticate",
-            "support": {
-                "issues": "https://github.com/jerrygaoyang/laravel-jwt/issues",
-                "source": "https://github.com/jerrygaoyang/laravel-jwt/tree/v1.0.5"
-            },
-            "time": "2017-11-21T02:15:14+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
