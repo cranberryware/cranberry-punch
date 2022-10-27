@@ -34,13 +34,24 @@ class AttendanceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('employee_id')
+                Forms\Components\Select::make('employee_id')
+                    ->label(__('open-attendance::open-attendance.attendance.input.employee'))
+                    ->placeholder(__('open-attendance::open-attendance.attendance.input.employee'))
+                    ->searchable()
+                    ->relationship('employee', fn () => "employee_code_with_full_name")
                     ->required(),
-                Forms\Components\TextInput::make('user_id')
+                Forms\Components\Select::make('user_id')
+                    ->label(__('open-attendance::open-attendance.attendance.input.user'))
+                    ->placeholder(__('open-attendance::open-attendance.attendance.input.user'))
+                    ->searchable()
+                    ->relationship('user', fn () => "name")
+                    ->disabled(true)
                     ->required(),
-                Forms\Components\DatePicker::make('check_in')
+                Forms\Components\DateTimePicker::make('check_in')
+                    ->label(__('open-attendance::open-attendance.attendance.input.check-in'))
+                    ->placeholder(__('open-attendance::open-attendance.attendance.input.check-out'))
                     ->required(),
-                Forms\Components\DatePicker::make('check_out'),
+                Forms\Components\DateTimePicker::make('check_out'),
             ]);
     }
 
@@ -48,20 +59,31 @@ class AttendanceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('employee.employee_code_with_full_name'),
-                Tables\Columns\TextColumn::make('check_in')->dateTime(),
-                Tables\Columns\TextColumn::make('check_out')->dateTime(),
-                Tables\Columns\TextColumn::make('user.full_name'),
-                Tables\Columns\TextColumn::make('worked_hours'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                Tables\Columns\TextColumn::make('employee.employee_code_with_full_name')
+                    ->label(strval(__('open-attendance::open-attendance.table.attendance.employee-name-with-code')))
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('check_in')->dateTime()
+                    ->label(strval(__('open-attendance::open-attendance.table.attendance.check-in')))
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('check_out')->dateTime()
+                    ->label(strval(__('open-attendance::open-attendance.table.attendance.check-out')))
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label(strval(__('open-attendance::open-attendance.table.attendance.user')))
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('worked_hours_rounded')
+                    ->label(strval(__('open-attendance::open-attendance.table.attendance.worked-hours')))
+                    ->sortable(),
+                // Tables\Columns\TextColumn::make('created_at')
+                //     ->dateTime(),
+                // Tables\Columns\TextColumn::make('updated_at')
+                //     ->dateTime(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

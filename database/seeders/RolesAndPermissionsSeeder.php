@@ -62,7 +62,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ->givePermissionTo([
                 'viewAny attendances',
                 'view attendances',
-                'update attendances',
+                // 'create attendances',
                 // 'viewAny departments',
                 // 'viewAny designations',
             ]);

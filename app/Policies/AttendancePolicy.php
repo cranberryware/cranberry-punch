@@ -54,7 +54,7 @@ class AttendancePolicy
      */
     public function update(User $user, Attendance $attendance)
     {
-        return $user->hasPermissionTo("update attendances") && $attendance->user_id == $user->id;
+        return $user->hasPermissionTo("update attendances") && $user->hasRole(['hr-manager', 'super-admin']);
     }
 
     /**

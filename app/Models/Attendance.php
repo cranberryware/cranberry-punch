@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\AttendanceScope;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,6 +14,13 @@ class Attendance extends Model
     use HasFactory;
     use SoftDeletes;
     use RevisionableTrait;
+
+    protected $appends = ['worked_hours_rounded'];
+
+    public function getWorkedHoursRoundedAttribute()
+    {
+        return round($this->worked_hours, 2);
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -25,12 +34,17 @@ class Attendance extends Model
         'check_out',
     ];
 
+    protected static function booted()
+    {
+        static::addGlobalScope(new AttendanceScope);
+    }
+
     /**
      * > The employee() function returns the Employee model that is related to the current Employee model
      *
      * @return The employee for the attendance.
      */
-    public function employees()
+    public function employee()
     {
         return $this->belongsTo(Employee::class, 'employee_id');
     }
@@ -44,5 +58,4 @@ class Attendance extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 }

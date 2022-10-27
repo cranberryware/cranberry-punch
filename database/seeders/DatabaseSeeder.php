@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Attendance;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
@@ -20,8 +21,9 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             AdminUserSeeder::class,
             UserSeeder::class,
-            EmployeesSeeder::class,
             DepartmentsSeeder::class,
+            EmployeesSeeder::class,
+            AttendanceSeeder::class,
         ];
 
         foreach ($seeders as $seeder) {
