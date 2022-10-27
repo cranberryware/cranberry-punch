@@ -1,0 +1,95 @@
+.radial-graph-wrap {
+    display: flex;
+    justify-content: center;
+    .radial-graph {
+        transform: scale(1);
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        position: relative;
+        .rg-shape,
+        .rg-mask,
+        .rg-fill {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+        }
+
+        .radial-graph {
+            .shape {
+                display: none;
+            }
+        }
+
+        .rg-shape,
+        .rg-mask,
+        .rg-fill {
+            position: absolute;
+            background-color: #ebeff1;
+        }
+
+        .rg-mask,
+        .rg-fill {
+            --webkit-backface-visibility: hidden;
+            transition: transform 1s;
+            border-radius: 50%;
+        }
+
+        .rg-mask {
+            clip: rect(0px, 220px, 220px, 110px);
+        }
+        .rg-fill {
+            clip: rect(0px, 110px, 220px, 0px);
+            background-color: var(--color-success-500);
+        }
+
+        .rg-cutout {
+            margin-left: 15px;
+            margin-top: 15px;
+            width: 190px;
+            height: 190px;
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            justify-content: center;
+        }
+
+        .rg-mask.rg-full-mask,
+        .rg-fill {
+            // For a value of 90%
+            // 0.9 * 360  / 2
+            transform: rotate(162deg);
+        }
+        .rg-fill.rg-shim {
+            // For a value of 90%
+            // 0.9 * 360
+            transform: rotate(324deg);
+        }
+
+        .rg-value {
+            font-size: 4.5vw;
+            color: var(--color-gray-600);
+            sub {
+                font-size: 50%;
+                bottom: 0;
+            }
+        }
+
+        .rg-separator {
+            font-size: 1.75vw;
+            margin-top: 2.2vw;
+            color: var(--color-gray-400);
+        }
+
+        .rg-max {
+            font-size: 1.75vw;
+            margin-top: 2.5vw;
+            margin-right: -1.4vw;
+            color: var(--color-gray-400);
+        }
+    }
+}
