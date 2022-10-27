@@ -27,7 +27,7 @@ class DesignationResource extends Resource
 
     protected static function getNavigationGroup(): ?string
     {
-        return strval(__('open-attendance::open-attendance.section.group-open-attendance'));
+        return strval(__('open-attendance::open-attendance.section.group-employee-management'));
     }
 
     public static function getLabel(): string

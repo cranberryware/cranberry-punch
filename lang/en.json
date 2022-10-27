@@ -1,4 +1,6 @@
 {
+    "filament-socialite::auth.login-via": "filament-socialite::auth.login-via",
+    "filament::login.buttons.submit.label": "filament::login.buttons.submit.label",
     "open-attendance::open-attendance.form.designation.name": "open-attendance::open-attendance.form.designation.name",
     "open-attendance::open-attendance.form.input.department.description": "open-attendance::open-attendance.form.input.department.description",
     "open-attendance::open-attendance.form.input.department.name": "open-attendance::open-attendance.form.input.department.name",
@@ -77,7 +79,7 @@
     "open-attendance::open-attendance.section.employees": "open-attendance::open-attendance.section.employees",
     "open-attendance::open-attendance.section.family": "open-attendance::open-attendance.section.family",
     "open-attendance::open-attendance.section.financial": "open-attendance::open-attendance.section.financial",
-    "open-attendance::open-attendance.section.group-open-attendance": "open-attendance::open-attendance.section.group-open-attendance",
+    "open-attendance::open-attendance.section.group-employee-management": "open-attendance::open-attendance.section.group-employee-management",
     "open-attendance::open-attendance.section.identity": "open-attendance::open-attendance.section.identity",
     "open-attendance::open-attendance.section.personal": "open-attendance::open-attendance.section.personal",
     "open-attendance::open-attendance.section.personal_contact": "open-attendance::open-attendance.section.personal_contact",
