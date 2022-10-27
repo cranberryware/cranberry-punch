@@ -1,4 +1,5 @@
 {
+    "auth.user-not-allowed": "User not allowed",
     "filament-socialite::auth.login-via": "Login via",
     "filament::login.buttons.submit.label": "Login",
     "open-attendance::open-attendance.attendance-kiosk.button.clock-in": "Clock In",
