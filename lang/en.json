@@ -93,6 +93,7 @@
     "open-attendance::open-attendance.section.group-open-attendance-settings": "Open Attendance Settings",
     "open-attendance::open-attendance.section.identity": "Identity",
     "open-attendance::open-attendance.section.open-attendance-attendance-settings": "Attendance Settings",
+    "open-attendance::open-attendance.section.open-attendance-attendance-settings.location": "Location",
     "open-attendance::open-attendance.section.open-attendance.input.ip-locations": "IP Locations Map",
     "open-attendance::open-attendance.section.open-attendance.input.ip-locations.ip": "IP Address",
     "open-attendance::open-attendance.section.open-attendance.input.ip-locations.location": "Location",

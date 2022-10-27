@@ -44,10 +44,20 @@ class ManageAttendanceSettings extends SettingsPage
         return strval(__('open-attendance::open-attendance.section.open-attendance-attendance-settings'));
     }
 
+    public static function getNavigationLabel(): string
+    {
+        return strval(__('open-attendance::open-attendance.section.open-attendance-attendance-settings'));
+    }
+
+    public function getTitle(): string
+    {
+        return strval(__('open-attendance::open-attendance.section.open-attendance-attendance-settings'));
+    }
+
     protected function getFormSchema(): array
     {
         return [
-            Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings'))
+            Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.location'))
                 ->schema([
                     Repeater::make('ip_locations')
                         ->label(__('open-attendance::open-attendance.section.open-attendance.input.ip-locations'))
@@ -61,12 +71,12 @@ class ManageAttendanceSettings extends SettingsPage
                                 ->rules([new Slug()])
                                 ->required(),
                         ])
-                        ->itemLabel(fn (array $state): ?string => "{$state['ip']} [{$state['location']}]" ?? null)
+                        ->itemLabel(fn (array $state): ?string => "{$state['ip']} - {$state['location']}" ?? null)
                         ->columns(2)
                         ->defaultItems(1)
                         ->minItems(1)
                         ->maxItems(25)
-                        ->orderable(false),
+                        ->orderable(true),
                 ])->collapsible(),
         ];
     }
