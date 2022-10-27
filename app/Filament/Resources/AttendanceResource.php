@@ -70,10 +70,10 @@ class AttendanceResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label(strval(__('open-attendance::open-attendance.table.attendance.user')))
-                    ->sortable(),
+                    ->sortable(['name']),
                 Tables\Columns\TextColumn::make('worked_hours_rounded')
                     ->label(strval(__('open-attendance::open-attendance.table.attendance.worked-hours')))
-                    ->sortable(),
+                    ->sortable(['worked_hours']),
                 // Tables\Columns\TextColumn::make('created_at')
                 //     ->dateTime(),
                 // Tables\Columns\TextColumn::make('updated_at')

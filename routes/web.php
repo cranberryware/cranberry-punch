@@ -2,6 +2,7 @@
 
 use App\Filament\Resources\AppraisalResponseResource\Pages\CreateAppraisalResponse;
 use App\Http\Controllers\AppraisalResponseRequest;
+use App\Http\Controllers\AttendanceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,3 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect(route('filament.auth.login'));
 });
+
+Route::get('/attendance-kiosk', [AttendanceController::class, 'kiosk'])
+    ->middleware('kiosk_access')
+    ->name('open-attendance.attendance-kiosk');
