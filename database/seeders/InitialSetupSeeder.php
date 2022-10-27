@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class InitialSetupSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             AdminUserSeeder::class,
             UserSeeder::class,
-            EmployeesSeeder::class,
             DepartmentsSeeder::class,
         ];
 

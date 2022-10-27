@@ -13,13 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('personal_access_tokens', function (Blueprint $table) {
+        Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->morphs('tokenable');
-            $table->string('name');
-            $table->string('token', 64)->unique();
-            $table->text('abilities')->nullable();
-            $table->timestamp('last_used_at')->nullable();
+
+            $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('user_id');
+
+            $table->date('check_in');
+            $table->date('check_out')->nullable(true);
+
+            $table->double('worked_hours')->virtualAs('TIMESTAMPDIFF(SECOND, check_in, check_out)/3600');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -31,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('personal_access_tokens');
+        Schema::dropIfExists('attendances');
     }
 };

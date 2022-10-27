@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use RevisionableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -41,4 +45,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * This function returns true if the user can access the filament.
+     *
+     * @return bool A boolean value.
+     */
+    public function canAccessFilament(): bool
+    {
+        return $this->hasRole(['super-admin', 'hr-manager', 'employee']);
+    }
+
+    /**
+     * The `employee()` function returns a relationship between the `User` model and the `Employee`
+     * model
+     *
+     * @return A single Employee model instance.
+     */
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
+    }
 }
