@@ -10,7 +10,7 @@ class AttendanceKiosk extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-check';
 
-    protected static string $view = 'filament.pages.attendance-kiosk';
+    protected static string $view = 'filament.pages.attendance-kiosk.index';
 
     protected static function getNavigationGroup(): ?string
     {
@@ -27,10 +27,9 @@ class AttendanceKiosk extends Page
         return strval(__('open-attendance::open-attendance.section.attendance-kiosk.title'));
     }
 
-
     public function mount(): void
     {
-        if(!auth()->user()->can("clock attendances") || !auth()->user()->employee) {
+        if (!auth()->user()->can("clock attendances") || !auth()->user()->employee) {
             abort(403);
             return;
         }
@@ -68,4 +67,8 @@ class AttendanceKiosk extends Page
         ];
     }
 
+    protected function getViewData(): array
+    {
+        return [];
+    }
 }
