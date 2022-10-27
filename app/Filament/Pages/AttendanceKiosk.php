@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 
 class AttendanceKiosk extends Page
 {
+
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-check';
 
     protected static string $view = 'filament.pages.attendance-kiosk.index';
@@ -33,6 +34,7 @@ class AttendanceKiosk extends Page
             abort(403);
             return;
         }
+
         parent::mount();
     }
 
