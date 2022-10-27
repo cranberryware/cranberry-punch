@@ -1,6 +1,8 @@
 {
     "filament-socialite::auth.login-via": "Login via",
     "filament::login.buttons.submit.label": "Login",
+    "open-attendance::open-attendance.attendance-kiosk.button.clock-in": "Clock In",
+    "open-attendance::open-attendance.attendance-kiosk.button.clock-out": "Clock Out",
     "open-attendance::open-attendance.attendance.input.check-in": "Check In",
     "open-attendance::open-attendance.attendance.input.check-out": "Check Out",
     "open-attendance::open-attendance.attendance.input.employee": "Employee",
@@ -75,6 +77,8 @@
     "open-attendance::open-attendance.form.input.department.parent_department": "Parent Department",
     "open-attendance::open-attendance.form.input.department.parent_department_cannot_be_same": "Parent Department cannot be same as the Department",
     "open-attendance::open-attendance.form.input.designation.department": "Department",
+    "open-attendance::open-attendance.section.attendance-kiosk.label": "Attendance Kiosk",
+    "open-attendance::open-attendance.section.attendance-kiosk.title": "Attendance Kiosk",
     "open-attendance::open-attendance.section.attendances": "Attendances",
     "open-attendance::open-attendance.section.contact": "Contact",
     "open-attendance::open-attendance.section.departments": "Departments",

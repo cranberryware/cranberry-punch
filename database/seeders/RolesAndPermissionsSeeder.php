@@ -30,6 +30,11 @@ class RolesAndPermissionsSeeder extends Seeder
             'guard_name' => "web",
         ]);
 
+        Permission::create([
+            'name' => "clock attendances",
+            'guard_name' => "web",
+        ]);
+
         // this can be done as separate statements
         Role::create(['name' => 'super-admin'])
             ->givePermissionTo(Permission::all());
@@ -62,6 +67,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ->givePermissionTo([
                 'viewAny attendances',
                 'view attendances',
+                'clock attendances',
                 // 'create attendances',
                 // 'viewAny departments',
                 // 'viewAny designations',

@@ -19,7 +19,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect(route('filament.auth.login'));
 });
-
-Route::get('/attendance-kiosk', [AttendanceController::class, 'kiosk'])
-    ->middleware('kiosk_access')
-    ->name('open-attendance.attendance-kiosk');

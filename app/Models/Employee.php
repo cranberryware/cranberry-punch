@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Carbon;
 
 class Employee extends Model
 {
@@ -223,4 +225,58 @@ class Employee extends Model
         return $this->hasMany(Attendance::class);
     }
 
+    public function clocked_in()
+    {
+        return $this->attendances()->where('check_out', null)->count() > 0;
+    }
+
+    public function clocked_out()
+    {
+        return $this->attendances()->where('check_out', null)->count() < 1;
+    }
+
+    public function attendance_clock()
+    {
+        $unchecked_out_attendances_count = $this->attendances()->where('check_out', null)->count();
+        $now = now();
+        if($unchecked_out_attendances_count == 1) {
+            $unchecked_out_attendance = $this->attendances()->where('check_out', null)->first();
+            $last_check_in = Carbon::parse($unchecked_out_attendance->check_in);
+            if($last_check_in->diffInHours($now) > 16) {
+                $check_out_time = Carbon::parse($unchecked_out_attendance->check_in)->addHours(9);
+                if($check_out_time->gt($now)) {
+                    $check_out_time = $now;
+                }
+                $unchecked_out_attendance->update([
+                    'check_out' => $check_out_time
+                ]);
+                Attendance::create([
+                    'user_id' => $this->user_id,
+                    'employee_id' => $this->id,
+                    'check_in' => $now
+                ]);
+            } else {
+                $unchecked_out_attendance->update([
+                    'check_out' => $now
+                ]);
+            }
+        } elseif($unchecked_out_attendances_count > 1) {
+            $unchecked_out_attendances = $this->attendances()->where('check_out', null);
+            $unchecked_out_attendances
+                ->update([
+                    'check_out' => DB::raw('check_in')
+                ]);
+            Attendance::create([
+                'user_id' => $this->user_id,
+                'employee_id' => $this->id,
+                'check_in' => $now
+            ]);
+        } else {
+            Attendance::create([
+                'user_id' => $this->user_id,
+                'employee_id' => $this->id,
+                'check_in' => $now
+            ]);
+        }
+    }
 }
