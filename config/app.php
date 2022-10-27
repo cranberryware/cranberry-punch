@@ -71,6 +71,8 @@ return [
 
     'timezone' => 'UTC',
 
+    'user_timezone' => 'Asia/Kolkata',
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

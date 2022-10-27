@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\SetUserTimezone;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Http\Middleware\MirrorConfigToSubpackages;
@@ -273,6 +274,7 @@ return [
     'middleware' => [
         'auth' => [
             Authenticate::class,
+            SetUserTimezone::class,
         ],
         'base' => [
             EncryptCookies::class,
