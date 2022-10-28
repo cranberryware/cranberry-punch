@@ -99,8 +99,8 @@ return new class extends Migration
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
             $table->foreign('designation_id')->references('id')->on('designations')->onDelete('cascade');
 
-            $table->string('full_name')->virtualAs('concat(first_name, \' \', last_name)');
-            $table->string('employee_code_with_full_name')->virtualAs('concat(employee_code, \': \', first_name, \' \', last_name)');
+            $table->string('full_name')->virtualAs('CONCAT(first_name, \' \', IF(middle_name IS NULL OR middle_name = \'\', \'\', CONCAT(middle_name, \' \') ) , last_name)');
+            $table->string('employee_code_with_full_name')->virtualAs('CONCAT(employee_code, \': \', full_name)');
         });
     }
 
