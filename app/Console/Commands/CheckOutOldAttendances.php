@@ -29,11 +29,12 @@ class CheckOutOldAttendances extends Command
      */
     public function handle()
     {
-        Attendance::where('check_out', null)
+        $records_updated = Attendance::where('check_out', null)
                 ->where('check_in', '<', DB::raw('CURDATE()'))
                 ->update([
                     'check_out' => DB::raw('TIMESTAMPADD(HOUR, 9, check_in)')
                 ]);
+        $this->info("Number of Records Updated: {$records_updated}");
         return Command::SUCCESS;
     }
 }
