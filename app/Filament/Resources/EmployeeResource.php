@@ -48,13 +48,13 @@ class EmployeeResource extends Resource
                             ->label(__('open-attendance::open-attendance.employee.input.employee_code'))
                             ->placeholder(__('open-attendance::open-attendance.employee.input.employee_code'))
                             ->required()
-                            ->unique(),
+                            ->unique(ignoreRecord: true),
                         Select::make('user_id')
                             ->label(__('open-attendance::open-attendance.employee.input.employee.user'))
                             ->placeholder(__('open-attendance::open-attendance.employee.input.employee.user'))
                             ->searchable()
                             ->relationship('user', fn () => "email")
-                            ->unique(),
+                            ->unique(ignoreRecord: true),
                         Select::make('manager_id')
                             ->label(__('open-attendance::open-attendance.employee.input.manager'))
                             ->placeholder(__('open-attendance::open-attendance.employee.input.manager'))
