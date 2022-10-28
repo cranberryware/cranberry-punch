@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use Filament\Facades\Filament;
-use Filament\Forms\Components\DateTimePicker;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\ServiceProvider;
+use Filament\Forms\Components\DateTimePicker;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +28,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if(in_array(config('app.env'), ['local', 'dev', 'development'])) {
+            DB::listen(function($query) {
+                Log::info(
+                    $query->sql,
+                    [
+                        'bindings' => $query->bindings,
+                        'time' => $query->time
+                    ]
+                );
+            });
+        }
         Filament::serving(function () {
             Filament::registerTheme(mix('css/open-attendance.css'));
         });
