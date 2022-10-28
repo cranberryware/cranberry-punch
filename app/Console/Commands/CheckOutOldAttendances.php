@@ -2,12 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Commands\Traits\PrependsTimestamp;
 use App\Models\Attendance;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
 class CheckOutOldAttendances extends Command
 {
+    use PrependsTimestamp;
     /**
      * The name and signature of the console command.
      *

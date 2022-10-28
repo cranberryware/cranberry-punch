@@ -2,12 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Commands\Traits\PrependsTimestamp;
 use App\Settings\AttendanceSettings;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
 class SyncNTOfficeIPs extends Command
 {
+    use PrependsTimestamp;
     /**
      * The name and signature of the console command.
      *
@@ -48,6 +50,8 @@ class SyncNTOfficeIPs extends Command
         $attendance_settings = app(AttendanceSettings::class);
         $attendance_settings->ip_locations = $new_ip_locations;
         $attendance_settings->save();
+        $ips_list_str = join(", ", $ips_list);
+        $this->info("NT Office IPs {$ips_list_str} have been updated successfully");
         return Command::SUCCESS;
     }
 }
