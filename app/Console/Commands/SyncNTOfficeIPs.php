@@ -13,7 +13,7 @@ class SyncNTOfficeIPs extends Command
      *
      * @var string
      */
-    protected $signature = 'sync:nt-office-ips';
+    protected $signature = 'oa:sync-nt-office-ips';
 
     /**
      * The console command description.
