@@ -7,14 +7,16 @@ use Filament\Tables;
 use App\Models\Attendance;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
+use Illuminate\Support\Carbon;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Fieldset;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AttendanceResource\Pages;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\DateFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\TextFilter;
 use App\Filament\Resources\AttendanceResource\RelationManagers;
-use Illuminate\Support\Carbon;
 
 class AttendanceResource extends Resource
 {
@@ -89,61 +91,8 @@ class AttendanceResource extends Resource
             ->defaultSort('check_in', 'desc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
-                Tables\Filters\Filter::make('check_in')
-                    ->form([
-                        Fieldset::make(__('open-attendance::open-attendance.attendance.section.check-in'))
-                            ->schema([
-                                Forms\Components\DateTimePicker::make('check_in_from')
-                                    ->label('')
-                                    ->placeholder(__('open-attendance::open-attendance.attendance.section.check-in.check-in-from')),
-                                Forms\Components\DateTimePicker::make('check_in_until')
-                                    ->label('')
-                                    ->placeholder(__('open-attendance::open-attendance.attendance.section.check-in.check-in-until')),
-                            ])
-                            ->extraAttributes([
-                                'style' => 'padding: 15px!important'
-                            ])
-                            ->columns(2)
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['check_in_from'],
-                                fn (Builder $query, $datetime): Builder => $query->where('check_in', '>=', Carbon::parse($datetime, config('app.user_timezone'))->tz('UTC')),
-                            )
-                            ->when(
-                                $data['check_in_until'],
-                                fn (Builder $query, $datetime): Builder => $query->where('check_in', '<=', Carbon::parse($datetime, config('app.user_timezone'))->tz('UTC')),
-                            );
-                    }),
-                Tables\Filters\Filter::make('check_out')
-                    ->form([
-                        Fieldset::make(__('open-attendance::open-attendance.attendance.section.check-out'))
-                            ->schema([
-                                Forms\Components\DateTimePicker::make('check_out_from')
-                                    ->label('')
-                                    ->placeholder(__('open-attendance::open-attendance.attendance.section.check-out.check-out-from')),
-                                Forms\Components\DateTimePicker::make('check_out_until')
-                                    ->label('')
-                                    ->placeholder(__('open-attendance::open-attendance.attendance.section.check-out.check-out-until')),
-                            ])
-                            ->extraAttributes([
-                                'style' => 'padding: 15px!important'
-                            ])
-                            ->columns(2)
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['check_out_from'],
-                                fn (Builder $query, $datetime): Builder => $query->where('check_out', '>=', Carbon::parse($datetime, config('app.user_timezone'))->tz('UTC')),
-                            )
-                            ->when(
-                                $data['check_out_until'],
-                                fn (Builder $query, $datetime): Builder => $query->where('check_out', '<=', Carbon::parse($datetime, config('app.user_timezone'))->tz('UTC')),
-                            );
-                    })
-
+                DateFilter::make('check_in'),
+                DateFilter::make('check_out'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
