@@ -73,20 +73,10 @@ class AttendanceResource extends Resource
                     ->view('filament.tables.columns.attendance.clock-column')
                     ->label(strval(__('open-attendance::open-attendance.table.attendance.check-in')))
                     ->sortable(),
-                // Tables\Columns\TextColumn::make('check_in_location')
-                //     ->label(strval(__('open-attendance::open-attendance.table.attendance.check-in-location')))
-                //     ->sortable()
-                //     ->searchable()
-                //     ->hidden(true),
                 Tables\Columns\ViewColumn::make('check_out')
                     ->view('filament.tables.columns.attendance.clock-column')
                     ->label(strval(__('open-attendance::open-attendance.table.attendance.check-out')))
                     ->sortable(),
-                // Tables\Columns\TextColumn::make('check_out_location')
-                //     ->label(strval(__('open-attendance::open-attendance.table.attendance.check-out-location')))
-                //     ->sortable()
-                //     ->searchable()
-                //     ->hidden(true),
                 Tables\Columns\TextColumn::make('worked_hours_rounded')
                     ->label(strval(__('open-attendance::open-attendance.table.attendance.worked-hours')))
                     ->sortable(['worked_hours'])
