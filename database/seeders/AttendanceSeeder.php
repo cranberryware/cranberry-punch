@@ -30,7 +30,7 @@ class AttendanceSeeder extends Seeder
                     'user_id' => $employee->user_id,
                     'employee_id' => $employee->id,
                     'check_in' => $faker->dateTimeBetween($start_check_in, $end_check_in),
-                    'check_out' => $end_check_out_randomizer,
+                    'check_out' => $end_check_out_randomizer[0],
                 ]);
             }
         }
