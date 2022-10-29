@@ -214,4 +214,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    'user_datetime_format' => 'M d, Y h:i:s A T',
+    'user_date_format' => 'M d, Y',
+
 ];

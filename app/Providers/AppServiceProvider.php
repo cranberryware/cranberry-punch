@@ -5,6 +5,7 @@ namespace App\Providers;
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Blade;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\ServiceProvider;
 use Filament\Forms\Components\DateTimePicker;
@@ -44,5 +45,8 @@ class AppServiceProvider extends ServiceProvider
         });
         DateTimePicker::configureUsing(fn (DateTimePicker $component) => $component->timezone(config('app.user_timezone')));
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone(config('app.user_timezone')));
+        Blade::stringable(function(\Illuminate\Support\Carbon $dateTime) {
+            return $dateTime->format(config('app.user_datetime_format'));
+        });
     }
 }

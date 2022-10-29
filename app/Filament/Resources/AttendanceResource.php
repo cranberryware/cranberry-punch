@@ -67,32 +67,38 @@ class AttendanceResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('employee.employee_code_with_full_name')
                     ->label(strval(__('open-attendance::open-attendance.table.attendance.employee-name-with-code')))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('check_in')->dateTime()
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\ViewColumn::make('check_in')
+                    ->view('filament.tables.columns.attendance.clock-column')
                     ->label(strval(__('open-attendance::open-attendance.table.attendance.check-in')))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('check_in_location')
-                    ->label(strval(__('open-attendance::open-attendance.table.attendance.check-in-location')))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('check_out')->dateTime()
+                // Tables\Columns\TextColumn::make('check_in_location')
+                //     ->label(strval(__('open-attendance::open-attendance.table.attendance.check-in-location')))
+                //     ->sortable()
+                //     ->searchable()
+                //     ->hidden(true),
+                Tables\Columns\ViewColumn::make('check_out')
+                    ->view('filament.tables.columns.attendance.clock-column')
                     ->label(strval(__('open-attendance::open-attendance.table.attendance.check-out')))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('check_out_location')
-                    ->label(strval(__('open-attendance::open-attendance.table.attendance.check-out-location')))
-                    ->sortable(),
+                // Tables\Columns\TextColumn::make('check_out_location')
+                //     ->label(strval(__('open-attendance::open-attendance.table.attendance.check-out-location')))
+                //     ->sortable()
+                //     ->searchable()
+                //     ->hidden(true),
                 Tables\Columns\TextColumn::make('worked_hours_rounded')
                     ->label(strval(__('open-attendance::open-attendance.table.attendance.worked-hours')))
-                    ->sortable(['worked_hours']),
-                // Tables\Columns\TextColumn::make('created_at')
-                //     ->dateTime(),
-                // Tables\Columns\TextColumn::make('updated_at')
-                //     ->dateTime(),
+                    ->sortable(['worked_hours'])
+                    ->alignCenter(),
             ])
             ->defaultSort('check_in', 'desc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
                 DateFilter::make('check_in'),
+                TextFilter::make('check_in_ip'),
                 DateFilter::make('check_out'),
+                TextFilter::make('check_out_ip'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
