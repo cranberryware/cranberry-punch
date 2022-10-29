@@ -34,7 +34,9 @@ class CheckOutOldAttendances extends Command
         $records_updated = Attendance::where('check_out', null)
                 ->where('check_in', '<', DB::raw('CURDATE()'))
                 ->update([
-                    'check_out' => DB::raw('TIMESTAMPADD(HOUR, 9, check_in)')
+                    'check_out' => DB::raw('TIMESTAMPADD(HOUR, 9, check_in)'),
+                    'check_out_ip' => "127.0.0.1",
+                    'check_out_location' => "auto-checkout",
                 ]);
         $this->info("Number of Records Updated: {$records_updated}");
         return Command::SUCCESS;
