@@ -32,7 +32,7 @@ php artisan translatable:export en
 php artisan serve
 ```
 ```
-npm run watch --stats-children
+npm run dev
 ```
 **Upgrade Filament**
 ```
