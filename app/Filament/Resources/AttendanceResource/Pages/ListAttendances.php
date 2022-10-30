@@ -25,7 +25,7 @@ class ListAttendances extends ListRecords
         return fn (Model $record) => match ($record->check_out) {
             null => [
                 'animate-pulse',
-                'bg-primary-600'
+                'bg-primary-200'
             ],
             default => null,
         };
