@@ -1,11 +1,12 @@
 import { defineConfig } from 'vite';
 import laravel, { refreshPaths } from 'laravel-vite-plugin';
+import path from 'path'
 
 export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css',
+                'resources/scss/open-attendance.scss',
                 'resources/js/app.js'
             ],
             refresh: [
@@ -15,4 +16,9 @@ export default defineConfig({
             ],
         }),
     ],
+    resolve: {
+        alias: {
+            '~filament': path.resolve(__dirname, 'vendor/filament/filament'),
+        }
+    },
 });
