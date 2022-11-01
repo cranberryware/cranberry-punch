@@ -43,13 +43,22 @@ class AppServiceProvider extends ServiceProvider
         }
         Filament::serving(function () {
             Filament::registerTheme(
-                app(Vite::class)('resources/scss/open-attendance.scss'),
+                app(Vite::class)('resources/scss/app.scss'),
             );
         });
         DateTimePicker::configureUsing(fn (DateTimePicker $component) => $component->timezone(config('app.user_timezone')));
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone(config('app.user_timezone')));
         Blade::stringable(function(\Illuminate\Support\Carbon $dateTime) {
             return $dateTime->format(config('app.user_datetime_format'));
+        });
+        FilamentSocialiteFacade::setCreateUserCallback(function (SocialiteUserContract $oauthUser, FilamentSocialite $socialite) {
+            $created_user = $socialite->getUserModelClass()::create([
+                'name' => $oauthUser->getName(),
+                'email' => $oauthUser->getEmail(),
+                'password' => Hash::make(md5(uniqid())),
+            ])->assignRole('employee');
+            $created_user->markEmailAsVerified();
+            return $created_user;
         });
     }
 }
