@@ -10,6 +10,10 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\ServiceProvider;
 use Filament\Forms\Components\DateTimePicker;
 use Illuminate\Foundation\Vite;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Contracts\User as SocialiteUserContract;
+use DutchCodingCompany\FilamentSocialite\Facades\FilamentSocialite as FilamentSocialiteFacade;
+use DutchCodingCompany\FilamentSocialite\FilamentSocialite;
 
 class AppServiceProvider extends ServiceProvider
 {
