@@ -44,32 +44,6 @@ class AttendanceKiosk extends Page
         return auth()->user()->can("clock attendances") && auth()->user()->employee;
     }
 
-    protected function getActions(): array
-    {
-        return [
-            Action::make('attendance_clock')
-                ->label(function (): string {
-                    return (auth()->user()->employee && auth()->user()->employee->clocked_out())
-                        ? __('open-attendance::open-attendance.attendance-kiosk.button.clock-in')
-                        : __('open-attendance::open-attendance.attendance-kiosk.button.clock-out');
-                })
-                ->icon(function (): string {
-                    return (auth()->user()->employee && auth()->user()->employee->clocked_out())
-                        ? 'heroicon-o-login'
-                        : 'heroicon-o-logout';
-                })
-                ->color(function (): string {
-                    return (auth()->user()->employee && auth()->user()->employee->clocked_out())
-                        ? 'success'
-                        : 'danger';
-                })
-                ->action(function () {
-                    auth()->user()->employee->attendance_clock();
-                })
-                ->requiresConfirmation(),
-        ];
-    }
-
     protected function getViewData(): array
     {
         return [];

@@ -2,18 +2,43 @@
 
 namespace App\Filament\Widgets;
 
+use Closure;
 use App\Models\Attendance;
 use Filament\Widgets\TableWidget;
-use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\Action;
 use Illuminate\Container\Container;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Support\Htmlable;
 
 class AttendanceClock extends TableWidget
 {
 
+    protected function getTableHeading(): string | Htmlable | Closure | null
+    {
+        return "";
+    }
+
+    public static function canView(): bool
+    {
+        if (auth()->user()->employee) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     protected function getTableQuery(): Builder
     {
+        if(!auth()->user()->employee)
+            return null;
+        $query = Attendance::query()
+            ->where('employee_id', auth()->user()->employee ? auth()->user()->employee->id : -1)
+            ->orderBy('created_at', 'desc');
+        if ($query->count() < 1) {
+            auth()->user()->employee->attendance_clock();
+            auth()->user()->employee->attendance_clock();
+        }
         return Attendance::query()
             ->where('employee_id', auth()->user()->employee ? auth()->user()->employee->id : -1)
             ->orderBy('created_at', 'desc');

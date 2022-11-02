@@ -105,7 +105,7 @@ class Employee extends Model
         $date = \Carbon\Carbon::parse($date)->format("Y-m-01");
         $average_time_of_arrival = DB::select('
                     SELECT a.employee_id,
-                        SEC_TO_TIME(AVG(TIME_TO_SEC(DATE_FORMAT(a.check_in, "%H:%i:%s")))) average_time_of_arrival
+                        TIME_FORMAT(SEC_TO_TIME(AVG(TIME_TO_SEC(DATE_FORMAT(a.check_in, "%H:%i:%s")))), "%h:%i %p") average_time_of_arrival
                     FROM (
                         SELECT CAST(hra.check_in AS DATE) check_in_date,
                             hra.employee_id,
@@ -117,9 +117,26 @@ class Employee extends Model
                     WHERE e.id = ? AND a.check_in >= ? AND a.check_in < DATE_ADD(?, INTERVAL 1 MONTH)
                     GROUP BY e.id', [$this->id, $date, $date]);
         if(count($average_time_of_arrival) > 0 && isset($average_time_of_arrival[0]) && !empty($average_time_of_arrival[0]->average_time_of_arrival)) {
-            return $average_time_of_arrival[0]->average_time_of_arrival;
+            return \Carbon\Carbon::parse($average_time_of_arrival[0]->average_time_of_arrival)->tz(config('app.user_timezone'))->format("h:m A");
         }
         return null;
+    }
+
+    public function getAverageTimeOfArrivalStatus()
+    {
+        $average_time_of_arrival = $this->getAverageTimeOfArrival();
+        $average_time_of_arrival_sec = \Carbon\Carbon::parse($average_time_of_arrival)->secondsSinceMidnight();
+        if($average_time_of_arrival_sec <= 28800) {
+            return "early";
+        } elseif ($average_time_of_arrival_sec > 28800 && $average_time_of_arrival_sec <= 32400) {
+            return "ontime1";
+        } elseif ($average_time_of_arrival_sec > 32400 && $average_time_of_arrival_sec <= 34200) {
+            return "ontime2";
+        } elseif ($average_time_of_arrival_sec > 34200 && $average_time_of_arrival_sec <= 36000) {
+            return "late";
+        } elseif ($average_time_of_arrival_sec > 36000) {
+            return "superlate";
+        }
     }
 
     protected static function booted()
