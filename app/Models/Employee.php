@@ -99,6 +99,29 @@ class Employee extends Model
         'bank_email',
     ];
 
+    public function getAverageTimeOfArrival($date=null)
+    {
+        if(empty($date)) $date = now()->format("Y-m-01");
+        $date = \Carbon\Carbon::parse($date)->format("Y-m-01");
+        $average_time_of_arrival = DB::select('
+                    SELECT a.employee_id,
+                        SEC_TO_TIME(AVG(TIME_TO_SEC(DATE_FORMAT(a.check_in, "%H:%i:%s")))) average_time_of_arrival
+                    FROM (
+                        SELECT CAST(hra.check_in AS DATE) check_in_date,
+                            hra.employee_id,
+                            MIN(hra.check_in) check_in
+                        FROM attendances hra
+                        GROUP BY check_in_date, hra.employee_id
+                    ) AS a
+                    LEFT JOIN employees AS e ON a.employee_id = e.id
+                    WHERE e.id = ? AND a.check_in >= ? AND a.check_in < DATE_ADD(?, INTERVAL 1 MONTH)
+                    GROUP BY e.id', [$this->id, $date, $date]);
+        if(count($average_time_of_arrival) > 0 && isset($average_time_of_arrival[0]) && !empty($average_time_of_arrival[0]->average_time_of_arrival)) {
+            return $average_time_of_arrival[0]->average_time_of_arrival;
+        }
+        return null;
+    }
+
     protected static function booted()
     {
         static::addGlobalScope(new EmployeeScope);

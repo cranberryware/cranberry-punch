@@ -1,1 +1,17 @@
 @import "../../vendor/filament/filament/resources/css/app.css";
+
+.oa-attendance-clock-btn-wrap {
+    display: flex;
+    flex: auto;
+    justify-content: center;
+    .oa-attendance-clock-btn {
+        flex-direction: column;
+        padding: 2rem 3rem;
+        text-transform: uppercase;
+        .filament-button-icon {
+            margin: 0.25rem 0;
+            width: auto;
+            height: 6rem;
+        }
+    }
+}

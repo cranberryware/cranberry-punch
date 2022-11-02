@@ -14,7 +14,7 @@ use Filament\Forms\Components\Fieldset;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AttendanceResource\Pages;
-use App\Filament\Filters\DateFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\DateFilter;
 use Webbingbrasil\FilamentAdvancedFilter\Filters\TextFilter;
 use App\Filament\Resources\AttendanceResource\RelationManagers;
 
