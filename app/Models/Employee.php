@@ -117,7 +117,7 @@ class Employee extends Model
                     WHERE e.id = ? AND a.check_in >= ? AND a.check_in < DATE_ADD(?, INTERVAL 1 MONTH)
                     GROUP BY e.id', [$this->id, $date, $date]);
         if(count($average_time_of_arrival) > 0 && isset($average_time_of_arrival[0]) && !empty($average_time_of_arrival[0]->average_time_of_arrival)) {
-            return \Carbon\Carbon::parse($average_time_of_arrival[0]->average_time_of_arrival)->tz(config('app.user_timezone'))->format("h:m A");
+            return \Carbon\Carbon::parse($average_time_of_arrival[0]->average_time_of_arrival)->tz(config('app.user_timezone'))->format("h:i A");
         }
         return null;
     }
