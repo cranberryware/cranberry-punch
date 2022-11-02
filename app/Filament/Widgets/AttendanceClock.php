@@ -2,32 +2,61 @@
 
 namespace App\Filament\Widgets;
 
-use Filament\Pages\Concerns\HasActions;
-use Filament\Pages\Actions\Action;
-use Filament\Forms\Contracts\HasForms;
+use App\Models\Attendance;
+use Filament\Forms\Components\Select;
+use Filament\Widgets\TableWidget;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\Position;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Container\Container;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\Paginator;
 
-class AttendanceClock extends Widget
+class AttendanceClock extends TableWidget
 {
-    use HasActions;
-    protected static string $view = 'filament.widgets.attendance-clock';
-    public $actions = [];
-
-
-    public function mount(): void
+    protected function getTableQuery(): Builder
     {
-        $this->actions = $this->getActions();
-        parent::mount();
+        return Attendance::query()
+            ->where('employee_id', auth()->user()->employee->id)
+            ->orderBy('created_at', 'desc');
     }
 
-    protected function getActions(): array
+    protected function paginateTableQuery(Builder $query): Paginator
+    {
+        return Container::getInstance()->makeWith(Paginator::class, [
+            'items' => $query->get(['*'])->take(1),
+            'perPage' => 1,
+            'page' => 1
+        ]);
+    }
+
+    protected function getTableRecordsPerPageSelectOptions(): array
+    {
+        return [1];
+    }
+
+    protected function getTableColumns(): array
+    {
+        return [
+            // TextColumn::make('check_in')
+            //     ->view('filament.tables.columns.attendance.clock-column-mini'),
+            // TextColumn::make('check_out')
+            //     ->view('filament.tables.columns.attendance.clock-column-mini')
+        ];
+    }
+
+    protected function getTableActions(): array
     {
         return [
             Action::make('attendance_clock')
+                ->view('filament.tables.actions.attendance.clock-attendance-action')
                 ->label(function (): string {
                     return (auth()->user()->employee && auth()->user()->employee->clocked_out())
                         ? __('open-attendance::open-attendance.attendance-kiosk.button.clock-in')
                         : __('open-attendance::open-attendance.attendance-kiosk.button.clock-out');
                 })
+                ->button()
                 ->icon(function (): string {
                     return (auth()->user()->employee && auth()->user()->employee->clocked_out())
                         ? 'heroicon-o-login'
@@ -41,7 +70,16 @@ class AttendanceClock extends Widget
                 ->action(function () {
                     auth()->user()->employee->attendance_clock();
                 })
+                ->extraAttributes([
+                    'class' => 'px-8 py-10'
+                ])
+                ->size('lg')
                 ->requiresConfirmation(),
         ];
+    }
+
+    protected function getActionsPosition(): string
+    {
+        return Position::BeforeCells;
     }
 }
