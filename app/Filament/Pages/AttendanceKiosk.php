@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\AttendanceClock;
 use Filament\Pages\Actions\Action;
 use Filament\Pages\Page;
 use Illuminate\Contracts\View\View;
@@ -72,5 +73,12 @@ class AttendanceKiosk extends Page
     protected function getViewData(): array
     {
         return [];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            AttendanceClock::class,
+        ];
     }
 }
