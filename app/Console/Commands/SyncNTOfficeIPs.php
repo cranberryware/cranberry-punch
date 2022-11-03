@@ -33,10 +33,16 @@ class SyncNTOfficeIPs extends Command
     {
         $response = Http::get("https://ga-430.nettantra.com:81/check-network-JFXX45RMsujsndxb0O20xVpC.php?mode=text");
         $ips_list = preg_replace(['/enp[\d]s0: ([^:]+)?/', '/: (.*) :.*/'], ['', '$1'], $response);
-        $ips_list = str_replace('.0', '.', $ips_list);
-        $ips_list = str_replace("\n0", "\n", $ips_list);
         $ips_list = explode(PHP_EOL, $ips_list);
         $ips_list = array_filter($ips_list);
+        print_r($ips_list);
+        $ips_list = array_map(function ($ip) {
+            $ip_parts = explode(".", $ip);
+            $ip_parts = array_map(function ($ip_part) {
+                return ltrim($ip_part, "0");
+            }, $ip_parts);
+            return join(".", $ip_parts);
+        }, $ips_list);
         $existing_ip_locations = app(AttendanceSettings::class)->ip_locations;
         $new_ip_locations = array_filter($existing_ip_locations, function ($value) {
             return $value['location'] != "nt-office";
