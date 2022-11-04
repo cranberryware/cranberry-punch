@@ -13,6 +13,7 @@ use Illuminate\Contracts\Support\Htmlable;
 
 class AttendanceClock extends TableWidget
 {
+    protected static string $view = 'filament.widgets.attendance-clock-table-widget';
 
     protected function getTableHeading(): string | Htmlable | Closure | null
     {
