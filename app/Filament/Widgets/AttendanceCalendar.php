@@ -20,10 +20,4 @@ class AttendanceCalendar extends TableWidget
 
     protected static string $view = 'filament.widgets.attendance-calendar';
 
-    protected array $month_dates = [];
-
-    public static function canView(): bool
-    {
-        return auth()->user()->hasRole(['super-admin', 'hr-manager']);
-    }
 }

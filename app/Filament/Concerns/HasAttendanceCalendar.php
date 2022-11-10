@@ -4,14 +4,18 @@ namespace App\Filament\Concerns;
 
 use App\Models\Attendance;
 use Carbon\Carbon;
+use Closure;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 trait HasAttendanceCalendar
 {
+    protected ?string $defaultSortDirection = "asc";
+
     private function getMonthDates($month_selected): array
     {
         $month_dates = [];
@@ -51,7 +55,7 @@ trait HasAttendanceCalendar
 
         return Attendance::query()
             ->select($columns)
-            ->groupBy(["attendance_day", "employee_id"]);
+            ->groupBy(["employee_id"]);
     }
 
     protected function getTableFilters(): array
@@ -66,14 +70,15 @@ trait HasAttendanceCalendar
         return [
             SelectFilter::make('attendance_month')
                 ->options($months_list)
-                ->default($today->format('Y-m-01'))
+                ->default($today->format('Y-m-01')),
         ];
     }
 
     protected function getTableColumns(): array
     {
         $columns = [
-            TextColumn::make("employee.employee_code_with_full_name"),
+            TextColumn::make("employee.employee_code_with_full_name")
+                ->sortable(true),
         ];
 
         $month_dates = $this->getMonthDates("2022-01-01");
@@ -81,8 +86,37 @@ trait HasAttendanceCalendar
             $date = explode("-", $month_date);
             $date = end($date);
             $columns[] = TextColumn::make("{$date}")
-                            ->sortable(false);
+                ->sortable(false);
         }
         return $columns;
+    }
+
+    public function getDefaultTableSortColumn(): ?string
+    {
+        return "employee.employee_code_with_full_name";
+    }
+
+    public function getDefaultTableSortDirection(): ?string
+    {
+        return "asc";
+    }
+
+    protected function getTableRecordClassesUsing(): ?Closure
+    {
+        return fn (Model $record) => match ($record->getKey()%2) {
+            0 => [
+                'even',
+                'bg-primary-200'
+            ],
+            default => (function () use ($record) {
+                return [
+                ];
+            })(),
+        };
+    }
+
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return null;
     }
 }
