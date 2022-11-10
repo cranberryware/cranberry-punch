@@ -78,15 +78,34 @@ trait HasAttendanceCalendar
     {
         $columns = [
             TextColumn::make("employee.employee_code_with_full_name")
-                ->sortable(true),
+                ->sortable(true)
+                ->extraAttributes([
+                    'class' => 'font-bold text-sm'
+                ]),
         ];
 
         $month_dates = $this->getMonthDates("2022-01-01");
+
         foreach ($month_dates as $month_date) {
             $date = explode("-", $month_date);
             $date = end($date);
             $columns[] = TextColumn::make("{$date}")
-                ->sortable(false);
+                ->extraAttributes([
+                    'class' => 'text-sm bg-primary-200 w-16'
+                ])
+                ->getStateUsing(function (Model $record) use ($date) {
+                    $month_selected = $this->getTableFilterState('attendance_month')['value'];
+                    $hours = $record->{$date};
+                    return $hours;
+                })
+                ->when(function (TextColumn $textColumn) {
+                    return false;
+                })
+                ->tooltip(function (Model $record) use ($date) {
+                    $hours = $record->{$date};
+                    return empty($hours) ? null : "{$hours} Hours";
+                })
+                ->alignCenter();
         }
         return $columns;
     }
@@ -101,22 +120,13 @@ trait HasAttendanceCalendar
         return "asc";
     }
 
-    protected function getTableRecordClassesUsing(): ?Closure
-    {
-        return fn (Model $record) => match ($record->getKey()%2) {
-            0 => [
-                'even',
-                'bg-primary-200'
-            ],
-            default => (function () use ($record) {
-                return [
-                ];
-            })(),
-        };
-    }
-
     protected function getTableRecordUrlUsing(): ?Closure
     {
         return null;
+    }
+
+    protected function getTableRecordsPerPageSelectOptions(): array
+    {
+        return [25, 50, 100, 150];
     }
 }
