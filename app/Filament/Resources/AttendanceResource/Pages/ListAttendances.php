@@ -16,7 +16,15 @@ class ListAttendances extends ListRecords
     protected function getActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\Action::make('attendance_calendar')
+                ->label(__('open-attendance::open-attendance.attendance.action.attendance_calendar_view'))
+                ->icon('heroicon-o-calendar')
+                ->action(function () {
+                    return redirect()->route('filament.resources.attendances.attendance-calendar');
+                }),
+            Actions\CreateAction::make()
+                ->label(__('open-attendance::open-attendance.attendance.action.create'))
+                ->icon('heroicon-o-plus'),
         ];
     }
 

@@ -15,6 +15,21 @@ class AttendanceCalendar extends ListRecords
 
     protected static string $resource = AttendanceResource::class;
 
+    protected function getActions(): array
+    {
+        return [
+            Actions\Action::make('attendance_list')
+                ->label(__('open-attendance::open-attendance.attendance.action.attendance_list_view'))
+                ->icon('heroicon-o-view-list')
+                ->action(function () {
+                    return redirect()->route('filament.resources.attendances.index');
+                }),
+            Actions\CreateAction::make()
+                ->label(__('open-attendance::open-attendance.attendance.action.create'))
+                ->icon('heroicon-o-plus'),
+        ];
+    }
+
     protected function table(Table $table): Table
     {
         return $table;
@@ -29,5 +44,4 @@ class AttendanceCalendar extends ListRecords
     {
         return [];
     }
-
 }
