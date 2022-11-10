@@ -41,4 +41,14 @@ class ListAttendances extends ListRecords
             })(),
         };
     }
+
+    protected function getTableBulkActions(): array
+    {
+        return [];
+    }
+
+    protected function getTableRecordsPerPageSelectOptions(): array
+    {
+        return [25, 50, 100, 150];
+    }
 }
