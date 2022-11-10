@@ -1,29 +1,17 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Concerns;
 
 use App\Models\Attendance;
 use Carbon\Carbon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class AttendanceBook extends TableWidget
+trait HasAttendanceCalendar
 {
-    protected int | string | array $columnSpan = 2;
-
-    protected static string $view = 'filament.widgets.attendance-book';
-
-    protected array $month_dates = [];
-
-    public static function canView(): bool
-    {
-        return auth()->user()->hasRole(['super-admin', 'hr-manager']);
-    }
-
     private function getMonthDates($month_selected): array
     {
         $month_dates = [];
@@ -41,32 +29,29 @@ class AttendanceBook extends TableWidget
 
     protected function getTableQuery(): Builder
     {
-        $columns = ["employee_id"];
+        $columns = [DB::raw("employee_id AS id"), "employee_id"];
 
-        $month_selected = $this->tableFilters["attendance_month"]["value"];
+        $month_selected = $this->getTableFilterState("attendance_month")["value"];
         $month_dates = $this->getMonthDates($month_selected);
 
-        foreach($month_dates as $month_date) {
+        foreach ($month_dates as $month_date) {
             $date = explode("-", $month_date);
             $date = end($date);
             $columns[] = DB::raw("
-                SUM(
-                    CASE
-                        WHEN DATE_FORMAT(attendance_day, '%Y-%m-%d') = '{$month_date}' THEN worked_hours
-                        ELSE NULL
-                    END
-                ) AS `{$month_date}`
+                ROUND(
+                    SUM(
+                        CASE
+                            WHEN DATE_FORMAT(attendance_day, '%Y-%m-%d') = '{$month_date}' THEN worked_hours
+                            ELSE NULL
+                        END
+                    )
+                , 2) AS `{$date}`
             ");
         }
 
         return Attendance::query()
             ->select($columns)
             ->groupBy(["attendance_day", "employee_id"]);
-    }
-
-    public function getTableRecordKey(Model $record): string
-    {
-        return "employee-id-{$record->employee_id}";
     }
 
     protected function getTableFilters(): array
@@ -90,11 +75,13 @@ class AttendanceBook extends TableWidget
         $columns = [
             TextColumn::make("employee.employee_code_with_full_name"),
         ];
-        $month_dates = $this->getMonthDates("2022-11-01");
+
+        $month_dates = $this->getMonthDates("2022-01-01");
         foreach ($month_dates as $month_date) {
-            // $date = explode("-", $month_date);
-            // $date = end($date);
-            $columns[] = TextColumn::make($month_date);
+            $date = explode("-", $month_date);
+            $date = end($date);
+            $columns[] = TextColumn::make("{$date}")
+                            ->sortable(false);
         }
         return $columns;
     }
