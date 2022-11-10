@@ -3,9 +3,12 @@
 namespace App\Filament\Concerns;
 
 use App\Models\Attendance;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Closure;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -68,9 +71,56 @@ trait HasAttendanceCalendar
             $day->subMonth(1);
         }
         return [
-            SelectFilter::make('attendance_month')
-                ->options($months_list)
-                ->default($today->format('Y-m-01')),
+
+            Filter::make('attendance_month')
+                ->form([
+                    Select::make('value')
+                        ->label(strval(__('open-attendance::open-attendance.attendance.filter.attendance_month')))
+                        ->disablePlaceholderSelection()
+                        ->options($months_list)
+                        ->default($today->format('Y-m-01')),
+                ])
+                ->indicateUsing(function (array $data): ?string {
+                    if (!$data['value']) {
+                        return null;
+                    }
+
+                    return __('open-attendance::open-attendance.attendance.filter.indicator.attendance_month', [ "attendance_month" => Carbon::parse($data['value'])->format('F Y')]);
+                }),
+            Filter::make('employee')
+                ->form([
+                    Select::make('id')
+                        ->label(strval(__('open-attendance::open-attendance.attendance.filter.employee')))
+                        ->searchable()
+                        ->multiple()
+                        ->getSearchResultsUsing(fn (string $search) => Employee::where('employee_code_with_full_name', 'like', "%{$search}%")
+                            ->limit(10)
+                            ->pluck('employee_code_with_full_name', 'id')
+                            ->toArray())
+                        ->getOptionLabelsUsing(fn (array $values) => Employee::whereIn('id', $values)->pluck('employee_code_with_full_name', 'id')->toArray()),
+                ])
+                ->query(function (Builder $query, array $data): Builder {
+                    return $query
+                        ->when(
+                            $data['id'],
+                            fn (Builder $query, $employee_ids): Builder => $query->whereIn('employee_id', $employee_ids),
+                        );
+                })
+                ->indicateUsing(function (array $data): ?string {
+                    $indicators = [];
+
+                    if (empty($data['id']) || count($data['id']) < 1) {
+                        return null;
+                    }
+
+                    $employees = Employee::whereIn('id', $data['id'])->pluck('employee_code_with_full_name');
+
+                    foreach ($employees as $employee_code_with_full_name) {
+                        $indicators[] = $employee_code_with_full_name;
+                    }
+
+                    return __('open-attendance::open-attendance.attendance.filter.indicator.employee', ["employees" => join(', ', $indicators)]);
+                }),
         ];
     }
 
@@ -79,6 +129,7 @@ trait HasAttendanceCalendar
         $columns = [
             TextColumn::make("employee.employee_code_with_full_name")
                 ->sortable(true)
+                ->searchable(true)
                 ->extraAttributes([
                     'class' => 'font-bold text-sm'
                 ]),
@@ -97,9 +148,6 @@ trait HasAttendanceCalendar
                     $month_selected = $this->getTableFilterState('attendance_month')['value'];
                     $hours = $record->{$date};
                     return $hours;
-                })
-                ->when(function (TextColumn $textColumn) {
-                    return false;
                 })
                 ->tooltip(function (Model $record) use ($date) {
                     $hours = $record->{$date};
