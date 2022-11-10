@@ -30,11 +30,6 @@ class AttendanceCalendar extends ListRecords
         ];
     }
 
-    protected function table(Table $table): Table
-    {
-        return $table;
-    }
-
     protected function getTableActions(): array
     {
         return [];

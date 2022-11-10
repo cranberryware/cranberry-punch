@@ -9,7 +9,6 @@ use Closure;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +17,12 @@ use Illuminate\Support\Facades\DB;
 trait HasAttendanceCalendar
 {
     protected ?string $defaultSortDirection = "asc";
+
+    protected function getTable(): Table
+    {
+        $table = parent::getTable();
+        return $table;
+    }
 
     private function getMonthDates($month_selected): array
     {
@@ -85,7 +90,7 @@ trait HasAttendanceCalendar
                         return null;
                     }
 
-                    return __('open-attendance::open-attendance.attendance.filter.indicator.attendance_month', [ "attendance_month" => Carbon::parse($data['value'])->format('F Y')]);
+                    return __('open-attendance::open-attendance.attendance.filter.indicator.attendance_month', ["attendance_month" => Carbon::parse($data['value'])->format('F Y')]);
                 }),
             Filter::make('employee')
                 ->form([
