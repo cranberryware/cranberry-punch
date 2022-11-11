@@ -1,6 +1,7 @@
 {
     "filament-socialite::auth.login-via": "Login via",
     "filament::login.buttons.submit.label": "Login",
+    "open-attendance::open-attendance.attendance-kiosk.attendance-clock.widget.subtitle": "Click/Tap to :action",
     "open-attendance::open-attendance.attendance-kiosk.attendance-clock.widget.title": "Welcome :employee_name",
     "open-attendance::open-attendance.attendance-kiosk.button.clock-in": "Clock In",
     "open-attendance::open-attendance.attendance-kiosk.button.clock-out": "Clock Out",

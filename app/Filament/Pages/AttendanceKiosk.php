@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\AttendanceCalendar;
 use App\Filament\Widgets\AttendanceClock;
 use Filament\Pages\Actions\Action;
 use Filament\Pages\Page;
@@ -53,6 +54,7 @@ class AttendanceKiosk extends Page
     {
         return [
             AttendanceClock::class,
+            AttendanceCalendar::class,
         ];
     }
 }

@@ -15,6 +15,10 @@ class AttendanceClock extends TableWidget
 {
     protected static string $view = 'filament.widgets.attendance-clock-table-widget';
 
+    protected static ?int $sort = -2;
+
+    // protected int | string | array $columnSpan = 2;
+
     protected function getTableHeading(): string | Htmlable | Closure | null
     {
         return "";

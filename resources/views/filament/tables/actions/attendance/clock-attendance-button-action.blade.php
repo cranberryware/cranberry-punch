@@ -8,7 +8,7 @@
     }
 @endphp
 <div class="oa-attendance-clock-btn-wrap grid grid-cols-3 gap-6 justify-items-center">
-    <h2 class="col-span-3 text-center sm:text-3xl">
+    <h2 class="col-span-3 text-center text-2xl md:text-3xl">
         {{
             __("open-attendance::open-attendance.attendance-kiosk.attendance-clock.widget.title", [
                         "employee_name" => auth()->user()->employee ? auth()->user()->employee->full_name : ""
@@ -16,7 +16,11 @@
         }}
     </h2>
     <div class="col-span-3 text-center uppercase">
-        Click To {{ $getLabel() }}
+        {{
+            __("open-attendance::open-attendance.attendance-kiosk.attendance-clock.widget.subtitle", [
+                "action" => $getLabel()
+            ])
+        }}
     </div>
     <div class="col-start-2 {{
         (auth()->user()->employee && auth()->user()->employee->clocked_out())
