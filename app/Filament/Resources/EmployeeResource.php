@@ -345,6 +345,9 @@ class EmployeeResource extends Resource
                 TextColumn::make('designation.name')
                     ->label(__('open-attendance::open-attendance.table.designation.name'))
                     ->sortable(),
+                // TextColumn::make('user.name')
+                //     ->label(__('open-attendance::open-attendance.table.user.name'))
+                //     ->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

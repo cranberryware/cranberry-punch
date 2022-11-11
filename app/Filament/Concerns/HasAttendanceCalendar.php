@@ -63,7 +63,8 @@ trait HasAttendanceCalendar
 
         return Attendance::query()
             ->select($columns)
-            ->groupBy(["employee_id"]);
+            ->groupBy(["employee_id"])
+            ->whereNotNull("check_out");
     }
 
     protected function getTableFilters(): array
@@ -110,6 +111,9 @@ trait HasAttendanceCalendar
                             $data['id'],
                             fn (Builder $query, $employee_ids): Builder => $query->whereIn('employee_id', $employee_ids),
                         );
+                })
+                ->hidden(function () {
+                    return !auth()->user()->hasRole(['hr-manager', 'super-admin']);
                 })
                 ->indicateUsing(function (array $data): ?string {
                     $indicators = [];

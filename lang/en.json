@@ -116,5 +116,6 @@
     "open-attendance::open-attendance.table.designation.name": "Designation Name",
     "open-attendance::open-attendance.table.employee_code": "Employee Code",
     "open-attendance::open-attendance.table.full_name": "Full Name",
+    "open-attendance::open-attendance.table.user.name": "User Full Name",
     "open-attendance::open-attendance.validation.employee_different_from_manager": "Manager cannot be same as the employee"
 }
