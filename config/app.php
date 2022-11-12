@@ -217,4 +217,5 @@ return [
     'user_datetime_format' => 'M d, Y h:i:s A T',
     'user_date_format' => 'M d, Y',
 
+    'force_https' => env('FORCE_HTTPS', false),
 ];
