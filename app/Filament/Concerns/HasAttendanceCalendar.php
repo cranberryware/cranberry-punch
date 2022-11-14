@@ -150,9 +150,11 @@ trait HasAttendanceCalendar
             $date = explode("-", $month_date);
             $date = end($date);
             $columns[] = TextColumn::make("{$date}")
-                ->extraAttributes([
-                    'class' => 'text-sm bg-primary-200 w-16'
-                ])
+                ->extraAttributes(function(Model $record) use ($date){
+                    return empty($record->{$date})?
+                    ['class'=>'text-sm bg-primary-200 w-16 cell-empty']:
+                    ['class'=>'text-sm bg-primary-200 w-16'];
+                })
                 ->getStateUsing(function (Model $record) use ($date) {
                     $month_selected = $this->getTableFilterState('attendance_month')['value'];
                     $hours = $record->{$date};
