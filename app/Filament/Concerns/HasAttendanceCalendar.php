@@ -182,7 +182,7 @@ trait HasAttendanceCalendar
 
                     if ($cell_value === null || $cell_value === "") {
                         return [
-                            'class' => "{$classes} bg-primary-200"
+                            'class' => ""
                         ];
                     }
                     usort($calendar_cell_colors, function ($a, $b) {
