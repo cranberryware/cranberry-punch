@@ -170,12 +170,8 @@ trait HasAttendanceCalendar
 
                     $classes .= " day-" . strtolower($cell_value_date->format('l'));
 
-                    if (in_array($cell_value_date->format('D'), ['Sat', 'Sun']) && floatval($cell_value) < floatval($first_max_value['max_value'])) {
-                        if ($cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
-                            $classes .= " bg-primary-300";
-                        } else {
-                            $classes .= " bg-primary-500";
-                        }
+                    if($cell_value_date->format('D') == "Sun" || $cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
+                        $classes .= " bg-primary-500";
                     }
 
                     if ($cell_value === null || $cell_value === "") {
@@ -215,15 +211,11 @@ trait HasAttendanceCalendar
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
 
-                    if (in_array($cell_value_date->format('D'), ['Sat', 'Sun']) && floatval($cell_value) < floatval($first_max_value['max_value'])) {
-                        if (!($cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}")))) {
-                            return 'A';
-                        } else {
-                            return $cell_value_date->format('D');
-                        }
+                    if($cell_value_date->format('D') == "Sun" || $cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
+                        return $cell_value_date->format('D');
                     }
 
-                    if ($cell_value !== null && $cell_value !== "" && floatval($cell_value) < floatval($first_max_value['max_value'])) {
+                    if (floatval($cell_value) < floatval($first_max_value['max_value'])) {
                         return 'A';
                     }
 
