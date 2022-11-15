@@ -51,14 +51,17 @@ trait HasAttendanceCalendar
             $date = explode("-", $month_date);
             $date = end($date);
             $columns[] = DB::raw("
-                ROUND(
-                    SUM(
-                        CASE
-                            WHEN DATE_FORMAT(attendance_day, '%Y-%m-%d') = '{$month_date}' THEN worked_hours
-                            ELSE NULL
-                        END
-                    )
-                , 2) AS `{$date}`
+                CONCAT(
+                    '{$month_date} = ',
+                    CAST(ROUND(
+                        SUM(
+                            CASE
+                                WHEN DATE_FORMAT(attendance_day, '%Y-%m-%d') = '{$month_date}' THEN worked_hours
+                                ELSE 0
+                            END
+                        )
+                    , 2) AS CHAR)
+                ) AS `{$date}`
             ");
         }
 
@@ -153,10 +156,29 @@ trait HasAttendanceCalendar
             $columns[] = TextColumn::make("{$date}")
                 ->extraAttributes(function (Model $record) use ($date) {
                     $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
+                    $first_max_value = reset($calendar_cell_colors);
+
                     $cell_value = $record->{$date};
+                    $cell_value_arr = explode(' = ', $cell_value);
+                    $cell_value_date = reset($cell_value_arr);
+                    $cell_value_date = Carbon::parse($cell_value_date);
+                    $cell_value = end($cell_value_arr);
+
+                    $cell_value_month = $cell_value_date->format('Y-m');
+
                     $classes = 'text-sm w-16';
 
-                    if ($cell_value === null) {
+                    $classes .= " day-" . strtolower($cell_value_date->format('l'));
+
+                    if (in_array($cell_value_date->format('D'), ['Sat', 'Sun']) && floatval($cell_value) < floatval($first_max_value['max_value'])) {
+                        if ($cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
+                            $classes .= " bg-primary-300";
+                        } else {
+                            $classes .= " bg-primary-500";
+                        }
+                    }
+
+                    if ($cell_value === null || $cell_value === "") {
                         return [
                             'class' => "{$classes} bg-primary-200"
                         ];
@@ -177,6 +199,7 @@ trait HasAttendanceCalendar
                             ];
                         }
                     }
+                    return [];
                 })
                 ->getStateUsing(function (Model $record) use ($date) {
                     $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
@@ -184,12 +207,27 @@ trait HasAttendanceCalendar
                         return $a['max_value'] > $b['max_value'];
                     });
                     $first_max_value = reset($calendar_cell_colors);
-                    $hours = $record->{$date};
 
-                    if ($hours !== null && floatval($hours) < floatval($first_max_value['max_value'])) {
+                    $cell_value = $record->{$date};
+                    $cell_value_arr = explode(' = ', $cell_value);
+                    $cell_value_date = reset($cell_value_arr);
+                    $cell_value_date = Carbon::parse($cell_value_date);
+                    $cell_value = end($cell_value_arr);
+                    $cell_value_month = $cell_value_date->format('Y-m');
+
+                    if (in_array($cell_value_date->format('D'), ['Sat', 'Sun']) && floatval($cell_value) < floatval($first_max_value['max_value'])) {
+                        if ($cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
+                            return 'A';
+                        } else {
+                            return $cell_value_date->format('D');
+                        }
+                    }
+
+                    if ($cell_value !== null && $cell_value !== "" && floatval($cell_value) < floatval($first_max_value['max_value'])) {
                         return 'A';
                     }
-                    return $hours;
+
+                    return $cell_value;
                 })
                 ->tooltip(function (Model $record) use ($date) {
                     $hours = $record->{$date};

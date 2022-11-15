@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Scopes\AttendanceScope;
 use App\Settings\AttendanceSettings;
 use App\Support\Utility;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -74,4 +75,10 @@ class Attendance extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // public static function isWorkingDay($date)
+    // {
+    //     $date = is_a($date, Carbon::class) ? $date : Carbon::parse($date);
+
+    // }
 }
