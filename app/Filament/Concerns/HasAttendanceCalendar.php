@@ -235,6 +235,25 @@ trait HasAttendanceCalendar
                     return $cell_value;
                 })
                 ->tooltip(function (Model $record) use ($date) {
+                    $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
+                    usort($calendar_cell_colors, function ($a, $b) {
+                        return $a['max_value'] > $b['max_value'];
+                    });
+                    $first_max_value = reset($calendar_cell_colors);
+                    $cell_value = $record->{$date};
+                    if($cell_value === null || $cell_value === "") {
+                        return '';
+                    }
+                    $cell_value_arr = explode(' = ', $cell_value);
+                    $cell_value_date = reset($cell_value_arr);
+                    $cell_value_date = Carbon::parse($cell_value_date);
+                    $cell_value = end($cell_value_arr);
+                    $cell_value_month = $cell_value_date->format('Y-m');
+
+                    if($cell_value_date->gt(now())) {
+                        return '';
+                    }
+
                     $hours = $record->{$date};
                     return empty($hours) ? null : "{$hours} Hours";
                 })
