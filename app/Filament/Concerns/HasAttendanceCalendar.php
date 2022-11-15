@@ -151,12 +151,12 @@ trait HasAttendanceCalendar
             $date = explode("-", $month_date);
             $date = end($date);
             $columns[] = TextColumn::make("{$date}")
-                ->extraAttributes(function(Model $record) use ($date){
+                ->extraAttributes(function (Model $record) use ($date) {
                     $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
                     $cell_value = $record->{$date};
                     $classes = 'text-sm w-16';
 
-                    if($cell_value === null) {
+                    if ($cell_value === null) {
                         return [
                             'class' => "{$classes} bg-primary-200"
                         ];
@@ -164,12 +164,12 @@ trait HasAttendanceCalendar
                     usort($calendar_cell_colors, function ($a, $b) {
                         return $a['max_value'] > $b['max_value'];
                     });
-                    foreach($calendar_cell_colors as $calendar_cell_color) {
+                    foreach ($calendar_cell_colors as $calendar_cell_color) {
                         $max_value = floatval($calendar_cell_color['max_value']);
                         $bg_color_class = $calendar_cell_color['background_color'];
                         $bg_color_class_array = explode('-', $bg_color_class);
                         $bg_color_class_darkness = end($bg_color_class_array);
-                        if(floatval($cell_value) < $max_value) {
+                        if (floatval($cell_value) < $max_value) {
                             $text_color_class = ($bg_color_class_darkness > 400) ? 'text-white' : 'text-black';
                             $extra_css_classes = isset($calendar_cell_color['extra_css_classes']) && is_array($calendar_cell_color['extra_css_classes']) ? join(" ", $calendar_cell_color['extra_css_classes']) : "";
                             return [
@@ -186,7 +186,7 @@ trait HasAttendanceCalendar
                     $first_max_value = reset($calendar_cell_colors);
                     $hours = $record->{$date};
 
-                    if($hours !== null && floatval($hours) < floatval($first_max_value['max_value'])) {
+                    if ($hours !== null && floatval($hours) < floatval($first_max_value['max_value'])) {
                         return 'A';
                     }
                     return $hours;
