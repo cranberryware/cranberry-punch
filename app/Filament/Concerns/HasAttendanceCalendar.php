@@ -161,6 +161,9 @@ trait HasAttendanceCalendar
                             'class' => "{$classes} bg-primary-200"
                         ];
                     }
+                    usort($calendar_cell_colors, function ($a, $b) {
+                        return $a['max_value'] > $b['max_value'];
+                    });
                     foreach($calendar_cell_colors as $calendar_cell_color) {
                         $max_value = floatval($calendar_cell_color['max_value']);
                         $bg_color_class = $calendar_cell_color['background_color'];
@@ -176,7 +179,16 @@ trait HasAttendanceCalendar
                     }
                 })
                 ->getStateUsing(function (Model $record) use ($date) {
+                    $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
+                    usort($calendar_cell_colors, function ($a, $b) {
+                        return $a['max_value'] > $b['max_value'];
+                    });
+                    $first_max_value = reset($calendar_cell_colors);
                     $hours = $record->{$date};
+
+                    if($hours !== null && floatval($hours) < floatval($first_max_value['max_value'])) {
+                        return 'A';
+                    }
                     return $hours;
                 })
                 ->tooltip(function (Model $record) use ($date) {
