@@ -164,6 +164,10 @@ trait HasAttendanceCalendar
                     $cell_value_date = Carbon::parse($cell_value_date);
                     $cell_value = end($cell_value_arr);
 
+                    if($cell_value_date->gt(now())) {
+                        return [];
+                    }
+
                     $cell_value_month = $cell_value_date->format('Y-m');
 
                     $classes = 'text-sm w-16';
@@ -210,6 +214,10 @@ trait HasAttendanceCalendar
                     $cell_value_date = Carbon::parse($cell_value_date);
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
+
+                    if($cell_value_date->gt(now())) {
+                        return '';
+                    }
 
                     if($cell_value_date->format('D') == "Sun" || $cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
                         return $cell_value_date->format('D');
