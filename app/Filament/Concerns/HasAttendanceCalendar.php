@@ -211,6 +211,9 @@ trait HasAttendanceCalendar
                     $first_max_value = reset($calendar_cell_colors);
 
                     $cell_value = $record->{$date};
+                    if($cell_value === null || $cell_value === "") {
+                        return '';
+                    }
                     $cell_value_arr = explode(' = ', $cell_value);
                     $cell_value_date = reset($cell_value_arr);
                     $cell_value_date = Carbon::parse($cell_value_date);
