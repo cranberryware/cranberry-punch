@@ -216,7 +216,7 @@ trait HasAttendanceCalendar
                     $cell_value_month = $cell_value_date->format('Y-m');
 
                     if (in_array($cell_value_date->format('D'), ['Sat', 'Sun']) && floatval($cell_value) < floatval($first_max_value['max_value'])) {
-                        if ($cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
+                        if (!($cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}")))) {
                             return 'A';
                         } else {
                             return $cell_value_date->format('D');
