@@ -168,8 +168,9 @@ trait HasAttendanceCalendar
                         $bg_color_class_darkness = end($bg_color_class_array);
                         if(floatval($cell_value) < $max_value) {
                             $text_color_class = ($bg_color_class_darkness > 400) ? 'text-white' : 'text-black';
+                            $extra_css_classes = isset($calendar_cell_color['extra_css_classes']) && is_array($calendar_cell_color['extra_css_classes']) ? join(" ", $calendar_cell_color['extra_css_classes']) : "";
                             return [
-                                'class' => "{$classes} {$bg_color_class} {$text_color_class}"
+                                'class' => "{$classes} {$bg_color_class} {$text_color_class} {$extra_css_classes}"
                             ];
                         }
                     }

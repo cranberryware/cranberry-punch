@@ -9,6 +9,7 @@ use App\Settings\AttendanceSettings;
 use Closure;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use HappyToDev\FilamentTailwindColorPicker\Forms\Components\TailwindColorPicker;
 
@@ -96,9 +97,12 @@ class ManageAttendanceSettings extends SettingsPage
                                 ->label(__('open-attendance::open-attendance.section.open-attendance.input.calendar-cell-colors.cell-background-color'))
                                 ->bgScope()
                                 ->required(),
+                            TagsInput::make('extra_css_classes')
+                                ->label(__('open-attendance::open-attendance.section.open-attendance.input.calendar-cell-colors.extra-css-classes'))
+                                ->placeholder(__('open-attendance::open-attendance.section.open-attendance.placeholder.calendar-cell-colors.extra-css-classes')),
                         ])
                         ->itemLabel(fn (array $state): ?string => "" ?? null)
-                        ->columns(2)
+                        ->columns(3)
                         ->defaultItems(1)
                         ->minItems(1)
                         ->maxItems(25)
