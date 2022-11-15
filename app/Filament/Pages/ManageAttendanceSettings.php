@@ -6,9 +6,11 @@ use App\Rules\IpAddress;
 use App\Rules\Slug;
 use Filament\Pages\SettingsPage;
 use App\Settings\AttendanceSettings;
+use Closure;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
+use HappyToDev\FilamentTailwindColorPicker\Forms\Components\TailwindColorPicker;
 
 class ManageAttendanceSettings extends SettingsPage
 {
@@ -72,6 +74,30 @@ class ManageAttendanceSettings extends SettingsPage
                                 ->required(),
                         ])
                         ->itemLabel(fn (array $state): ?string => "{$state['ip']} - {$state['location']}" ?? null)
+                        ->columns(2)
+                        ->defaultItems(1)
+                        ->minItems(1)
+                        ->maxItems(25)
+                        ->orderable(true),
+                ])->collapsible(),
+            Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.calendar-cell-colors'))
+                ->schema([
+                    Repeater::make('calendar_cell_colors')
+                        ->label(__('open-attendance::open-attendance.section.open-attendance.input.calendar-cell-colors'))
+                        ->schema([
+                            TextInput::make('max_value')
+                                ->label(__('open-attendance::open-attendance.section.open-attendance.input.calendar-cell-colors.max_value'))
+                                ->numeric()
+                                ->step(0.1)
+                                ->minValue(0)
+                                ->maxValue(24)
+                                ->required(),
+                            TailwindColorPicker::make('background_color')
+                                ->label(__('open-attendance::open-attendance.section.open-attendance.input.calendar-cell-colors.cell-background-color'))
+                                ->bgScope()
+                                ->required(),
+                        ])
+                        ->itemLabel(fn (array $state): ?string => "" ?? null)
                         ->columns(2)
                         ->defaultItems(1)
                         ->minItems(1)

@@ -2,8 +2,13 @@
 
 use Spatie\LaravelSettings\Migrations\SettingsMigration;
 
-class AttendanceSettings extends SettingsMigration
+return new class extends SettingsMigration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up(): void
     {
         $this->migrator->add('attendance.ip_locations', [
@@ -13,4 +18,14 @@ class AttendanceSettings extends SettingsMigration
             ]
         ]);
     }
-}
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        $this->migrator->delete('attendance.ip_locations');
+    }
+};

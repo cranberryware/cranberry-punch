@@ -4,6 +4,7 @@ namespace App\Filament\Concerns;
 
 use App\Models\Attendance;
 use App\Models\Employee;
+use App\Settings\AttendanceSettings;
 use Carbon\Carbon;
 use Closure;
 use Filament\Forms\Components\Select;
@@ -151,12 +152,29 @@ trait HasAttendanceCalendar
             $date = end($date);
             $columns[] = TextColumn::make("{$date}")
                 ->extraAttributes(function(Model $record) use ($date){
-                    return empty($record->{$date})?
-                    ['class'=>'text-sm bg-primary-200 w-16 cell-empty']:
-                    ['class'=>'text-sm bg-primary-200 w-16'];
+                    $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
+                    $cell_value = $record->{$date};
+                    $classes = 'text-sm w-16';
+
+                    if($cell_value === null) {
+                        return [
+                            'class' => "{$classes} bg-primary-200"
+                        ];
+                    }
+                    foreach($calendar_cell_colors as $calendar_cell_color) {
+                        $max_value = floatval($calendar_cell_color['max_value']);
+                        $bg_color_class = $calendar_cell_color['background_color'];
+                        $bg_color_class_array = explode('-', $bg_color_class);
+                        $bg_color_class_darkness = end($bg_color_class_array);
+                        if(floatval($cell_value) < $max_value) {
+                            $text_color_class = ($bg_color_class_darkness > 400) ? 'text-white' : 'text-black';
+                            return [
+                                'class' => "{$classes} {$bg_color_class} {$text_color_class}"
+                            ];
+                        }
+                    }
                 })
                 ->getStateUsing(function (Model $record) use ($date) {
-                    $month_selected = $this->getTableFilterState('attendance_month')['value'];
                     $hours = $record->{$date};
                     return $hours;
                 })

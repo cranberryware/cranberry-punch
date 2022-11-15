@@ -8,6 +8,8 @@ class AttendanceSettings extends Settings
 {
     public array $ip_locations;
 
+    public array $calendar_cell_colors;
+
     public static function group(): string
     {
         return 'attendance';
