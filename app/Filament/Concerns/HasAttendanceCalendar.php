@@ -174,9 +174,15 @@ trait HasAttendanceCalendar
                         $classes .= " bg-primary-500 text-white";
                     }
 
-                    if($cell_value_date->gte(today())) {
+                    if($cell_value_date->gt(today())) {
                         return [
                             'class' => "{$classes} bg-primary-200"
+                        ];
+                    }
+
+                    if($cell_value_date->eq(today())) {
+                        return [
+                            'class' => "{$classes} bg-primary-200 animate-pulse"
                         ];
                     }
 
@@ -217,8 +223,12 @@ trait HasAttendanceCalendar
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
 
-                    if($cell_value_date->gte(today()) || $cell_value === null || $cell_value === "") {
+                    if($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
                         return '';
+                    }
+
+                    if($cell_value_date->eq(today())) {
+                        return $cell_value;
                     }
 
                     if($cell_value_date->format('D') == "Sun" || $cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
