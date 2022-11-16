@@ -24,29 +24,6 @@ module.exports = {
                 warning: colors.amber,
             },
         },
-        variables: {
-            DEFAULT: {
-                color: {
-                    gray: {
-                        DEFAULT: "#AAAAAA",
-                        50: "#F1F1F1",
-                        100: "#E7E7E7",
-                        200: "#D3D3D3",
-                        300: "#BEBEBE",
-                        400: "#AAAAAA",
-                        500: "#8E8E8E",
-                        600: "#727272",
-                        700: "#565656",
-                        800: "#3A3A3A",
-                        900: "#1E1E1E",
-                    },
-                    danger: colors.red,
-                    primary: colors.slate,
-                    success: colors.emerald,
-                    warning: colors.amber,
-                },
-            },
-        },
     },
     plugins: [
         require("@tailwindcss/forms"),
