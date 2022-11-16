@@ -174,7 +174,7 @@ trait HasAttendanceCalendar
                         $classes .= " bg-primary-500 text-white";
                     }
 
-                    if($cell_value_date->gt(now())) {
+                    if($cell_value_date->gte(today())) {
                         return [
                             'class' => "{$classes} bg-primary-200"
                         ];
