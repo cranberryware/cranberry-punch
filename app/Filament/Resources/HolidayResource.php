@@ -20,7 +20,7 @@ class HolidayResource extends Resource
 {
     protected static ?string $model = Holiday::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-sun';
 
     protected static function getNavigationGroup(): ?string
     {
@@ -86,14 +86,14 @@ class HolidayResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -102,5 +102,5 @@ class HolidayResource extends Resource
             'view' => Pages\ViewHoliday::route('/{record}'),
             'edit' => Pages\EditHoliday::route('/{record}/edit'),
         ];
-    }    
+    }
 }
