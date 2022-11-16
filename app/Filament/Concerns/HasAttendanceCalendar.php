@@ -211,21 +211,18 @@ trait HasAttendanceCalendar
                     $first_max_value = reset($calendar_cell_colors);
 
                     $cell_value = $record->{$date};
-                    if($cell_value === null || $cell_value === "") {
-                        return '';
-                    }
                     $cell_value_arr = explode(' = ', $cell_value);
                     $cell_value_date = reset($cell_value_arr);
                     $cell_value_date = Carbon::parse($cell_value_date);
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
 
-                    if($cell_value_date->format('D') == "Sun" || $cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
-                        return $cell_value_date->format('D');
+                    if($cell_value_date->gte(today()) || $cell_value === null || $cell_value === "") {
+                        return '';
                     }
 
-                    if($cell_value_date->gte(today())) {
-                        return '';
+                    if($cell_value_date->format('D') == "Sun" || $cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
+                        return $cell_value_date->format('D');
                     }
 
                     if (floatval($cell_value) < floatval($first_max_value['max_value'])) {
@@ -241,16 +238,13 @@ trait HasAttendanceCalendar
                     });
                     $first_max_value = reset($calendar_cell_colors);
                     $cell_value = $record->{$date};
-                    if($cell_value === null || $cell_value === "") {
-                        return '';
-                    }
                     $cell_value_arr = explode(' = ', $cell_value);
                     $cell_value_date = reset($cell_value_arr);
                     $cell_value_date = Carbon::parse($cell_value_date);
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
 
-                    if($cell_value_date->gte(today())) {
+                    if($cell_value_date->gte(today()) || $cell_value === null || $cell_value === "") {
                         return '';
                     }
 
