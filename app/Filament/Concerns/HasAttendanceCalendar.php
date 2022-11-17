@@ -51,14 +51,17 @@ trait HasAttendanceCalendar
             $date = explode("-", $month_date);
             $date = end($date);
             $columns[] = DB::raw("
-                ROUND(
-                    SUM(
-                        CASE
-                            WHEN DATE_FORMAT(attendance_day, '%Y-%m-%d') = '{$month_date}' THEN worked_hours
-                            ELSE NULL
-                        END
-                    )
-                , 2) AS `{$date}`
+                CONCAT(
+                    '{$month_date} = ',
+                    CAST(ROUND(
+                        SUM(
+                            CASE
+                                WHEN DATE_FORMAT(attendance_day, '%Y-%m-%d') = '{$month_date}' THEN worked_hours
+                                ELSE 0
+                            END
+                        )
+                    , 2) AS CHAR)
+                ) AS `{$date}`
             ");
         }
 
@@ -151,22 +154,57 @@ trait HasAttendanceCalendar
             $date = explode("-", $month_date);
             $date = end($date);
             $columns[] = TextColumn::make("{$date}")
-                ->extraAttributes(function(Model $record) use ($date){
+                ->extraAttributes(function (Model $record) use ($date) {
                     $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
+                    $weekly_day_offs = app(AttendanceSettings::class)->weekly_day_offs;
+
+                    $first_max_value = reset($calendar_cell_colors);
+
                     $cell_value = $record->{$date};
+                    $cell_value_arr = explode(' = ', $cell_value);
+                    $cell_value_date = reset($cell_value_arr);
+                    $cell_value_date = Carbon::parse($cell_value_date);
+                    $cell_value = end($cell_value_arr);
+
+                    $cell_value_month = $cell_value_date->format('Y-m');
+
                     $classes = 'text-sm w-16';
 
-                    if($cell_value === null) {
+                    $classes .= " day-" . strtolower($cell_value_date->format('l'));
+
+                    foreach($weekly_day_offs as $weekly_day_off) {
+                        $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
+                        if($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
+                            $classes .= " bg-primary-500 text-white";
+                        }
+                    }
+
+                    if($cell_value_date->gt(today())) {
                         return [
                             'class' => "{$classes} bg-primary-200"
                         ];
                     }
-                    foreach($calendar_cell_colors as $calendar_cell_color) {
+
+                    if($cell_value_date->eq(today())) {
+                        return [
+                            'class' => "{$classes} bg-primary-200 animate-pulse"
+                        ];
+                    }
+
+                    if ($cell_value === null || $cell_value === "") {
+                        return [
+                            'class' => "{$classes} bg-white"
+                        ];
+                    }
+                    usort($calendar_cell_colors, function ($a, $b) {
+                        return $a['max_value'] > $b['max_value'];
+                    });
+                    foreach ($calendar_cell_colors as $calendar_cell_color) {
                         $max_value = floatval($calendar_cell_color['max_value']);
                         $bg_color_class = $calendar_cell_color['background_color'];
                         $bg_color_class_array = explode('-', $bg_color_class);
                         $bg_color_class_darkness = end($bg_color_class_array);
-                        if(floatval($cell_value) < $max_value) {
+                        if (floatval($cell_value) < $max_value) {
                             $text_color_class = ($bg_color_class_darkness > 400) ? 'text-white' : 'text-black';
                             $extra_css_classes = isset($calendar_cell_color['extra_css_classes']) && is_array($calendar_cell_color['extra_css_classes']) ? join(" ", $calendar_cell_color['extra_css_classes']) : "";
                             return [
@@ -174,12 +212,62 @@ trait HasAttendanceCalendar
                             ];
                         }
                     }
+                    return [];
                 })
                 ->getStateUsing(function (Model $record) use ($date) {
-                    $hours = $record->{$date};
-                    return $hours;
+                    $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
+                    $weekly_day_offs = app(AttendanceSettings::class)->weekly_day_offs;
+                    usort($calendar_cell_colors, function ($a, $b) {
+                        return $a['max_value'] > $b['max_value'];
+                    });
+                    $first_max_value = reset($calendar_cell_colors);
+
+                    $cell_value = $record->{$date};
+                    $cell_value_arr = explode(' = ', $cell_value);
+                    $cell_value_date = reset($cell_value_arr);
+                    $cell_value_date = Carbon::parse($cell_value_date);
+                    $cell_value = end($cell_value_arr);
+                    $cell_value_month = $cell_value_date->format('Y-m');
+
+
+                    foreach($weekly_day_offs as $weekly_day_off) {
+                        $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
+                        if($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
+                            return $cell_value_date->format('D');
+                        }
+                    }
+
+                    if($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
+                        return '';
+                    }
+
+                    if($cell_value_date->eq(today())) {
+                        return $cell_value;
+                    }
+
+                    if (floatval($cell_value) < floatval($first_max_value['max_value'])) {
+                        return '-';
+                    }
+
+                    return $cell_value;
                 })
                 ->tooltip(function (Model $record) use ($date) {
+                    $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
+                    usort($calendar_cell_colors, function ($a, $b) {
+                        return $a['max_value'] > $b['max_value'];
+                    });
+                    $first_max_value = reset($calendar_cell_colors);
+                    $cell_value = $record->{$date};
+                    $cell_value_arr = explode(' = ', $cell_value);
+                    $cell_value_date = reset($cell_value_arr);
+                    $cell_value_date = Carbon::parse($cell_value_date);
+                    $cell_value = end($cell_value_arr);
+                    $cell_value_month = $cell_value_date->format('Y-m');
+
+                    if($cell_value_date->gte(today()) || $cell_value === null || $cell_value === "") {
+                        return '';
+                    }
+
                     $hours = $record->{$date};
                     return empty($hours) ? null : "{$hours} Hours";
                 })

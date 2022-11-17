@@ -49,7 +49,7 @@ class AttendanceResource extends Resource
                     ->placeholder(__('open-attendance::open-attendance.attendance.input.user'))
                     ->searchable()
                     ->relationship('user', fn () => "name")
-                    ->disabled(true)
+                    ->disabled(!auth()->user()->hasRole(['hr-manager', 'super-admin']))
                     ->required(),
                 Forms\Components\DateTimePicker::make('check_in')
                     ->label(__('open-attendance::open-attendance.attendance.input.check-in'))
