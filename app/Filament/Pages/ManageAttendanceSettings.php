@@ -7,7 +7,6 @@ use App\Rules\Slug;
 use Filament\Pages\SettingsPage;
 use App\Settings\AttendanceSettings;
 use Closure;
-use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TagsInput;
@@ -82,7 +81,7 @@ class ManageAttendanceSettings extends SettingsPage
                         ->maxItems(25)
                         ->orderable(true),
                 ])->collapsible(),
-                Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.calendar-cell-colors'))
+            Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.calendar-cell-colors'))
                 ->schema([
                     Repeater::make('calendar_cell_colors')
                         ->label(__('open-attendance::open-attendance.section.open-attendance.input.calendar-cell-colors'))
@@ -108,30 +107,6 @@ class ManageAttendanceSettings extends SettingsPage
                         ->minItems(1)
                         ->maxItems(25)
                         ->orderable(true),
-                ])->collapsible(),
-            Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.weekly-day-offs'))
-                ->schema([
-                    CheckboxList::make('weekly_day_offs')
-                        ->label(__('open-attendance::open-attendance.section.open-attendance.input.weekly-day-offs'))
-                        ->options(function () {
-                            $days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-                            $indexes = [
-                                "First" => "1st",
-                                "Second" => "2nd",
-                                "Third" => "3rd",
-                                "Fourth" => "4th",
-                                "Fifth" => "5th"
-                            ];
-                            $options = [];
-                            foreach($indexes as $index => $index_num) {
-                                foreach($days as $day) {
-                                    $options["{$index} {$day}"] = "{$index_num} {$day} of Month";
-                                }
-                            }
-                            return $options;
-                        })
-                        ->columns(5)
-                        ->required(),
                 ])->collapsible(),
         ];
     }
