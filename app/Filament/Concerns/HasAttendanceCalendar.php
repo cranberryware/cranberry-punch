@@ -156,6 +156,8 @@ trait HasAttendanceCalendar
             $columns[] = TextColumn::make("{$date}")
                 ->extraAttributes(function (Model $record) use ($date) {
                     $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
+                    $weekly_day_offs = app(AttendanceSettings::class)->weekly_day_offs;
+
                     $first_max_value = reset($calendar_cell_colors);
 
                     $cell_value = $record->{$date};
@@ -170,8 +172,11 @@ trait HasAttendanceCalendar
 
                     $classes .= " day-" . strtolower($cell_value_date->format('l'));
 
-                    if($cell_value_date->format('D') == "Sun" || $cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
-                        $classes .= " bg-primary-500 text-white";
+                    foreach($weekly_day_offs as $weekly_day_off) {
+                        $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
+                        if($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
+                            $classes .= " bg-primary-500 text-white";
+                        }
                     }
 
                     if($cell_value_date->gt(today())) {
@@ -211,6 +216,7 @@ trait HasAttendanceCalendar
                 })
                 ->getStateUsing(function (Model $record) use ($date) {
                     $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
+                    $weekly_day_offs = app(AttendanceSettings::class)->weekly_day_offs;
                     usort($calendar_cell_colors, function ($a, $b) {
                         return $a['max_value'] > $b['max_value'];
                     });
@@ -223,6 +229,14 @@ trait HasAttendanceCalendar
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
 
+
+                    foreach($weekly_day_offs as $weekly_day_off) {
+                        $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
+                        if($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
+                            return $cell_value_date->format('D');
+                        }
+                    }
+
                     if($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
                         return '';
                     }
@@ -231,12 +245,8 @@ trait HasAttendanceCalendar
                         return $cell_value;
                     }
 
-                    if($cell_value_date->format('D') == "Sun" || $cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
-                        return $cell_value_date->format('D');
-                    }
-
                     if (floatval($cell_value) < floatval($first_max_value['max_value'])) {
-                        return 'A';
+                        return '-';
                     }
 
                     return $cell_value;

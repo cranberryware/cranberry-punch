@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "849614c1a8f961aacaacdfc9fbad3d1d",
+    "content-hash": "5aa2dc851aefcfc84753e3e47a5e10f4",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -761,16 +761,16 @@
         },
         {
             "name": "composer/pcre",
-            "version": "3.0.2",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/pcre.git",
-                "reference": "4482b6409ca6bfc2af043a5711cd21ac3e7a8dfb"
+                "reference": "4bff79ddd77851fe3cdd11616ed3f92841ba5bd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/pcre/zipball/4482b6409ca6bfc2af043a5711cd21ac3e7a8dfb",
-                "reference": "4482b6409ca6bfc2af043a5711cd21ac3e7a8dfb",
+                "url": "https://api.github.com/repos/composer/pcre/zipball/4bff79ddd77851fe3cdd11616ed3f92841ba5bd2",
+                "reference": "4bff79ddd77851fe3cdd11616ed3f92841ba5bd2",
                 "shasum": ""
             },
             "require": {
@@ -812,7 +812,7 @@
             ],
             "support": {
                 "issues": "https://github.com/composer/pcre/issues",
-                "source": "https://github.com/composer/pcre/tree/3.0.2"
+                "source": "https://github.com/composer/pcre/tree/3.1.0"
             },
             "funding": [
                 {
@@ -828,7 +828,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-03T20:24:16+00:00"
+            "time": "2022-11-17T09:50:14+00:00"
         },
         {
             "name": "composer/semver",
@@ -2802,16 +2802,16 @@
         },
         {
             "name": "happytodev/filament-tailwind-color-picker",
-            "version": "v0.1.8",
+            "version": "v0.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/happytodev/filament-tailwind-color-picker.git",
-                "reference": "668a8f82beb355e13be85074daa67b86ae34ee69"
+                "reference": "4d12df4263995b90d9d8bca3976369042eeb17dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/happytodev/filament-tailwind-color-picker/zipball/668a8f82beb355e13be85074daa67b86ae34ee69",
-                "reference": "668a8f82beb355e13be85074daa67b86ae34ee69",
+                "url": "https://api.github.com/repos/happytodev/filament-tailwind-color-picker/zipball/4d12df4263995b90d9d8bca3976369042eeb17dc",
+                "reference": "4d12df4263995b90d9d8bca3976369042eeb17dc",
                 "shasum": ""
             },
             "require": {
@@ -2868,9 +2868,9 @@
             ],
             "support": {
                 "issues": "https://github.com/happytodev/filament-tailwind-color-picker/issues",
-                "source": "https://github.com/happytodev/filament-tailwind-color-picker/tree/v0.1.8"
+                "source": "https://github.com/happytodev/filament-tailwind-color-picker/tree/v0.1.9"
             },
-            "time": "2022-09-16T14:51:08+00:00"
+            "time": "2022-11-17T09:04:41+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
