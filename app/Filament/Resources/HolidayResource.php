@@ -32,34 +32,34 @@ class HolidayResource extends Resource
         return $form
             ->schema([
                 Forms\Components\DatePicker::make('date')
-                ->reactive()
-                ->afterStateUpdated(function(Closure $set,$state){
-                    $day=Carbon::parse($state)->format('l');
-                    $set('day_name',$day);
-                })
-                ->required(),
+                    ->reactive()
+                    ->afterStateUpdated(function (Closure $set, $state) {
+                        $day = Carbon::parse($state)->format('l');
+                        $set('day_name', $day);
+                    })
+                    ->required(),
                 Select::make('day_name')
-                ->options([
-                    'Sunday'=>'Sunday','Monday'=>'Monday',
-                    'Tuesday'=>'Tuesday','Wednesday'=>'Wednesday',
-                    'Thursday'=>'Thursday','Friday'=>'Friday',
-                    'Saturday'=>'Saturday'
-                ])
-                ->disabled(function(Closure $get){
-                    return $get('date')!==null;
-                }),
+                    ->options([
+                        'Sunday' => 'Sunday', 'Monday' => 'Monday',
+                        'Tuesday' => 'Tuesday', 'Wednesday' => 'Wednesday',
+                        'Thursday' => 'Thursday', 'Friday' => 'Friday',
+                        'Saturday' => 'Saturday'
+                    ])
+                    ->disabled(function (Closure $get) {
+                        return $get('date') !== null;
+                    }),
                 Forms\Components\TextInput::make('holiday_name')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('holiday_type')
-                ->options([
-                    'national'=>'National',
-                    'regional'=>'Regional',
-                    'week off'=>'Week Off',
-                ])
+                    ->options([
+                        'national' => 'National',
+                        'regional' => 'Regional',
+                        'week off' => 'Week Off',
+                    ])
                     ->required(),
                 Forms\Components\Toggle::make('is_confirmed')
-                ->label('Holiday Comfirmation Status'),
+                    ->label('Holiday Comfirmation Status'),
             ]);
     }
 

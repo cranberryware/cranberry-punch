@@ -8,11 +8,13 @@ use Filament\Pages\SettingsPage;
 use App\Settings\AttendanceSettings;
 use Closure;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use HappyToDev\FilamentTailwindColorPicker\Forms\Components\TailwindColorPicker;
+use League\CommonMark\Normalizer\SlugNormalizer;
 
 class ManageAttendanceSettings extends SettingsPage
 {
@@ -84,7 +86,7 @@ class ManageAttendanceSettings extends SettingsPage
                 ])
                 ->collapsed()
                 ->collapsible(),
-                Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.calendar-cell-colors'))
+            Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.calendar-cell-colors'))
                 ->schema([
                     Repeater::make('calendar_cell_colors')
                         ->label(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.calendar-cell-colors.input.calendar-cell-colors'))
@@ -113,7 +115,7 @@ class ManageAttendanceSettings extends SettingsPage
                 ])
                 ->collapsed()
                 ->collapsible(),
-                Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.weekly-day-offs'))
+            Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.weekly-day-offs'))
                 ->schema([
                     CheckboxList::make('weekly_day_offs')
                         ->label(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.weekly-day-offs.input.weekly-day-offs'))
@@ -127,8 +129,8 @@ class ManageAttendanceSettings extends SettingsPage
                                 "Fifth" => "5th"
                             ];
                             $options = [];
-                            foreach($indexes as $index => $index_num) {
-                                foreach($days as $day) {
+                            foreach ($indexes as $index => $index_num) {
+                                foreach ($days as $day) {
                                     $options["{$index} {$day}"] = "{$index_num} {$day} of Month";
                                 }
                             }
@@ -141,18 +143,14 @@ class ManageAttendanceSettings extends SettingsPage
                 ->collapsible(),
             Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.holidays'))
                 ->schema([
-                    Repeater::make('holiday_types')
-                        ->label(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.holidays.input.holiday-types'))
-                        ->schema([
-                            TextInput::make('holiday_type')
-                                ->label(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.holidays.input.holiday-types.holiday-type'))
-                                ->required(),
-                        ])
-                        ->defaultItems(1)
-                        ->minItems(1)
-                        ->maxItems(25)
-                        ->required()
-                        ->orderable(true),
+                    KeyValue::make('holiday_types')
+                        ->keyLabel(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.holidays.input.holiday-types.holiday-type-key'))
+                        ->valueLabel(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.holidays.input.holiday-types.holiday-type-label'))
+                        ->keyPlaceholder(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.holidays.input.holiday-types.holiday-type-key'))
+                        ->valuePlaceholder(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.holidays.input.holiday-types.holiday-type-label'))
+                        ->disableEditingKeys()
+                        ->reorderable()
+                        ->required(),
                 ])
                 ->collapsed()
                 ->collapsible(),
