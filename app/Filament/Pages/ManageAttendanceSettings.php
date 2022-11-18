@@ -81,26 +81,28 @@ class ManageAttendanceSettings extends SettingsPage
                         ->minItems(1)
                         ->maxItems(25)
                         ->orderable(true),
-                ])->collapsible(),
+                ])
+                ->collapsed()
+                ->collapsible(),
                 Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.calendar-cell-colors'))
                 ->schema([
                     Repeater::make('calendar_cell_colors')
-                        ->label(__('open-attendance::open-attendance.section.open-attendance.input.calendar-cell-colors'))
+                        ->label(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.calendar-cell-colors.input.calendar-cell-colors'))
                         ->schema([
                             TextInput::make('max_value')
-                                ->label(__('open-attendance::open-attendance.section.open-attendance.input.calendar-cell-colors.max_value'))
+                                ->label(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.calendar-cell-colors.input.calendar-cell-colors.max_value'))
                                 ->numeric()
                                 ->step(0.1)
                                 ->minValue(0)
                                 ->maxValue(24)
                                 ->required(),
                             TailwindColorPicker::make('background_color')
-                                ->label(__('open-attendance::open-attendance.section.open-attendance.input.calendar-cell-colors.cell-background-color'))
+                                ->label(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.calendar-cell-colors.input.calendar-cell-colors.cell-background-color'))
                                 ->bgScope()
                                 ->required(),
                             TagsInput::make('extra_css_classes')
-                                ->label(__('open-attendance::open-attendance.section.open-attendance.input.calendar-cell-colors.extra-css-classes'))
-                                ->placeholder(__('open-attendance::open-attendance.section.open-attendance.placeholder.calendar-cell-colors.extra-css-classes')),
+                                ->label(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.calendar-cell-colors.input.calendar-cell-colors.extra-css-classes'))
+                                ->placeholder(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.calendar-cell-colors.placeholder.calendar-cell-colors.extra-css-classes')),
                         ])
                         ->itemLabel(fn (array $state): ?string => "" ?? null)
                         ->columns(3)
@@ -108,11 +110,13 @@ class ManageAttendanceSettings extends SettingsPage
                         ->minItems(1)
                         ->maxItems(25)
                         ->orderable(true),
-                ])->collapsible(),
-            Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.weekly-day-offs'))
+                ])
+                ->collapsed()
+                ->collapsible(),
+                Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.weekly-day-offs'))
                 ->schema([
                     CheckboxList::make('weekly_day_offs')
-                        ->label(__('open-attendance::open-attendance.section.open-attendance.input.weekly-day-offs'))
+                        ->label(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.weekly-day-offs.input.weekly-day-offs'))
                         ->options(function () {
                             $days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
                             $indexes = [
@@ -132,7 +136,26 @@ class ManageAttendanceSettings extends SettingsPage
                         })
                         ->columns(5)
                         ->required(),
-                ])->collapsible(),
+                ])
+                ->collapsed()
+                ->collapsible(),
+            Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.holidays'))
+                ->schema([
+                    Repeater::make('holiday_types')
+                        ->label(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.holidays.input.holiday-types'))
+                        ->schema([
+                            TextInput::make('holiday_type')
+                                ->label(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.holidays.input.holiday-types.holiday-type'))
+                                ->required(),
+                        ])
+                        ->defaultItems(1)
+                        ->minItems(1)
+                        ->maxItems(25)
+                        ->required()
+                        ->orderable(true),
+                ])
+                ->collapsed()
+                ->collapsible(),
         ];
     }
 }

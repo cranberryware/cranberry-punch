@@ -7,7 +7,6 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
-        "bensampo/laravel-enum": "^5.3",
         "dutchcodingcompany/filament-socialite": "^0.2.2",
         "filament/filament": "^2.0",
         "filament/spatie-laravel-settings-plugin": "^2.0",
