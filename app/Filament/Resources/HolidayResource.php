@@ -5,16 +5,20 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\HolidayResource\Pages;
 use App\Filament\Resources\HolidayResource\RelationManagers;
 use App\Models\Holiday;
+use App\Settings\AttendanceSettings;
 use Carbon\Carbon;
 use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Spatie\LaravelSettings\Settings;
 
 class HolidayResource extends Resource
 {
@@ -52,11 +56,9 @@ class HolidayResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('holiday_type')
-                    ->options([
-                        'national' => 'National',
-                        'regional' => 'Regional',
-                        'week off' => 'Week Off',
-                    ])
+                    ->options(function(AttendanceSettings $settings){
+                        return $settings->holiday_types;
+                    })
                     ->required(),
                 Forms\Components\Toggle::make('is_confirmed')
                     ->label('Holiday Comfirmation Status'),
@@ -80,6 +82,11 @@ class HolidayResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
+                Action::make('check')
+                ->label('dd')
+                ->action(function(AttendanceSettings $settings){
+                    dd($settings->holiday_types);
+                }),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
