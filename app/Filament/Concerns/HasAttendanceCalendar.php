@@ -22,12 +22,12 @@ use Illuminate\View\ComponentAttributeBag;
 trait HasAttendanceCalendar
 {
     use HasExtraAttributes;
-    
+
     protected ?string $defaultSortDirection = "asc";
 
     protected function getTable(): Table
     {
-        self::extraAttributes(['class'=>'oa-attendance-calendar-tabla']);
+        // self::extraAttributes(['class'=>'oa-attendance-calendar-tabla']);
         $table = parent::getTable();
         return $table;
     }
@@ -294,19 +294,18 @@ trait HasAttendanceCalendar
     }
     public function getView(): string
     {
-        if (! isset(parent::$view)) {
+        if (! isset(self::$view)) {
             throw new Exception('Class [' . static::class . '] extends [' . ViewComponent::class . '] but does not have a [$view] property defined.');
         }
 
-        return parent::$view;
+        return self::$view;
     }
     public function render(): View
     {
         return view(
             $this->getView(),
             array_merge(
-                ['xattributes'=>new ComponentAttributeBag(['class'=>'oa-attendanced-calendar']),
-                'newAttributes'=>['class'=>'oa-tabla-only'] ]
+                ['xattributes'=>new ComponentAttributeBag(['class'=>'oa-attendance-calendar-table']),]
             )
             );
     }
