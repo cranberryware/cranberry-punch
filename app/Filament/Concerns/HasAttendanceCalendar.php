@@ -7,20 +7,27 @@ use App\Models\Employee;
 use App\Settings\AttendanceSettings;
 use Carbon\Carbon;
 use Closure;
+use Exception;
 use Filament\Forms\Components\Select;
+use Filament\Support\Concerns\HasExtraAttributes;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\ComponentAttributeBag;
 
 trait HasAttendanceCalendar
 {
+    use HasExtraAttributes;
+
     protected ?string $defaultSortDirection = "asc";
 
     protected function getTable(): Table
     {
+        // self::extraAttributes(['class'=>'oa-attendance-calendar-tabla']);
         $table = parent::getTable();
         return $table;
     }
@@ -295,4 +302,23 @@ trait HasAttendanceCalendar
     {
         return [25, 50, 100, 150];
     }
+    public function getView(): string
+    {
+        if (! isset(self::$view)) {
+            throw new Exception('Class [' . static::class . '] extends [' . ViewComponent::class . '] but does not have a [$view] property defined.');
+        }
+
+        return self::$view;
+    }
+    public function render(): View
+    {
+        return view(
+            $this->getView(),
+            array_merge(
+                ['xattributes'=>new ComponentAttributeBag(['class'=>'oa-attendance-calendar-table']),]
+            )
+            );
+    }
+
+    
 }
