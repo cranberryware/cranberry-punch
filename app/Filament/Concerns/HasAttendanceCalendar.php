@@ -17,17 +17,23 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View as FacadesView;
 use Illuminate\View\ComponentAttributeBag;
+use ReflectionClass;
 
 trait HasAttendanceCalendar
 {
-    use HasExtraAttributes;
-
     protected ?string $defaultSortDirection = "asc";
+
+    protected $xat;
+
+    public function __construct()
+    {
+        $this->xat=new ComponentAttributeBag(['class'=>'oa-attendance-calendar-table']);
+    }
 
     protected function getTable(): Table
     {
-        // self::extraAttributes(['class'=>'oa-attendance-calendar-tabla']);
         $table = parent::getTable();
         return $table;
     }
@@ -177,17 +183,17 @@ trait HasAttendanceCalendar
 
                     $classes .= " day-" . strtolower($cell_value_date->format('l'));
 
-                    if($cell_value_date->format('D') == "Sun" || $cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
+                    if ($cell_value_date->format('D') == "Sun" || $cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
                         $classes .= " bg-primary-500 text-white";
                     }
 
-                    if($cell_value_date->gt(today())) {
+                    if ($cell_value_date->gt(today())) {
                         return [
                             'class' => "{$classes} bg-primary-200"
                         ];
                     }
 
-                    if($cell_value_date->eq(today())) {
+                    if ($cell_value_date->eq(today())) {
                         return [
                             'class' => "{$classes} bg-primary-200 animate-pulse"
                         ];
@@ -230,15 +236,15 @@ trait HasAttendanceCalendar
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
 
-                    if($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
+                    if ($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
                         return '';
                     }
 
-                    if($cell_value_date->eq(today())) {
+                    if ($cell_value_date->eq(today())) {
                         return $cell_value;
                     }
 
-                    if($cell_value_date->format('D') == "Sun" || $cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
+                    if ($cell_value_date->format('D') == "Sun" || $cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
                         return $cell_value_date->format('D');
                     }
 
@@ -261,7 +267,7 @@ trait HasAttendanceCalendar
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
 
-                    if($cell_value_date->gte(today()) || $cell_value === null || $cell_value === "") {
+                    if ($cell_value_date->gte(today()) || $cell_value === null || $cell_value === "") {
                         return '';
                     }
 
@@ -292,23 +298,4 @@ trait HasAttendanceCalendar
     {
         return [25, 50, 100, 150];
     }
-    public function getView(): string
-    {
-        if (! isset(self::$view)) {
-            throw new Exception('Class [' . static::class . '] extends [' . ViewComponent::class . '] but does not have a [$view] property defined.');
-        }
-
-        return self::$view;
-    }
-    public function render(): View
-    {
-        return view(
-            $this->getView(),
-            array_merge(
-                ['xattributes'=>new ComponentAttributeBag(['class'=>'oa-attendance-calendar-table']),]
-            )
-            );
-    }
-
-    
 }
