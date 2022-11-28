@@ -242,9 +242,6 @@ trait HasAttendanceCalendar
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
 
-<<<<<<< HEAD
-                    if ($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
-=======
 
                     foreach($weekly_day_offs as $weekly_day_off) {
                         $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
@@ -254,7 +251,6 @@ trait HasAttendanceCalendar
                     }
 
                     if($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
->>>>>>> c1504dcf33b15ed04d669385acb96c63edf8d8b7
                         return '';
                     }
 
@@ -262,13 +258,6 @@ trait HasAttendanceCalendar
                         return $cell_value;
                     }
 
-<<<<<<< HEAD
-                    if ($cell_value_date->format('D') == "Sun" || $cell_value_date->eq(Carbon::parse("second saturday of {$cell_value_month}")) || $cell_value_date->eq(Carbon::parse("fourth saturday of {$cell_value_month}"))) {
-                        return $cell_value_date->format('D');
-                    }
-
-=======
->>>>>>> c1504dcf33b15ed04d669385acb96c63edf8d8b7
                     if (floatval($cell_value) < floatval($first_max_value['max_value'])) {
                         return '-';
                     }
