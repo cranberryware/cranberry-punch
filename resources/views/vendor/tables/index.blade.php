@@ -1,7 +1,7 @@
 @php
     use Filament\Tables\Actions\Position as ActionsPosition;
     use Filament\Tables\Filters\Layout as FiltersLayout;
-
+    
     $actions = $getActions();
     $actionsPosition = $getActionsPosition();
     $actionsColumnLabel = $getActionsColumnLabel();
@@ -592,7 +592,7 @@
                     @endif
                 @endif
             @else
-                <x-tables::table :attributes="$this->xat??$xat">
+                <x-tables::table :attributes="$attributes">
                     <x-slot name="header">
                         @if ($isReordering)
                             <th></th>
