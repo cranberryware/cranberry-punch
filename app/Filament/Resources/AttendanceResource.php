@@ -63,12 +63,36 @@ class AttendanceResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $resource_slug = self::getSlug();
+        $dynamic_columns = [
+            "employee.full_name" => strval(__('open-attendance::open-attendance.table.attendance.employee.full_name')),
+            "employee.employee_code" => strval(__('open-attendance::open-attendance.table.attendance.employee.employee_code'))
+        ];
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('employee.employee_code_with_full_name')
                     ->label(strval(__('open-attendance::open-attendance.table.attendance.employee-name-with-code')))
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('employee.full_name')
+                    ->label(strval(__('open-attendance::open-attendance.table.attendance.employee.full_name')))
+                    ->searchable()
+                    ->hidden(function () use ($resource_slug) {
+                        $column_hidden = request()->session()->get("{$resource_slug}::columns_hidden::employee.full_name");
+                        $column_hidden = is_null($column_hidden) ? true : $column_hidden;
+                        return $column_hidden;
+                    })
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('employee.employee_code')
+                    ->label(strval(__('open-attendance::open-attendance.table.attendance.employee.employee_code')))
+                    ->searchable()
+                    ->hidden(function () use ($resource_slug) {
+                        $column_hidden = request()->session()->get("{$resource_slug}::columns_hidden::employee.employee_code");
+                        $column_hidden = is_null($column_hidden) ? true : $column_hidden;
+                        return $column_hidden;
+                    })
+                    ->sortable(),
                 Tables\Columns\ViewColumn::make('check_in')
                     ->view('filament.tables.columns.attendance.clock-column')
                     ->label(strval(__('open-attendance::open-attendance.table.attendance.check-in')))
@@ -98,6 +122,43 @@ class AttendanceResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
                 Tables\Actions\ForceDeleteBulkAction::make(),
                 Tables\Actions\RestoreBulkAction::make(),
+            ])
+            ->headerActions([
+                Tables\Actions\Action::make('choose-columns')
+                    ->label(strval(__('open-attendance::open-attendance.table.attendance.choose-columns')))
+                    ->icon('heroicon-o-table')
+                    ->form(function () use ($dynamic_columns, $resource_slug) {
+                        return [
+                            \Filament\Forms\Components\CheckboxList::make('chosen_table_columns')
+                                ->label(strval(__('open-attendance::open-attendance.table.attendance.choose-columns')))
+                                ->options($dynamic_columns)
+                                ->default(function () use ($dynamic_columns, $resource_slug) {
+                                    $chosen_columns = [];
+                                    foreach ($dynamic_columns as $column_key => $column_value) {
+                                        $sess_key = "{$resource_slug}::columns_hidden::{$column_key}";
+                                        if(request()->session()->get($sess_key) === false) {
+                                            $chosen_columns[] = $column_key;
+                                        }
+                                    }
+                                    return $chosen_columns;
+                                }),
+                        ];
+                    })
+                    ->action(function (array $data) use ($resource_slug, $dynamic_columns): void {
+                        $chosen_table_columns = $data['chosen_table_columns'];
+                        foreach ($dynamic_columns as $column_key => $column_value) {
+                            $sess_key = "{$resource_slug}::columns_hidden::{$column_key}";
+                            if (in_array($column_key, $chosen_table_columns)) {
+                                request()->session()->put($sess_key, false);
+                            } else {
+                                request()->session()->put($sess_key, true);
+                            }
+                        }
+                        request()->session()->save();
+                    })
+                    ->visible(function () {
+                        return (auth()->user()->hasRole(['hr-manager', 'super-admin']));
+                    }),
             ]);
     }
 
