@@ -25,13 +25,6 @@ trait HasAttendanceCalendar
 {
     protected ?string $defaultSortDirection = "asc";
 
-    protected $xat;
-
-    public function __construct()
-    {
-        $this->xat=new ComponentAttributeBag(['class'=>'oa-attendance-calendar-table']);
-    }
-
     protected function getTable(): Table
     {
         $table = parent::getTable();
@@ -307,5 +300,11 @@ trait HasAttendanceCalendar
     protected function getTableRecordsPerPageSelectOptions(): array
     {
         return [25, 50, 100, 150];
+    }
+
+    public function render(): View
+    {
+        return $this->table->render()->with('attributes',new ComponentAttributeBag(['class'=>'oa-attendance-calendar-table']));
+        # code...
     }
 }
