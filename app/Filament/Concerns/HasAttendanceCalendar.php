@@ -28,19 +28,12 @@ trait HasAttendanceCalendar
 {
     protected ?string $defaultSortDirection = "asc";
 
-    public $hasAttendanceCalendar;
+    public $hasAttendanceCalendar='';
 
     protected function getTable(): Table
     {
         $table = parent::getTable();
         return $table;
-    }
-
-    public function mount(): void
-    {
-
-        $this->hasAttendanceCalendar='blank';
-
     }
 
     private function getMonthDates($month_selected): array

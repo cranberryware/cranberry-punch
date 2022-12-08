@@ -38,7 +38,6 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('tables::components.table',function($view){
             if(isset($view->gatherData()['_instance']->hasAttendanceCalendar)){
-
                 $view->with('attributes',new ComponentAttributeBag(['class'=>'oa-attendance-calendar-table']));
             }
         });
