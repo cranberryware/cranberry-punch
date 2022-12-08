@@ -11,24 +11,36 @@ use Exception;
 use Filament\Forms\Components\Select;
 use Filament\Support\Concerns\HasExtraAttributes;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View as FacadesView;
 use Illuminate\View\ComponentAttributeBag;
+use Livewire\Livewire;
 use ReflectionClass;
 
 trait HasAttendanceCalendar
 {
     protected ?string $defaultSortDirection = "asc";
 
+    public $addClass;
+
     protected function getTable(): Table
     {
         $table = parent::getTable();
         return $table;
+    }
+
+    public function mount(): void
+    {
+
+        $this->addClass='blank';
+
     }
 
     private function getMonthDates($month_selected): array
@@ -160,6 +172,9 @@ trait HasAttendanceCalendar
             $date = explode("-", $month_date);
             $date = end($date);
             $columns[] = TextColumn::make("{$date}")
+                // ->extraHeaderAttributes(function( $livewire){
+                //     // dd($livewire);
+                // })
                 ->extraAttributes(function (Model $record) use ($date) {
                     $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
                     $weekly_day_offs = app(AttendanceSettings::class)->weekly_day_offs;
@@ -178,9 +193,9 @@ trait HasAttendanceCalendar
 
                     $classes .= " day-" . strtolower($cell_value_date->format('l'));
 
-                    foreach($weekly_day_offs as $weekly_day_off) {
+                    foreach ($weekly_day_offs as $weekly_day_off) {
                         $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
-                        if($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
+                        if ($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
                             $classes .= " bg-primary-500 text-white";
                         }
                     }
@@ -236,14 +251,14 @@ trait HasAttendanceCalendar
                     $cell_value_month = $cell_value_date->format('Y-m');
 
 
-                    foreach($weekly_day_offs as $weekly_day_off) {
+                    foreach ($weekly_day_offs as $weekly_day_off) {
                         $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
-                        if($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
+                        if ($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
                             return $cell_value_date->format('D');
                         }
                     }
 
-                    if($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
+                    if ($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
                         return '';
                     }
 
@@ -300,11 +315,5 @@ trait HasAttendanceCalendar
     protected function getTableRecordsPerPageSelectOptions(): array
     {
         return [25, 50, 100, 150];
-    }
-
-    public function render(): View
-    {
-        return $this->table->render()->with('attributes',new ComponentAttributeBag(['class'=>'oa-attendance-calendar-table']));
-        # code...
     }
 }

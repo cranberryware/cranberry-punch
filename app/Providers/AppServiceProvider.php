@@ -15,6 +15,7 @@ use Laravel\Socialite\Contracts\User as SocialiteUserContract;
 use DutchCodingCompany\FilamentSocialite\Facades\FilamentSocialite as FilamentSocialiteFacade;
 use DutchCodingCompany\FilamentSocialite\FilamentSocialite;
 use Illuminate\Support\Facades\URL;
+use Illuminate\View\ComponentAttributeBag;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        view()->composer('tables::components.table',function($view){
+            if(isset($view->gatherData()['_instance']->addClass)){
+
+                $view->with('attributes',new ComponentAttributeBag(['class'=>'oa-attendance-calendar-table']));
+            }
+        });
         if (in_array(config('app.env'), ['local', 'dev', 'development'])) {
             DB::listen(function ($query) {
                 Log::info(
