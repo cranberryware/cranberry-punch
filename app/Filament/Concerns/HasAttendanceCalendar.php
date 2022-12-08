@@ -28,7 +28,7 @@ trait HasAttendanceCalendar
 {
     protected ?string $defaultSortDirection = "asc";
 
-    public $addClass;
+    public $hasAttendanceCalendar;
 
     protected function getTable(): Table
     {
@@ -39,7 +39,7 @@ trait HasAttendanceCalendar
     public function mount(): void
     {
 
-        $this->addClass='blank';
+        $this->hasAttendanceCalendar='blank';
 
     }
 
