@@ -37,10 +37,17 @@
 }
 
 .cp-topbar-main {
-    width: 100vw;
-    // width: 100%;
+    width: 75vw !important;
     float: right;
     box-sizing: border-box;
+    flex-grow: calc(75vw - 20px);
+}
+@media (min-width:1024px) and (max-width:1840px){
+    .cp-topbar-main {
+        width: 70vw !important;
+        float: right;
+        box-sizing: border-box;
+    }
 }
 .login {
     align-self: center;

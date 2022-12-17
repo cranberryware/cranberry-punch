@@ -6,7 +6,7 @@
         {!! file_get_contents('images/cp_logo_sm.svg') !!}
        </div> 
     <header {{ $attributes->class([
-        'filament-main-topbar sticky top-0 z-10 flex max-w-6xl shrink-0 items-center border-b mr-6 bg-white',
+        'filament-main-topbar sticky top-0 z-10 flex min-w-max shrink-0 items-center border-b mr-6 bg-white',
         'dark:bg-gray-800 dark:border-gray-700' => config('filament.dark_mode'),
     ]) }}>
        @if (config('filament.layout.sidebar.is_collapsible_on_desktop'))
