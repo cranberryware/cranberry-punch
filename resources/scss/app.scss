@@ -1,5 +1,9 @@
 @import "../../vendor/filament/filament/resources/css/app.css";
 
+* {
+    font-family: "Nunito", sans-serif;
+}
+
 .oa-attendance-clock-widget {
     .filament-tables-container {
         > .filament-tables-table-container
@@ -37,4 +41,53 @@
     // width: 100%;
     float: right;
     box-sizing: border-box;
+}
+.login {
+    align-self: center;
+}
+
+.login .filament-forms-text-input-component input {
+    @apply rounded-3xl;
+}
+
+.login .filament-button {
+    @apply rounded-full bg-themePrimary hover:bg-themePrimaryDark relative right-[25px] min-w-[30%];
+}
+
+#email {
+    @apply w-full p-[15px];
+}
+
+.password {
+    @apply transition duration-75 rounded-lg  disabled:opacity-70 max-w-full;
+}
+
+.login .filament-forms-text-input-component {
+    @apply contents;
+}
+
+#password {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    @apply min-w-[77%] bg-white p-[15px];
+}
+
+.password input:focus {
+    @apply bg-white shadow-none;
+}
+
+#email input:focus {
+    @apply bg-white shadow-none;
+}
+
+.login-button span {
+    @apply px-[9px];
+}
+
+#password:focus {
+    @apply bg-white shadow-none;
+}
+
+#email:focus {
+    @apply bg-white shadow-none;
 }

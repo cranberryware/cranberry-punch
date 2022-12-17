@@ -79,21 +79,6 @@
         'dark:text-gray-100 dark:bg-gray-900' => config('filament.dark_mode'),
     ])>
 
-{{-- This is the new logo of the website start --}}
-@guest
-<div class="h-[80px] w-full inline-flex items-center bg-[#F1F1F1]">
-    <div class="ml-[376px] flex">
-        <div class="place-items-center flex">
-            {!! file_get_contents('images/CPlogo.svg') !!}
-        </div>
-        <div class="-ml-2 mt-1">
-            {!! file_get_contents('images/cranberrypunch.svg') !!}
-        </div>
-    </div>
-    
-</div>
-@endguest
-{{-- end --}}
 
         {{ \Filament\Facades\Filament::renderHook('body.start') }}
 

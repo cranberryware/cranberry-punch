@@ -4,56 +4,73 @@
 ])
 
 <x-filament::layouts.base :title="$title">
-    <div @class([
-        'flex items-center min-h-[842px] py-12 text-gray-900 bg-white',
-        'dark:bg-gray-900 dark:text-white' => config('filament.dark_mode'),
-    ])>
+
+    @if ($title === 'Login')
         <div @class([
-            'w-screen px-6 space-y-8 md:mt-0 md:px-2 border-solid ml-80',
-            match($width) {
-                'xs' => 'max-w-xs',
-                'sm' => 'max-w-sm',
-                'md' => 'max-w-md',
-                'lg' => 'max-w-lg',
-                'xl' => 'max-w-xl',
-                '2xl' => 'max-w-2xl',
-                '3xl' => 'max-w-3xl',
-                '4xl' => 'max-w-4xl',
-                '5xl' => 'max-w-5xl',
-                '6xl' => 'max-w-6xl',
-                '7xl' => 'max-w-7xl',
-                default => $width,
-            },
+            'filament-login-page flex justify-center min-h-screen bg-themeLight text-gray-900 ',
+            'dark:bg-gray-900 dark:text-white' => config('filament.dark_mode'),
         ])>
-        <div class="flex ml-40">
-            <div class="whitespace-nowrap text-[20px] ml-2 font-[500] font-[sans-serif] text-[#565656]">
-                Sign in with
-            </div>
-            <div class="ml-4 -mt-3">
-                {!! file_get_contents('images/google.svg') !!}
-            </div>
-        </div>
-        <div class="block ml-[16rem]">
-            <div class="text-[20px] font-[500] font-[sans-serif] text-[#565656]">
-                or
-            </div>
-        </div>
+            <div @class(['w-screen -mt-16 space-y-8 md:mt-0 max-w-full'])>
+                <div @class([
+                    'h-full',
+                    'dark:bg-gray-900/50 ' => config('filament.dark_mode'),
+                ])>
 
-            <div @class([
-                'p-8 space-y-4 bg-white/50 backdrop-blur-xl rounded-2xl',
-                'dark:bg-gray-900/50 dark:border-gray-700' => config('filament.dark_mode'),
-            ])>
+                    @if (filled($title))
+                        <h2 class="text-2xl font-bold tracking-tight text-center">
+                        </h2>
+                    @endif
 
-                <div {{ $attributes }}>
-                    {{ $slot }}
+                    <div class="w-full h-full " {{ $attributes }}>
+                        {{ $slot }}
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="place-items-center flex ml-40 -mt-[12rem]">
-            <img src="/images/Vector.png" alt="hgdhsgg">
+    @else
+        <div @class([
+            'filament-login-page flex items-center justify-center min-h-screen bg-gray-100 text-gray-900 py-12',
+            'dark:bg-gray-900 dark:text-white' => config('filament.dark_mode'),
+        ])>
+            <div @class([
+                'w-screen px-6 -mt-16 space-y-8 md:mt-0 md:px-2',
+                match ($width) {
+                    'xs' => 'max-w-xs',
+                    'sm' => 'max-w-sm',
+                    'md' => 'max-w-md',
+                    'lg' => 'max-w-lg',
+                    'xl' => 'max-w-xl',
+                    '2xl' => 'max-w-2xl',
+                    '3xl' => 'max-w-3xl',
+                    '4xl' => 'max-w-4xl',
+                    '5xl' => 'max-w-5xl',
+                    '6xl' => 'max-w-6xl',
+                    '7xl' => 'max-w-7xl',
+                    default => $width,
+                },
+            ])>
+                <div @class([
+                    'p-8 space-y-4 bg-white/50 backdrop-blur-xl border border-gray-200 shadow-2xl rounded-2xl relative',
+                    'dark:bg-gray-900/50 dark:border-gray-700' => config('filament.dark_mode'),
+                ])>
+                    <div class="flex justify-center w-full">
+                        <x-filament::brand />
+                    </div>
+
+                    @if (filled($title))
+                        <h2 class="text-2xl font-bold tracking-tight text-center">
+                            {{ $title }}
+                        </h2>
+                    @endif
+
+                    <div {{ $attributes }}>
+                        {{ $slot }}
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="bg-[#059669] h-[22px] w-full"/>
-    
+    @endif
+
+
     @livewire('notifications')
 </x-filament::layouts.base>

@@ -107,6 +107,7 @@ class Employee extends Model
         $average_time_of_arrival = DB::table('attendances', 'att1')
             ->join('attendances as att2', 'att1.id', '=', 'att2.id')
             ->where('att1.employee_id', $this->id)
+            ->where(DB::raw('TIME_TO_SEC(att1.check_in)'), '<', 23400)
             ->selectRaw('DATE(att2.check_in) AS check_in_date,
                             att2.employee_id,
                             TIME_TO_SEC(DATE_FORMAT(MIN(att2.check_in),"%H:%i:%s")) AS check_in_time')
