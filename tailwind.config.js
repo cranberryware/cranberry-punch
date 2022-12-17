@@ -26,6 +26,7 @@ module.exports = {
                 themePrimaryLight: "#54B999",
                 themePrimaryExtraLight: "#B4E3D4",
                 themePrimaryWhite: "#B4E3D4",
+                themePrimaryLight_2: "#0ACF83",
                 themePrimaryDark: "#007C56",
                 themePrimaryTitle: "#ECFBF6",
                 themeLight: "#F5F5F5",

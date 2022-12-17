@@ -81,3 +81,61 @@
 #email:focus {
     @apply bg-white shadow-none;
 }
+
+.filament-sidebar-nav {
+    @apply bg-themePrimary  dark:bg-gray-800 dark:border-gray-700 dark:from-gray-800 dark:to-gray-800;
+}
+
+.filament-sidebar-nav .border-t {
+    @apply border-themePrimary;
+}
+
+.filament-sidebar-item {
+    @apply text-white;
+}
+
+.filament-sidebar-item .inline-flex {
+    @apply text-primary-50 bg-primary-700 dark:bg-gray-900 dark:text-white;
+}
+
+.filament-sidebar-group svg {
+    @apply text-white;
+}
+
+.tracking-wider {
+    @apply text-sm text-themePrimary;
+}
+
+.filament-brand {
+    @apply text-themePrimary;
+}
+
+.dashboard-nav {
+    @apply bg-themePrimaryDark rounded-r-full py-2 border-themePrimaryLight_2 border border-l-0
+}
+
+.active-nav{
+    @apply bg-themePrimaryDark rounded-r-full border-themePrimaryLight_2 border border-l-0
+}
+
+.filament-button{
+    @apply bg-themePrimary text-white
+}
+
+.filament-button:hover{
+    background-color: #007C56 !important;
+    color: white !important;
+    @apply bg-themePrimaryDark text-white
+}
+
+.filament-button:active{
+    @apply bg-themePrimaryDark text-white
+}
+
+.filament-button:focus{
+    background-color: #007C56 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    color: white !important;
+    @apply bg-themePrimaryDark ring-offset-0 ring-0 text-white
+}
