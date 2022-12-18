@@ -41,7 +41,14 @@
 }
 
 .login .filament-button {
+    background-color: #059669 !important;
     @apply rounded-full bg-themePrimary hover:bg-themePrimaryDark relative right-[25px] min-w-[30%];
+}
+
+.login .filament-button:focus{
+    outline: 0 !important;
+    box-shadow: none !important;
+    @apply bg-slate-50 ring-offset-0 ring-0 text-white
 }
 
 #email {
@@ -118,24 +125,52 @@
     @apply bg-themePrimaryDark rounded-r-full border-themePrimaryLight_2 border border-l-0
 }
 
-.filament-button{
+.filament-button.bg-primary-600{
     @apply bg-themePrimary text-white
 }
 
-.filament-button:hover{
+.filament-button.bg-primary-600:hover{
     background-color: #007C56 !important;
     color: white !important;
     @apply bg-themePrimaryDark text-white
 }
 
-.filament-button:active{
+.filament-button.bg-primary-600:active{
     @apply bg-themePrimaryDark text-white
 }
 
-.filament-button:focus{
+.filament-button.bg-primary-600 :focus{
     background-color: #007C56 !important;
     outline: 0 !important;
     box-shadow: none !important;
     color: white !important;
     @apply bg-themePrimaryDark ring-offset-0 ring-0 text-white
+}
+
+.filament-button.bg-white{
+    @apply bg-slate-50 text-black
+}
+
+.filament-button.bg-white:hover{
+    @apply bg-slate-50 text-black
+}
+
+.filament-button.bg-white:active{
+    @apply bg-slate-50 text-black
+}
+
+.filament-button.bg-white :focus{
+    outline: 0 !important;
+    box-shadow: none !important;
+    @apply bg-slate-50 ring-offset-0 ring-0 text-black
+}
+
+.filament-dropdown-list-item:hover{
+    background-color: #059669 !important;
+    @apply bg-themePrimary text-white
+}
+
+.filament-dropdown-list-item:focus{
+    background-color: #059669 !important;
+    @apply bg-themePrimary text-white
 }

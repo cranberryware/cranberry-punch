@@ -22,14 +22,11 @@
         @endif --}}
     </div>
 
-    <div @if ($heading == 'Dashboard') x-show="true"
-    @else
-        x-show="false" @endif>
+    @if ($heading == 'Dashboard')
         <x-filament::header.heading>
             Welcome, {{ \Filament\Facades\Filament::getUserName($user) }} to Cranberry Punch
         </x-filament::header.heading>
-
-    </div>
+    @endif
 
     <x-filament::pages.actions :actions="$actions" class="shrink-0" />
 </header>
