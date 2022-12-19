@@ -13,7 +13,9 @@ class ListDesignations extends ListRecords
     protected function getActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->extraAttributes([
+                'class' => 'custom-button'
+            ]),
         ];
     }
 }

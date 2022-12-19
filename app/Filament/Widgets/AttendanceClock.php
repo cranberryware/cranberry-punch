@@ -77,11 +77,6 @@ class AttendanceClock extends TableWidget
                     ? __('open-attendance::open-attendance.attendance-kiosk.button.clock-in')
                     : __('open-attendance::open-attendance.attendance-kiosk.button.clock-out');
             })
-            ->icon(function (): string {
-                return (auth()->user()->employee && auth()->user()->employee->clocked_out())
-                    ? 'heroicon-o-login'
-                    : 'heroicon-o-logout';
-            })
             ->color(function (): string {
                 return (auth()->user()->employee && auth()->user()->employee->clocked_out())
                     ? 'success'
@@ -90,7 +85,7 @@ class AttendanceClock extends TableWidget
             ->action(function () {
                 auth()->user()->employee->attendance_clock();
             })
-            ->size('lg')
+            ->size('sm')
             ->requiresConfirmation();
         return [$attendance_clock_action];
     }

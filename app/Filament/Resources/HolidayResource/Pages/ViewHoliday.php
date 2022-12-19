@@ -13,7 +13,9 @@ class ViewHoliday extends ViewRecord
     protected function getActions(): array
     {
         return [
-            Actions\EditAction::make(),
+            Actions\EditAction::make()->extraAttributes([
+                'class' => 'custom-button'
+            ]),
         ];
     }
 }

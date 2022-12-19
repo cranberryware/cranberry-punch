@@ -18,10 +18,10 @@
     .oa-attendance-clock-btn-wrap {
         flex: auto;
         justify-content: center;
-        padding: 2.38rem 2rem;
+        // padding: 2.38rem 2rem;
         .oa-attendance-clock-btn {
             flex-direction: column;
-            padding: 2rem 3rem;
+            // padding: 2rem 3rem;
             text-transform: uppercase;
             .filament-button-icon {
                 margin: 0.25rem 0;
@@ -125,21 +125,43 @@
     @apply bg-themePrimaryDark rounded-r-full border-themePrimaryLight_2 border border-l-0
 }
 
-.filament-button.bg-primary-600{
+// .filament-button.bg-primary-600{
+//     @apply bg-themePrimary text-white
+// }
+
+// .filament-button.bg-primary-600:hover{
+//     background-color: #007C56 !important;
+//     color: white !important;
+//     @apply bg-themePrimaryDark text-white
+// }
+
+// .filament-button.bg-primary-600:active{
+//     @apply bg-themePrimaryDark text-white
+// }
+
+// .filament-button.bg-primary-600 :focus{
+//     background-color: #007C56 !important;
+//     outline: 0 !important;
+//     box-shadow: none !important;
+//     color: white !important;
+//     @apply bg-themePrimaryDark ring-offset-0 ring-0 text-white
+// }
+
+.custom-button{
     @apply bg-themePrimary text-white
 }
 
-.filament-button.bg-primary-600:hover{
+.custom-button:hover{
     background-color: #007C56 !important;
     color: white !important;
     @apply bg-themePrimaryDark text-white
 }
 
-.filament-button.bg-primary-600:active{
+.custom-button:active{
     @apply bg-themePrimaryDark text-white
 }
 
-.filament-button.bg-primary-600 :focus{
+.custom-button:focus{
     background-color: #007C56 !important;
     outline: 0 !important;
     box-shadow: none !important;
@@ -173,4 +195,14 @@
 .filament-dropdown-list-item:focus{
     background-color: #059669 !important;
     @apply bg-themePrimary text-white
+}
+
+.clock-btn > button{
+    background-color: white !important;
+    box-shadow: none;
+}
+
+.clock-btn > button:focus{
+    outline: 0 !important;
+    box-shadow: none !important;
 }
