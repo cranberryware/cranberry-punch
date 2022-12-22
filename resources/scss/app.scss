@@ -16,19 +16,26 @@
         }
     }
     .oa-attendance-clock-btn-wrap {
-        flex: auto;
-        justify-content: center;
-        // padding: 2.38rem 2rem;
+        // flex: auto;
+        // justify-content: center;
         .oa-attendance-clock-btn {
-            flex-direction: column;
-            // padding: 2rem 3rem;
-            text-transform: uppercase;
+            // flex-direction: column;
+            // text-transform: uppercase;
             .filament-button-icon {
                 margin: 0.25rem 0;
-                width: auto;
-                height: 6rem;
+                // width: auto;
+                // height: 6rem;
+                @apply h-[6rem] w-auto;
             }
+            @apply uppercase flex-col;
         }
+        @apply flex-auto justify-center;
+    }
+}
+
+.attendence-calendar {
+    .filament-tables-container {
+        @apply shadow-none border-b-0;
     }
 }
 
@@ -45,10 +52,10 @@
     @apply rounded-full bg-themePrimary hover:bg-themePrimaryDark relative right-[25px] min-w-[30%];
 }
 
-.login .filament-button:focus{
+.login .filament-button:focus {
     outline: 0 !important;
     box-shadow: none !important;
-    @apply bg-slate-50 ring-offset-0 ring-0 text-white
+    @apply bg-slate-50 ring-offset-0 ring-0 text-white;
 }
 
 #email {
@@ -118,91 +125,88 @@
 }
 
 .dashboard-nav {
-    @apply bg-themePrimaryDark rounded-r-full py-2 border-themePrimaryLight_2 border border-l-0
+    @apply bg-themePrimaryDark rounded-r-full py-2 border-themePrimaryLight_2 border border-l-0;
 }
 
-.active-nav{
-    @apply bg-themePrimaryDark rounded-r-full border-themePrimaryLight_2 border border-l-0
+.active-nav {
+    @apply bg-themePrimaryDark rounded-r-full border-themePrimaryLight_2 border border-l-0;
 }
 
-// .filament-button.bg-primary-600{
-//     @apply bg-themePrimary text-white
-// }
 
-// .filament-button.bg-primary-600:hover{
-//     background-color: #007C56 !important;
-//     color: white !important;
-//     @apply bg-themePrimaryDark text-white
-// }
-
-// .filament-button.bg-primary-600:active{
-//     @apply bg-themePrimaryDark text-white
-// }
-
-// .filament-button.bg-primary-600 :focus{
-//     background-color: #007C56 !important;
-//     outline: 0 !important;
-//     box-shadow: none !important;
-//     color: white !important;
-//     @apply bg-themePrimaryDark ring-offset-0 ring-0 text-white
-// }
-
-.custom-button{
-    @apply bg-themePrimary text-white
+.custom-button {
+    @apply bg-themePrimary text-white;
 }
 
-.custom-button:hover{
-    background-color: #007C56 !important;
+.custom-button:hover {
+    background-color: #007c56 !important;
     color: white !important;
-    @apply bg-themePrimaryDark text-white
+    @apply bg-themePrimaryDark text-white;
 }
 
-.custom-button:active{
-    @apply bg-themePrimaryDark text-white
+.custom-button:active {
+    @apply bg-themePrimaryDark text-white;
 }
 
-.custom-button:focus{
-    background-color: #007C56 !important;
+.custom-button:focus {
+    background-color: #007c56 !important;
     outline: 0 !important;
     box-shadow: none !important;
     color: white !important;
-    @apply bg-themePrimaryDark ring-offset-0 ring-0 text-white
+    @apply bg-themePrimaryDark ring-offset-0 ring-0 text-white;
 }
 
-.filament-button.bg-white{
-    @apply bg-slate-50 text-black
+.filament-button.bg-white {
+    @apply bg-slate-50 text-black;
 }
 
-.filament-button.bg-white:hover{
-    @apply bg-slate-50 text-black
+.filament-button.bg-white:hover {
+    @apply bg-slate-50 text-black;
 }
 
-.filament-button.bg-white:active{
-    @apply bg-slate-50 text-black
+.filament-button.bg-white:active {
+    @apply bg-slate-50 text-black;
 }
 
-.filament-button.bg-white :focus{
+.filament-button.bg-white :focus {
     outline: 0 !important;
     box-shadow: none !important;
-    @apply bg-slate-50 ring-offset-0 ring-0 text-black
+    @apply bg-slate-50 ring-offset-0 ring-0 text-black;
 }
 
-.filament-dropdown-list-item:hover{
+.filament-dropdown-list-item:hover {
     background-color: #059669 !important;
-    @apply bg-themePrimary text-white
+    @apply bg-themePrimary text-white;
 }
 
-.filament-dropdown-list-item:focus{
+.filament-dropdown-list-item:focus {
     background-color: #059669 !important;
-    @apply bg-themePrimary text-white
+    @apply bg-themePrimary text-white;
 }
 
-.clock-btn > button{
+.clock-btn > button {
     background-color: white !important;
     box-shadow: none;
 }
 
-.clock-btn > button:focus{
+.clock-btn > button:focus {
     outline: 0 !important;
     box-shadow: none !important;
+}
+
+.custom-cl {
+    @apply bg-themePrimaryExtraLight;
+}
+
+.custom-cl:checked {
+    @apply bg-themePrimaryDark;
+}
+
+.custom-cl:focus {
+    background-color: #007c56 !important;
+    @apply bg-themePrimaryDark;
+}
+
+.custom-cl:hover {
+    background-color: #007c56 !important;
+    @apply bg-themePrimaryDark;
 }

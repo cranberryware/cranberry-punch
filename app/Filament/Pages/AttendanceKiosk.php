@@ -50,6 +50,14 @@ class AttendanceKiosk extends Page
         return [];
     }
 
+    protected function getHeaderWidgetsColumns(): int | array
+    {
+        if (auth()->user()->roles[0]->id == 3)
+            return 3;
+        else
+            return 2;
+    }
+
     protected function getHeaderWidgets(): array
     {
         return [

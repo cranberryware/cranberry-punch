@@ -8,6 +8,7 @@ use Filament\Pages\SettingsPage;
 use App\Settings\AttendanceSettings;
 use Closure;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Pages\Actions\Action;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TagsInput;
@@ -112,6 +113,9 @@ class ManageAttendanceSettings extends SettingsPage
             Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.weekly-day-offs'))
                 ->schema([
                     CheckboxList::make('weekly_day_offs')
+                        ->extraAttributes([
+                            'class' => 'custom-cl'
+                        ])
                         ->label(__('open-attendance::open-attendance.section.open-attendance.input.weekly-day-offs'))
                         ->options(function () {
                             $days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -134,5 +138,15 @@ class ManageAttendanceSettings extends SettingsPage
                         ->required(),
                 ])->collapsible(),
         ];
+    }
+
+    protected function getSaveFormAction(): Action
+    {
+        return Action::make('save')
+            ->label(__('filament-spatie-laravel-settings-plugin::pages/settings-page.form.actions.save.label'))
+            ->submit('save')
+            ->keyBindings(['mod+s'])->extraAttributes([
+                'class' => 'custom-button'
+            ]);
     }
 }
