@@ -168,7 +168,7 @@ trait HasAttendanceCalendar
 
                     $cell_value_month = $cell_value_date->format('Y-m');
 
-                    $classes = 'text-sm w-16';
+                    $classes = 'text-xs  rounded-full h-12 w-12 attendance-calender-item';
 
                     $classes .= " day-" . strtolower($cell_value_date->format('l'));
 
@@ -208,7 +208,7 @@ trait HasAttendanceCalendar
                             $text_color_class = ($bg_color_class_darkness > 400) ? 'text-white' : 'text-black';
                             $extra_css_classes = isset($calendar_cell_color['extra_css_classes']) && is_array($calendar_cell_color['extra_css_classes']) ? join(" ", $calendar_cell_color['extra_css_classes']) : "";
                             return [
-                                'class' => "{$classes} {$bg_color_class} {$text_color_class} {$extra_css_classes}"
+                                'class' => "{$classes} {$bg_color_class} {$text_color_class} {$extra_css_classes} rounded-full "
                             ];
                         }
                     }
