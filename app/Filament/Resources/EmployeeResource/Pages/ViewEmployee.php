@@ -13,9 +13,7 @@ class ViewEmployee extends ViewRecord
     protected function getActions(): array
     {
         return [
-            Actions\EditAction::make()->extraAttributes([
-                'class' => 'custom-button'
-            ]),
+            Actions\EditAction::make(),
         ];
     }
 }

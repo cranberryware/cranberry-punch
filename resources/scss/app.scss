@@ -11,20 +11,22 @@
             > thead {
             display: none;
         }
+        > .filament-tables-table-container
+            > table.filament-tables-table
+            > tbody
+            > tr:hover {
+            background-color: white !important;
+            @apply rounded-full
+        }
         > .filament-tables-pagination-container {
             display: none;
         }
     }
+
     .oa-attendance-clock-btn-wrap {
-        // flex: auto;
-        // justify-content: center;
         .oa-attendance-clock-btn {
-            // flex-direction: column;
-            // text-transform: uppercase;
             .filament-button-icon {
                 margin: 0.25rem 0;
-                // width: auto;
-                // height: 6rem;
                 @apply h-[6rem] w-auto;
             }
             @apply uppercase flex-col;
@@ -132,7 +134,6 @@
     @apply bg-themePrimaryDark rounded-r-full border-themePrimaryLight_2 border border-l-0;
 }
 
-
 .custom-button {
     @apply bg-themePrimary text-white;
 }
@@ -211,81 +212,66 @@
     @apply bg-themePrimaryDark;
 }
 
-
-.attendance-calender-item{
+.attendance-calender-item {
     padding: 0px !important;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.filament-button.bg-primary-600{
-    @apply bg-themePrimary text-white
+.filament-button.bg-primary-600 {
+    @apply bg-themePrimary text-white;
 }
 
-.filament-button.bg-primary-600:hover{
-    background-color: #007C56 !important;
+.filament-button.bg-primary-600:hover {
+    background-color: #007c56 !important;
     color: white !important;
-    @apply bg-themePrimaryDark text-white
+    @apply bg-themePrimaryDark text-white;
 }
 
-.filament-button.bg-primary-600:active{
-    @apply bg-themePrimaryDark text-white
+.filament-button.bg-primary-600:active {
+    @apply bg-themePrimaryDark text-white;
 }
 
-.filament-button.bg-primary-600 :focus{
-    background-color: #007C56 !important;
+.filament-button.bg-primary-600 :focus {
+    background-color: #007c56 !important;
     outline: 0 !important;
     box-shadow: none !important;
     color: white !important;
-    @apply bg-themePrimaryDark ring-offset-0 ring-0 text-white
+    @apply bg-themePrimaryDark ring-offset-0 ring-0 text-white;
 }
 
-
-// .oa-attendance-calendar-widget{
-//     .filament-tables-component{
-//         .filament-tables-container{
-//             border-color: #19f3ae;
-//         }
-//     }
-// }
-
-// .filament-widgets-table-widget{
-//     .filament-tables-component{
-//         .filament-tables-container{
-//             border-color: #19f3ae;
-//         }
-//     }
-// }
-
-.filament-tables-component{
-    .filament-tables-container{
-        border-color: #B5E2D4;
+.filament-tables-component {
+    .filament-tables-container {
+        border-color: #b5e2d4;
     }
 }
 
-.filament-tables-table-container{
-    @apply border-themeLightBorder
+.filament-tables-table-container {
+    @apply border-themeLightBorder;
 }
 
-.filament-tables-pagination-container{
-    @apply border-themeLightBorder
+.filament-tables-pagination-container {
+    @apply border-themeLightBorder;
 }
 
-.filament-tables-row{
-    @apply border-themeLightBorder
+.filament-tables-row {
+    @apply border-themeLightBorder;
 }
 
-.filament-tables-row:hover{
+.filament-tables-row:hover {
     background-color: #f0fffa !important;
-    @apply bg-themeLightBorder
+    @apply bg-themeLightBorder;
 }
 
-.filament-tables-table{
-    @apply border-themeLightBorder
+.filament-tables-table {
+    @apply border-themeLightBorder;
 }
 
-.filament-tables-table tbody{
-    @apply border-themeLightBorder
+.filament-tables-table tbody {
+    @apply border-themeLightBorder;
 }
 
+.attendanceClock:hover{
+    @apply transition delay-150 duration-300 ease-in-out shadow-2xl
+}

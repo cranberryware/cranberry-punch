@@ -16,10 +16,7 @@ class EditEmployee extends EditRecord
         return Action::make('save')
             ->label(__('filament::resources/pages/edit-record.form.actions.save.label'))
             ->submit('save')
-            ->keyBindings(['mod+s'])
-            ->extraAttributes([
-                'class' => 'custom-button'
-            ]);
+            ->keyBindings(['mod+s']);
     }
 
     protected function getActions(): array

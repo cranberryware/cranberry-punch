@@ -19,9 +19,6 @@ class AttendanceCalendar extends ListRecords
     {
         return [
             Actions\Action::make('attendance_list')
-                ->extraAttributes([
-                    'class' => 'custom-button'
-                ])
                 ->label(__('open-attendance::open-attendance.attendance.action.attendance_list_view'))
                 ->icon('heroicon-o-view-list')
 
@@ -29,9 +26,6 @@ class AttendanceCalendar extends ListRecords
                     return redirect()->route('filament.resources.attendances.index');
                 }),
             Actions\CreateAction::make()
-                ->extraAttributes([
-                    'class' => 'custom-button'
-                ])
                 ->label(__('open-attendance::open-attendance.attendance.action.create'))
                 ->icon('heroicon-o-plus'),
         ];

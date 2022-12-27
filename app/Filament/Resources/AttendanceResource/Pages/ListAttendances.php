@@ -17,18 +17,12 @@ class ListAttendances extends ListRecords
     {
         return [
             Actions\Action::make('attendance_calendar')
-                ->extraAttributes([
-                    'class' => 'custom-button'
-                ])
                 ->label(__('open-attendance::open-attendance.attendance.action.attendance_calendar_view'))
                 ->icon('heroicon-o-calendar')
                 ->action(function () {
                     return redirect()->route('filament.resources.attendances.attendance-calendar');
                 }),
             Actions\CreateAction::make()
-                ->extraAttributes([
-                    'class' => 'custom-button'
-                ])
                 ->label(__('open-attendance::open-attendance.attendance.action.create'))
                 ->icon('heroicon-o-plus'),
         ];
