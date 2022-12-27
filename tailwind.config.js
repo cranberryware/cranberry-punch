@@ -30,8 +30,10 @@ module.exports = {
                 themePrimaryDark: "#007C56",
                 themePrimaryTitle: "#ECFBF6",
                 themeLight: "#F5F5F5",
+                themeLightBorder:'#B5E2D4',
                 grayText: "#565656",
                 primaryGray: "#F1F1F1",
+
             },
             screens: {
                 xxs: "325px",
