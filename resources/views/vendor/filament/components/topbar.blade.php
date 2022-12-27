@@ -4,13 +4,13 @@
 
 <header
     {{ $attributes->class([
-        'filament-main-topbar sticky top-0 z-10 flex h-[6rem] w-full shrink-0 items-center mt-1 bg-white',
+        'filament-main-topbar sticky top-0 z-10 flex h-[6rem] w-full shrink-0 items-center bg-white',
         'dark:bg-gray-800 ' => config('filament.dark_mode'),
     ]) }}>
     <div x-show="(! $store.sidebar.isOpen) && @js(config('filament.layout.sidebar.collapsed_width') !== 0)">
         <img src="{{ url('assets/minIcon.svg') }}" />
     </div>
-    <div class="flex items-center w-full px-2 sm:px-4 md:px-6 lg:px-8 border rounded-full py-4 mr-6 ml-2 bg-primaryGray">
+    <div class="flex items-center w-full px-2 sm:px-4 md:px-6 lg:px-8 border rounded-full py-4 mr-6 ml-2 mt-1 bg-primaryGray">
         <button x-cloak x-data="{}"
             x-bind:aria-label="$store.sidebar.isOpen ? '{{ __('filament::layout.buttons.sidebar.collapse.label') }}' :
                 '{{ __('filament::layout.buttons.sidebar.expand.label') }}'"
