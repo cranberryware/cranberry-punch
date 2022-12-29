@@ -21,7 +21,6 @@ class AttendanceCalendar extends ListRecords
             Actions\Action::make('attendance_list')
                 ->label(__('open-attendance::open-attendance.attendance.action.attendance_list_view'))
                 ->icon('heroicon-o-view-list')
-
                 ->action(function () {
                     return redirect()->route('filament.resources.attendances.index');
                 }),

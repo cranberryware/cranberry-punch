@@ -139,14 +139,4 @@ class ManageAttendanceSettings extends SettingsPage
                 ])->collapsible(),
         ];
     }
-
-    protected function getSaveFormAction(): Action
-    {
-        return Action::make('save')
-            ->label(__('filament-spatie-laravel-settings-plugin::pages/settings-page.form.actions.save.label'))
-            ->submit('save')
-            ->keyBindings(['mod+s'])->extraAttributes([
-                'class' => 'custom-button'
-            ]);
-    }
 }
