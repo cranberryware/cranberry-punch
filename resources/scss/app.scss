@@ -261,7 +261,7 @@
 
 .filament-tables-row:hover {
     background-color: #f0fffa !important;
-    @apply bg-themeLightBorder;
+    @apply bg-themeLightBorder transition delay-75 duration-75 ease-in-out shadow-lg;
 }
 
 .filament-tables-table {
