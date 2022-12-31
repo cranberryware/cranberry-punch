@@ -27,7 +27,7 @@ return [
     |
     */
 
-    'path' => env('FILAMENT_PATH', 'oa-dashboard'),
+    'path' => env('FILAMENT_PATH', 'cp-dashboard'),
 
 
     /*

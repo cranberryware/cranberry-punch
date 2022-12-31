@@ -9,7 +9,7 @@
 @endphp
 
 
-<div class="oa-attendance-clock-btn-wrap flex flex-col gap-6 justify-items-center">
+<div class="cp-attendance-clock-btn-wrap flex flex-col gap-6 justify-items-center">
     <div class="col-span-3 text-center uppercase font-semibold">
         {{
             __("cranberry-punch::cranberry-punch.attendance-kiosk.attendance-clock.widget.subtitle", [
@@ -27,7 +27,7 @@
             component="tables::button"
             :outlined="$isOutlined()"
             :icon-position="$getIconPosition()"
-            class="filament-tables-button-action oa-attendance-clock-btn"
+            class="filament-tables-button-action cp-attendance-clock-btn"
         >
             @if ((auth()->user()->employee && auth()->user()->employee->clocked_out()))
             <img src="{{ url('assets/clockIn.svg') }}" alt="image" />

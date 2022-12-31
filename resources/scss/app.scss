@@ -4,7 +4,7 @@
     font-family: "Nunito", sans-serif;
 }
 
-.oa-attendance-clock-widget {
+.cp-attendance-clock-widget {
     .filament-tables-container {
         > .filament-tables-table-container
             > table.filament-tables-table
@@ -23,8 +23,8 @@
         }
     }
 
-    .oa-attendance-clock-btn-wrap {
-        .oa-attendance-clock-btn {
+    .cp-attendance-clock-btn-wrap {
+        .cp-attendance-clock-btn {
             .filament-button-icon {
                 margin: 0.25rem 0;
                 @apply h-[6rem] w-auto;
