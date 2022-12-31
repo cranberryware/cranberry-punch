@@ -19,6 +19,6 @@
             <img src="{{ url('assets/login_svg.svg') }}" class="xs:hidden lg:block " alt="image" />
         </div>
     </div>
-    <div class="h-[2%] bg-themePrimary"></div>
+    <div class="h-[2%] bg-green-750"></div>
 
 </div>

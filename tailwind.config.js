@@ -18,6 +18,20 @@ module.exports = {
                     800: "#00506f",
                     900: "#004665",
                 },
+                green: {
+                    150: "#ECFBF6", //themePrimaryTitle
+                    250: "#B5E2D4", //themeLightBorder
+                    350: "#B4E3D4", //themePrimaryWhite
+                    450: "#54B999", //themePrimaryLight
+                    550: "#0ACF83", //themePrimaryLight_2
+                    650: "#007C56", //themePrimaryDark
+                    750: "#059669", //themePrimary
+                },
+                gray: {
+                    20: "#F1F1F1", //themeLight
+                    30: "#F5F5F5", //primaryGray
+                    750: "#565656", //grayText
+                },
                 danger: colors.red,
                 primary: colors.slate,
                 success: colors.emerald,
@@ -30,10 +44,9 @@ module.exports = {
                 themePrimaryDark: "#007C56",
                 themePrimaryTitle: "#ECFBF6",
                 themeLight: "#F5F5F5",
-                themeLightBorder:'#B5E2D4',
+                themeLightBorder: "#B5E2D4",
                 grayText: "#565656",
                 primaryGray: "#F1F1F1",
-
             },
             screens: {
                 xxs: "325px",
