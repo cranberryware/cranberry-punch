@@ -275,3 +275,7 @@
 .attendanceClock:hover{
     @apply transition delay-150 duration-300 ease-in-out shadow-2xl
 }
+
+.btn-cmn:hover{
+    background-color: green !important;
+}

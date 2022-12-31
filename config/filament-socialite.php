@@ -18,9 +18,8 @@ return [
             'label' => 'Login using NetTantra Account',
             'icon' => 'fab-google',
             'iconColor' => 'white',
-            'iconBackgroundColor' => 'success',
-            'iconPosition' => 'after', //before
-            'color' => 'gray',
+            'iconBackgroundColor' => 'success-600',
+            'color' => 'gray-600',
             // 'backgroundColor' => 'primary',
         ],
     ],
