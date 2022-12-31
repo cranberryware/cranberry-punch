@@ -10,13 +10,13 @@
 ])
 
 <li @class([
-    'filament-sidebar-item overflow-hidden ',
+    'filament-sidebar-item overflow-hidden w-full',
     'pl-6' => $label == 'Dashboard',
     'pl-8 border border-l-0 border-green-750' => $label != 'Dashboard',
     'filament-sidebar-item-active ' => $active,
     'text-white active-nav' => $active && $label != 'Dashboard',
     'hover:bg-green-650 hover:rounded-r-full hover:green-450 hover:border hover:border-l-0
-        focus:bg-green-650 focus:rounded-r-full focus:green-450 focus:border focus:border-l-0' =>
+        focus:bg-green-650 focus:rounded-r-full focus:green-450 focus:border focus:border-l-0  helo-ps' =>
         !$active && $label != 'Dashboard',
 ]) @if (config('filament.layout.sidebar.is_collapsible_on_desktop'))
     x-bind:class="$store.sidebar.isOpen ? '' : 'pl-0'"

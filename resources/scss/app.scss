@@ -16,7 +16,7 @@
             > tbody
             > tr:hover {
             background-color: white !important;
-            @apply rounded-full
+            @apply rounded-full;
         }
         > .filament-tables-pagination-container {
             display: none;
@@ -272,10 +272,28 @@
     @apply border-green-250;
 }
 
-.attendanceClock:hover{
-    @apply transition delay-150 duration-300 ease-in-out shadow-2xl
+.attendanceClock:hover {
+    @apply transition delay-150 duration-300 ease-in-out shadow-2xl;
 }
 
-.btn-cmn:hover{
+.btn-cmn:hover {
     background-color: green !important;
+}
+.helo-ps {
+    --clr: #fff;
+    --outline: 2px solid #54b999;
+    color: var(--clr);
+
+    transition: outline-width 200ms ease, outline-offset 200ms ease;
+}
+
+.helo-ps:hover,
+.helo-ps:focus {
+    // outline: var(--outline);
+    border: var(--outline);
+    // outline-offset: -2px;
+    outline: var(--outline);
+    outline-width: 2px;
+    outline-offset: -2px;
+    // because of normalize
 }
