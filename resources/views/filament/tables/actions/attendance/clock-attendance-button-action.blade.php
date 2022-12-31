@@ -12,7 +12,7 @@
 <div class="oa-attendance-clock-btn-wrap flex flex-col gap-6 justify-items-center">
     <div class="col-span-3 text-center uppercase font-semibold">
         {{
-            __("open-attendance::open-attendance.attendance-kiosk.attendance-clock.widget.subtitle", [
+            __("cranberry-punch::cranberry-punch.attendance-kiosk.attendance-clock.widget.subtitle", [
                 "action" => $getLabel()
             ])
         }}
@@ -37,7 +37,7 @@
         </x-tables::actions.action>
     </div>
     <div class="col-span-3 text-center">
-        {{__("open-attendance::open-attendance.attendance-kiosk.widget.average-time-of-arrival", ["current_month" => now()->format("Y-m")])}}:
+        {{__("cranberry-punch::cranberry-punch.attendance-kiosk.widget.average-time-of-arrival", ["current_month" => now()->format("Y-m")])}}:
         <div>
             <div class="inline-flex items-center justify-center space-x-1 rtl:space-x-reverse min-h-6 px-2 py-0.5 mt-2 text-lg font-medium tracking-tight rounded-xl whitespace-nowrap {{$arrival_status}}">
                 {{$getRecord()->employee->getAverageTimeOfArrival()}}

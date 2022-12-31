@@ -30,12 +30,12 @@ class DepartmentResource extends Resource
 
     protected static function getNavigationGroup(): ?string
     {
-        return strval(__('open-attendance::open-attendance.section.group-employee-management'));
+        return strval(__('cranberry-punch::cranberry-punch.section.group-employee-management'));
     }
 
     public static function getLabel(): string
     {
-        return strval(__('open-attendance::open-attendance.section.departments'));
+        return strval(__('cranberry-punch::cranberry-punch.section.departments'));
     }
 
     public static function form(Form $form): Form
@@ -44,19 +44,19 @@ class DepartmentResource extends Resource
             ->schema([
                 Card::make()->schema([
                     TextInput::make('name')
-                        ->label(strval(__('open-attendance::open-attendance.form.input.department.name')))
-                        ->placeholder(strval(__('open-attendance::open-attendance.form.input.department.name')))
+                        ->label(strval(__('cranberry-punch::cranberry-punch.form.input.department.name')))
+                        ->placeholder(strval(__('cranberry-punch::cranberry-punch.form.input.department.name')))
                         ->required(),
                     Textarea::make('description')
-                        ->label(strval(__('open-attendance::open-attendance.form.input.department.description')))
-                        ->placeholder(strval(__('open-attendance::open-attendance.form.input.department.description')))
+                        ->label(strval(__('cranberry-punch::cranberry-punch.form.input.department.description')))
+                        ->placeholder(strval(__('cranberry-punch::cranberry-punch.form.input.department.description')))
                         ->required(),
                     Select::make('parent_id')
-                        ->label(strval(__('open-attendance::open-attendance.form.input.department.parent_department')))
-                        ->placeholder(strval(__('open-attendance::open-attendance.form.input.department.parent_department')))
+                        ->label(strval(__('cranberry-punch::cranberry-punch.form.input.department.parent_department')))
+                        ->placeholder(strval(__('cranberry-punch::cranberry-punch.form.input.department.parent_department')))
                         ->relationship('parent_department', fn () => "name")
                         ->rules([
-                            new NumericallyDifferent(['data.id'], __('open-attendance::open-attendance.form.input.department.parent_department_cannot_be_same')),
+                            new NumericallyDifferent(['data.id'], __('cranberry-punch::cranberry-punch.form.input.department.parent_department_cannot_be_same')),
                         ]),
                 ])
             ]);
@@ -67,7 +67,7 @@ class DepartmentResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label(__('open-attendance::open-attendance.table.department.name'))
+                    ->label(__('cranberry-punch::cranberry-punch.table.department.name'))
                     ->sortable(),
                 TextColumn::make('description')
                     ->sortable(),

@@ -24,7 +24,7 @@ class HolidayResource extends Resource
 
     protected static function getNavigationGroup(): ?string
     {
-        return strval(__('open-attendance::open-attendance.section.group-attendance-management'));
+        return strval(__('cranberry-punch::cranberry-punch.section.group-attendance-management'));
     }
 
     public static function form(Form $form): Form
