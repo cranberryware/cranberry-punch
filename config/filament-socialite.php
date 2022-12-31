@@ -17,7 +17,11 @@ return [
         'google' => [
             'label' => 'Login using NetTantra Account',
             'icon' => 'fab-google',
-            'color' => 'danger'
+            'iconColor' => 'white',
+            'iconBackgroundColor' => 'success',
+            'iconPosition' => 'after', //before
+            'color' => 'gray',
+            // 'backgroundColor' => 'primary',
         ],
     ],
 

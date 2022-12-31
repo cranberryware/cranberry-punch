@@ -168,7 +168,7 @@ trait HasAttendanceCalendar
 
                     $cell_value_month = $cell_value_date->format('Y-m');
 
-                    $classes = 'text-xs  rounded-full h-12 w-12 attendance-calender-item';
+                    $classes = 'text-xs  rounded-full h-9 w-9 attendance-calender-item';
 
                     $classes .= " day-" . strtolower($cell_value_date->format('l'));
 
