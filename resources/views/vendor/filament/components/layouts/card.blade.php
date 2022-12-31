@@ -7,7 +7,7 @@
 
     @if ($title === 'Login')
         <div @class([
-            'filament-login-page flex justify-center min-h-screen bg-themeLight text-gray-900 ',
+            'filament-login-page flex justify-center min-h-screen bg-gray-20 text-gray-900 ',
             'dark:bg-gray-900 dark:text-white' => config('filament.dark_mode'),
         ])>
             <div @class(['w-screen -mt-16 space-y-8 md:mt-0 max-w-full'])>

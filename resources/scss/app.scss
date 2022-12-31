@@ -51,7 +51,7 @@
 
 .login .filament-button {
     background-color: #059669 !important;
-    @apply rounded-full bg-themePrimary hover:bg-themePrimaryDark relative right-[25px] min-w-[30%];
+    @apply rounded-full bg-green-750 hover:bg-green-650 relative right-[25px] min-w-[30%];
 }
 
 .login .filament-button:focus {
@@ -99,11 +99,11 @@
 }
 
 .filament-sidebar-nav {
-    @apply bg-themePrimary  dark:bg-gray-800 dark:border-gray-700 dark:from-gray-800 dark:to-gray-800;
+    @apply bg-green-750  dark:bg-gray-800 dark:border-gray-700 dark:from-gray-800 dark:to-gray-800;
 }
 
 .filament-sidebar-nav .border-t {
-    @apply border-themePrimary;
+    @apply border-green-750;
 }
 
 .filament-sidebar-item {
@@ -119,33 +119,33 @@
 }
 
 .tracking-wider {
-    @apply text-sm text-themePrimary;
+    @apply text-sm text-green-750;
 }
 
 .filament-brand {
-    @apply text-themePrimary;
+    @apply text-green-750;
 }
 
 .dashboard-nav {
-    @apply bg-themePrimaryDark rounded-r-full py-2 border-themePrimaryLight_2 border border-l-0;
+    @apply bg-green-650 rounded-r-full py-2 border-green-450 border border-l-0;
 }
 
 .active-nav {
-    @apply bg-themePrimaryDark rounded-r-full border-themePrimaryLight_2 border border-l-0;
+    @apply bg-green-650 rounded-r-full border-green-450 border border-l-0;
 }
 
 .custom-button {
-    @apply bg-themePrimary text-white;
+    @apply bg-green-750 text-white;
 }
 
 .custom-button:hover {
     background-color: #007c56 !important;
     color: white !important;
-    @apply bg-themePrimaryDark text-white;
+    @apply bg-green-650 text-white;
 }
 
 .custom-button:active {
-    @apply bg-themePrimaryDark text-white;
+    @apply bg-green-650 text-white;
 }
 
 .custom-button:focus {
@@ -153,7 +153,7 @@
     outline: 0 !important;
     box-shadow: none !important;
     color: white !important;
-    @apply bg-themePrimaryDark ring-offset-0 ring-0 text-white;
+    @apply bg-green-650 ring-offset-0 ring-0 text-white;
 }
 
 .filament-button.bg-white {
@@ -176,12 +176,12 @@
 
 .filament-dropdown-list-item:hover {
     background-color: #059669 !important;
-    @apply bg-themePrimary text-white;
+    @apply bg-green-750 text-white;
 }
 
 .filament-dropdown-list-item:focus {
     background-color: #059669 !important;
-    @apply bg-themePrimary text-white;
+    @apply bg-green-750 text-white;
 }
 
 .clock-btn > button {
@@ -195,21 +195,21 @@
 }
 
 .custom-cl {
-    @apply bg-themePrimaryExtraLight;
+    @apply bg-green-350;
 }
 
 .custom-cl:checked {
-    @apply bg-themePrimaryDark;
+    @apply bg-green-650;
 }
 
 .custom-cl:focus {
     background-color: #007c56 !important;
-    @apply bg-themePrimaryDark;
+    @apply bg-green-650;
 }
 
 .custom-cl:hover {
     background-color: #007c56 !important;
-    @apply bg-themePrimaryDark;
+    @apply bg-green-650;
 }
 
 .attendance-calender-item {
@@ -220,17 +220,17 @@
 }
 
 .filament-button.bg-primary-600 {
-    @apply bg-themePrimary text-white;
+    @apply bg-green-750 text-white;
 }
 
 .filament-button.bg-primary-600:hover {
     background-color: #007c56 !important;
     color: white !important;
-    @apply bg-themePrimaryDark text-white;
+    @apply bg-green-650 text-white;
 }
 
 .filament-button.bg-primary-600:active {
-    @apply bg-themePrimaryDark text-white;
+    @apply bg-green-650 text-white;
 }
 
 .filament-button.bg-primary-600 :focus {
@@ -238,7 +238,7 @@
     outline: 0 !important;
     box-shadow: none !important;
     color: white !important;
-    @apply bg-themePrimaryDark ring-offset-0 ring-0 text-white;
+    @apply bg-green-650 ring-offset-0 ring-0 text-white;
 }
 
 .filament-tables-component {
@@ -248,28 +248,28 @@
 }
 
 .filament-tables-table-container {
-    @apply border-themeLightBorder;
+    @apply border-green-250;
 }
 
 .filament-tables-pagination-container {
-    @apply border-themeLightBorder;
+    @apply border-green-250;
 }
 
 .filament-tables-row {
-    @apply border-themeLightBorder;
+    @apply border-green-250;
 }
 
 .filament-tables-row:hover {
     background-color: #f0fffa !important;
-    @apply bg-themeLightBorder transition delay-75 duration-75 ease-in-out shadow-lg;
+    @apply bg-green-250 transition delay-75 duration-75 ease-in-out shadow-lg;
 }
 
 .filament-tables-table {
-    @apply border-themeLightBorder;
+    @apply border-green-250;
 }
 
 .filament-tables-table tbody {
-    @apply border-themeLightBorder;
+    @apply border-green-250;
 }
 
 .attendanceClock:hover{

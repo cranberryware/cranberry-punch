@@ -17,7 +17,7 @@
             ])
         }}
     </div>
-    <div class="col-start-2 clock-btn border-b border-themePrimaryWhite pb-3 text-center {{
+    <div class="col-start-2 clock-btn border-b border-green-350 pb-3 text-center {{
         (auth()->user()->employee && auth()->user()->employee->clocked_out())
                             ? ''
                             : 'animate-pulse'

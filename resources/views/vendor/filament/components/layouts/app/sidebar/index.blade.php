@@ -12,11 +12,11 @@
         'dark:bg-gray-800 dark:border-gray-700' => config('filament.dark_mode'),
     ])>
     <header @class([
-        'filament-sidebar-header h-[6rem] shrink-0 flex items-center bg-themePrimary ',
+        'filament-sidebar-header h-[6rem] shrink-0 flex items-center bg-green-750 ',
         '' => config('filament.dark_mode'),
     ])>
         <div @class([
-            'flex items-center justify-center px-6 mt-2 w-full bg-gradient-to-r from-themePrimaryDark',
+            'flex items-center justify-center px-6 mt-2 w-full bg-gradient-to-r from-green-650',
             'lg:px-3' =>
                 config('filament.layout.sidebar.is_collapsible_on_desktop') &&
                 config('filament.layout.sidebar.collapsed_width') !== 0,
@@ -47,7 +47,7 @@
 
         @if (config('filament.layout.sidebar.is_collapsible_on_desktop'))
             <div @class([
-                'border-y flex border-r rounded-r-full bg-themePrimaryDark border-themePrimaryDark w-full mr-3 py-4 justify-center' => config(
+                'border-y flex border-r rounded-r-full bg-green-650 border-green-650 w-full mr-3 py-4 justify-center' => config(
                     'filament.layout.sidebar.is_collapsible_on_desktop'
                 ),
             ]) x-show="(! $store.sidebar.isOpen) && @js(config('filament.layout.sidebar.collapsed_width') !== 0)">

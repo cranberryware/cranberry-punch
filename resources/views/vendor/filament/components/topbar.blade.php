@@ -10,7 +10,7 @@
     <div x-show="(! $store.sidebar.isOpen) && @js(config('filament.layout.sidebar.collapsed_width') !== 0)">
         <img src="{{ url('assets/minIcon.svg') }}" />
     </div>
-    <div class="flex items-center w-full px-2 sm:px-4 md:px-6 lg:px-8 border rounded-full py-4 mr-6 ml-2 mt-1 bg-primaryGray">
+    <div class="flex items-center w-full px-2 sm:px-4 md:px-6 lg:px-8 border rounded-full py-4 mr-6 ml-2 mt-1 bg-gray-30">
         <button x-cloak x-data="{}"
             x-bind:aria-label="$store.sidebar.isOpen ? '{{ __('filament::layout.buttons.sidebar.collapse.label') }}' :
                 '{{ __('filament::layout.buttons.sidebar.expand.label') }}'"
