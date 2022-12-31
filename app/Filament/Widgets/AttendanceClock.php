@@ -74,8 +74,8 @@ class AttendanceClock extends TableWidget
             ->view('filament.tables.actions.attendance.clock-attendance-button-action')
             ->label(function (): string {
                 return (auth()->user()->employee && auth()->user()->employee->clocked_out())
-                    ? __('open-attendance::open-attendance.attendance-kiosk.button.clock-in')
-                    : __('open-attendance::open-attendance.attendance-kiosk.button.clock-out');
+                    ? __('cranberry-punch::cranberry-punch.attendance-kiosk.button.clock-in')
+                    : __('cranberry-punch::cranberry-punch.attendance-kiosk.button.clock-out');
             })
             ->icon(function (): string {
                 return (auth()->user()->employee && auth()->user()->employee->clocked_out())

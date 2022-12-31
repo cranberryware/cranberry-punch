@@ -85,7 +85,7 @@ trait HasAttendanceCalendar
             Filter::make('attendance_month')
                 ->form([
                     Select::make('value')
-                        ->label(strval(__('open-attendance::open-attendance.attendance.filter.attendance_month')))
+                        ->label(strval(__('cranberry-punch::cranberry-punch.attendance.filter.attendance_month')))
                         ->disablePlaceholderSelection()
                         ->options($months_list)
                         ->default($today->format('Y-m-01')),
@@ -95,12 +95,12 @@ trait HasAttendanceCalendar
                         return null;
                     }
 
-                    return __('open-attendance::open-attendance.attendance.filter.indicator.attendance_month', ["attendance_month" => Carbon::parse($data['value'])->format('F Y')]);
+                    return __('cranberry-punch::cranberry-punch.attendance.filter.indicator.attendance_month', ["attendance_month" => Carbon::parse($data['value'])->format('F Y')]);
                 }),
             Filter::make('employee')
                 ->form([
                     Select::make('id')
-                        ->label(strval(__('open-attendance::open-attendance.attendance.filter.employee')))
+                        ->label(strval(__('cranberry-punch::cranberry-punch.attendance.filter.employee')))
                         ->searchable()
                         ->multiple()
                         ->getSearchResultsUsing(fn (string $search) => Employee::where('employee_code_with_full_name', 'like', "%{$search}%")
@@ -132,7 +132,7 @@ trait HasAttendanceCalendar
                         $indicators[] = $employee_code_with_full_name;
                     }
 
-                    return __('open-attendance::open-attendance.attendance.filter.indicator.employee', ["employees" => join(', ', $indicators)]);
+                    return __('cranberry-punch::cranberry-punch.attendance.filter.indicator.employee', ["employees" => join(', ', $indicators)]);
                 }),
         ];
     }

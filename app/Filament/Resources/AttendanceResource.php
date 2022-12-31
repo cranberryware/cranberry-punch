@@ -26,12 +26,12 @@ class AttendanceResource extends Resource
 
     protected static function getNavigationGroup(): ?string
     {
-        return strval(__('open-attendance::open-attendance.section.group-attendance-management'));
+        return strval(__('cranberry-punch::cranberry-punch.section.group-attendance-management'));
     }
 
     public static function getLabel(): string
     {
-        return strval(__('open-attendance::open-attendance.section.attendances'));
+        return strval(__('cranberry-punch::cranberry-punch.section.attendances'));
     }
 
     public static function form(Form $form): Form
@@ -39,25 +39,25 @@ class AttendanceResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('employee_id')
-                    ->label(__('open-attendance::open-attendance.attendance.input.employee'))
-                    ->placeholder(__('open-attendance::open-attendance.attendance.input.employee'))
+                    ->label(__('cranberry-punch::cranberry-punch.attendance.input.employee'))
+                    ->placeholder(__('cranberry-punch::cranberry-punch.attendance.input.employee'))
                     ->searchable()
                     ->relationship('employee', fn () => "employee_code_with_full_name")
                     ->required(),
                 Forms\Components\Select::make('user_id')
-                    ->label(__('open-attendance::open-attendance.attendance.input.user'))
-                    ->placeholder(__('open-attendance::open-attendance.attendance.input.user'))
+                    ->label(__('cranberry-punch::cranberry-punch.attendance.input.user'))
+                    ->placeholder(__('cranberry-punch::cranberry-punch.attendance.input.user'))
                     ->searchable()
                     ->relationship('user', fn () => "name")
                     ->disabled(!auth()->user()->hasRole(['hr-manager', 'super-admin']))
                     ->required(),
                 Forms\Components\DateTimePicker::make('check_in')
-                    ->label(__('open-attendance::open-attendance.attendance.input.check-in'))
-                    ->placeholder(__('open-attendance::open-attendance.attendance.input.check-in'))
+                    ->label(__('cranberry-punch::cranberry-punch.attendance.input.check-in'))
+                    ->placeholder(__('cranberry-punch::cranberry-punch.attendance.input.check-in'))
                     ->required(),
                 Forms\Components\DateTimePicker::make('check_out')
-                    ->label(__('open-attendance::open-attendance.attendance.input.check-out'))
-                    ->placeholder(__('open-attendance::open-attendance.attendance.input.check-out')),
+                    ->label(__('cranberry-punch::cranberry-punch.attendance.input.check-out'))
+                    ->placeholder(__('cranberry-punch::cranberry-punch.attendance.input.check-out')),
             ]);
     }
 
@@ -65,18 +65,18 @@ class AttendanceResource extends Resource
     {
         $resource_slug = self::getSlug();
         $dynamic_columns = [
-            "employee.full_name" => strval(__('open-attendance::open-attendance.table.attendance.employee.full_name')),
-            "employee.employee_code" => strval(__('open-attendance::open-attendance.table.attendance.employee.employee_code'))
+            "employee.full_name" => strval(__('cranberry-punch::cranberry-punch.table.attendance.employee.full_name')),
+            "employee.employee_code" => strval(__('cranberry-punch::cranberry-punch.table.attendance.employee.employee_code'))
         ];
 
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('employee.employee_code_with_full_name')
-                    ->label(strval(__('open-attendance::open-attendance.table.attendance.employee-name-with-code')))
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.attendance.employee-name-with-code')))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('employee.full_name')
-                    ->label(strval(__('open-attendance::open-attendance.table.attendance.employee.full_name')))
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.attendance.employee.full_name')))
                     ->searchable()
                     ->hidden(function () use ($resource_slug) {
                         $column_hidden = request()->session()->get("{$resource_slug}::columns_hidden::employee.full_name");
@@ -85,7 +85,7 @@ class AttendanceResource extends Resource
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('employee.employee_code')
-                    ->label(strval(__('open-attendance::open-attendance.table.attendance.employee.employee_code')))
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.attendance.employee.employee_code')))
                     ->searchable()
                     ->hidden(function () use ($resource_slug) {
                         $column_hidden = request()->session()->get("{$resource_slug}::columns_hidden::employee.employee_code");
@@ -95,14 +95,14 @@ class AttendanceResource extends Resource
                     ->sortable(),
                 Tables\Columns\ViewColumn::make('check_in')
                     ->view('filament.tables.columns.attendance.clock-column')
-                    ->label(strval(__('open-attendance::open-attendance.table.attendance.check-in')))
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.attendance.check-in')))
                     ->sortable(),
                 Tables\Columns\ViewColumn::make('check_out')
                     ->view('filament.tables.columns.attendance.clock-column')
-                    ->label(strval(__('open-attendance::open-attendance.table.attendance.check-out')))
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.attendance.check-out')))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('worked_hours_rounded')
-                    ->label(strval(__('open-attendance::open-attendance.table.attendance.worked-hours')))
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.attendance.worked-hours')))
                     ->sortable(['worked_hours'])
                     ->alignCenter(),
             ])
@@ -125,12 +125,12 @@ class AttendanceResource extends Resource
             ])
             ->headerActions([
                 Tables\Actions\Action::make('choose-columns')
-                    ->label(strval(__('open-attendance::open-attendance.table.attendance.choose-columns')))
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.attendance.choose-columns')))
                     ->icon('heroicon-o-table')
                     ->form(function () use ($dynamic_columns, $resource_slug) {
                         return [
                             \Filament\Forms\Components\CheckboxList::make('chosen_table_columns')
-                                ->label(strval(__('open-attendance::open-attendance.table.attendance.choose-columns')))
+                                ->label(strval(__('cranberry-punch::cranberry-punch.table.attendance.choose-columns')))
                                 ->options($dynamic_columns)
                                 ->default(function () use ($dynamic_columns, $resource_slug) {
                                     $chosen_columns = [];

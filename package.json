@@ -1,5 +1,7 @@
 {
     "private": true,
+    "name": "cranberry-punch",
+    "displayName": "Cranberry Punch",
     "scripts": {
         "dev": "vite",
         "build": "vite build"

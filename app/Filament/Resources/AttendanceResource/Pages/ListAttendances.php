@@ -17,13 +17,13 @@ class ListAttendances extends ListRecords
     {
         return [
             Actions\Action::make('attendance_calendar')
-                ->label(__('open-attendance::open-attendance.attendance.action.attendance_calendar_view'))
+                ->label(__('cranberry-punch::cranberry-punch.attendance.action.attendance_calendar_view'))
                 ->icon('heroicon-o-calendar')
                 ->action(function () {
                     return redirect()->route('filament.resources.attendances.attendance-calendar');
                 }),
             Actions\CreateAction::make()
-                ->label(__('open-attendance::open-attendance.attendance.action.create'))
+                ->label(__('cranberry-punch::cranberry-punch.attendance.action.create'))
                 ->icon('heroicon-o-plus'),
         ];
     }

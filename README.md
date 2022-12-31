@@ -1,10 +1,10 @@
-## About Open Attendance
-Open Attendance is an Employee Attendance System.
+## About Cranberry Punch
+Cranberry Punch is an Employee Attendance System.
 
 ## Installation
 
 ```
-cd /path/to/open-attendance
+cd /path/to/cranberry-punch
 npm clean-install
 composer install
 ```
