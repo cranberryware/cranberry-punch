@@ -18,6 +18,7 @@
             </x-filament::button>
         @endforeach
     </div>
+    <span class="text-center lg:mt-2 lg:mb-6 sm:mt-1 sm:mb-5 mb-10 text-gray-750 font-[500]">or</span>
 @else
     <span></span>
 @endif
