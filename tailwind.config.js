@@ -19,18 +19,18 @@ module.exports = {
                     900: "#004665",
                 },
                 green: {
-                    150: "#ECFBF6", //themePrimaryTitle
-                    250: "#B5E2D4", //themeLightBorder
-                    350: "#B4E3D4", //themePrimaryWhite
-                    450: "#54B999", //themePrimaryLight
-                    550: "#0ACF83", //themePrimaryLight_2
-                    650: "#007C56", //themePrimaryDark
-                    750: "#059669", //themePrimary
+                    150: "#ECFBF6",
+                    250: "#B5E2D4",
+                    350: "#B4E3D4",
+                    450: "#54B999",
+                    550: "#0ACF83",
+                    650: "#007C56",
+                    750: "#059669",
                 },
                 gray: {
-                    20: "#F1F1F1", //themeLight
-                    30: "#F5F5F5", //primaryGray
-                    750: "#565656", //grayText
+                    20: "#F1F1F1",
+                    30: "#F5F5F5",
+                    750: "#565656",
                 },
                 danger: colors.red,
                 primary: colors.slate,
