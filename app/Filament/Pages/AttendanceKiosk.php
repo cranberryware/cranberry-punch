@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Filament\Pages;
+
+use App\Filament\Widgets\AttendanceCalendar;
+use App\Filament\Widgets\AttendanceClock;
+use Filament\Pages\Actions\Action;
+use Filament\Pages\Page;
+use Illuminate\Contracts\View\View;
+
+class AttendanceKiosk extends Page
+{
+
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-check';
+
+    protected static string $view = 'filament.pages.attendance-kiosk.index';
+
+    protected static function getNavigationGroup(): ?string
+    {
+        return strval(__('cranberry-punch::cranberry-punch.section.group-attendance-management'));
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return strval(__('cranberry-punch::cranberry-punch.section.attendance-kiosk.label'));
+    }
+
+    public function getTitle(): string
+    {
+        return strval(__('cranberry-punch::cranberry-punch.section.attendance-kiosk.title'));
+    }
+
+    public function mount(): void
+    {
+        if (!auth()->user()->can("clock attendances") || !auth()->user()->employee) {
+            abort(403);
+            return;
+        }
+
+        parent::mount();
+    }
+
+    protected static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->can("clock attendances") && auth()->user()->employee;
+    }
+
+    protected function getViewData(): array
+    {
+        return [];
+    }
+
+    protected function getHeaderWidgetsColumns(): int | array
+    {
+        if (auth()->user()->hasRole(['employee'])) {
+            return 3;
+        }
+        return 2;
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            AttendanceClock::class,
+            AttendanceCalendar::class,
+        ];
+    }
+}

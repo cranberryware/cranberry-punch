@@ -1,0 +1,299 @@
+@import "../../vendor/filament/filament/resources/css/app.css";
+
+* {
+    font-family: "Nunito", sans-serif;
+}
+
+.cp-attendance-clock-widget {
+    .filament-tables-container {
+        > .filament-tables-table-container
+            > table.filament-tables-table
+            > thead {
+            display: none;
+        }
+        > .filament-tables-table-container
+            > table.filament-tables-table
+            > tbody
+            > tr:hover {
+            background-color: white !important;
+            @apply rounded-full;
+        }
+        > .filament-tables-pagination-container {
+            display: none;
+        }
+    }
+
+    .cp-attendance-clock-btn-wrap {
+        .cp-attendance-clock-btn {
+            .filament-button-icon {
+                margin: 0.25rem 0;
+                @apply h-[6rem] w-auto;
+            }
+            @apply uppercase flex-col;
+        }
+        @apply flex-auto justify-center;
+    }
+}
+
+.attendence-calendar {
+    .filament-tables-container {
+        @apply shadow-none border-b-0;
+    }
+}
+
+.login {
+    align-self: center;
+}
+
+.login .filament-forms-text-input-component input {
+    @apply rounded-3xl;
+}
+
+.login .filament-button {
+    background-color: #059669 !important;
+    @apply rounded-full bg-green-750 hover:bg-green-650 relative right-[25px] min-w-[30%];
+}
+
+.login .filament-button:focus {
+    outline: 0 !important;
+    box-shadow: none !important;
+    @apply bg-slate-50 ring-offset-0 ring-0 text-white;
+}
+
+#email {
+    @apply w-full p-[15px];
+}
+
+.password {
+    @apply transition duration-75 rounded-lg  disabled:opacity-70 max-w-full;
+}
+
+.login .filament-forms-text-input-component {
+    @apply contents;
+}
+
+#password {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    @apply min-w-[77%] bg-white p-[15px];
+}
+
+.password input:focus {
+    @apply bg-white shadow-none;
+}
+
+#email input:focus {
+    @apply bg-white shadow-none;
+}
+
+.login-button span {
+    @apply px-[9px];
+}
+
+#password:focus {
+    @apply bg-white shadow-none;
+}
+
+#email:focus {
+    @apply bg-white shadow-none;
+}
+
+.filament-sidebar-nav {
+    @apply bg-green-750  dark:bg-gray-800 dark:border-gray-700 dark:from-gray-800 dark:to-gray-800;
+}
+
+.filament-sidebar-nav .border-t {
+    @apply border-green-750;
+}
+
+.filament-sidebar-item {
+    @apply text-white;
+}
+
+.filament-sidebar-item .inline-flex {
+    @apply text-primary-50 bg-primary-700 dark:bg-gray-900 dark:text-white;
+}
+
+.filament-sidebar-group svg {
+    @apply text-white;
+}
+
+.tracking-wider {
+    @apply text-sm text-green-750;
+}
+
+.filament-brand {
+    @apply text-green-750;
+}
+
+.dashboard-nav {
+    @apply bg-green-650 rounded-r-full py-2 border-green-450 border border-l-0;
+}
+
+.active-nav {
+    @apply bg-green-650 rounded-r-full border-green-450 border border-l-0;
+}
+
+.custom-button {
+    @apply bg-green-750 text-white;
+}
+
+.custom-button:hover {
+    background-color: #007c56 !important;
+    color: white !important;
+    @apply bg-green-650 text-white;
+}
+
+.custom-button:active {
+    @apply bg-green-650 text-white;
+}
+
+.custom-button:focus {
+    background-color: #007c56 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    color: white !important;
+    @apply bg-green-650 ring-offset-0 ring-0 text-white;
+}
+
+.filament-button.bg-white {
+    @apply bg-slate-50 text-black;
+}
+
+.filament-button.bg-white:hover {
+    @apply bg-slate-50 text-black;
+}
+
+.filament-button.bg-white:active {
+    @apply bg-slate-50 text-black;
+}
+
+.filament-button.bg-white :focus {
+    outline: 0 !important;
+    box-shadow: none !important;
+    @apply bg-slate-50 ring-offset-0 ring-0 text-black;
+}
+
+.filament-dropdown-list-item:hover {
+    background-color: #059669 !important;
+    @apply bg-green-750 text-white;
+}
+
+.filament-dropdown-list-item:focus {
+    background-color: #059669 !important;
+    @apply bg-green-750 text-white;
+}
+
+.clock-btn > button {
+    background-color: white !important;
+    box-shadow: none;
+}
+
+.clock-btn > button:focus {
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+.custom-cl {
+    @apply bg-green-350;
+}
+
+.custom-cl:checked {
+    @apply bg-green-650;
+}
+
+.custom-cl:focus {
+    background-color: #007c56 !important;
+    @apply bg-green-650;
+}
+
+.custom-cl:hover {
+    background-color: #007c56 !important;
+    @apply bg-green-650;
+}
+
+.attendance-calender-item {
+    padding: 0px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.filament-button.bg-primary-600 {
+    @apply bg-green-750 text-white;
+}
+
+.filament-button.bg-primary-600:hover {
+    background-color: #007c56 !important;
+    color: white !important;
+    @apply bg-green-650 text-white;
+}
+
+.filament-button.bg-primary-600:active {
+    @apply bg-green-650 text-white;
+}
+
+.filament-button.bg-primary-600 :focus {
+    background-color: #007c56 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    color: white !important;
+    @apply bg-green-650 ring-offset-0 ring-0 text-white;
+}
+
+.filament-tables-component {
+    .filament-tables-container {
+        border-color: #b5e2d4;
+    }
+}
+
+.filament-tables-table-container {
+    @apply border-green-250;
+}
+
+.filament-tables-pagination-container {
+    @apply border-green-250;
+}
+
+.filament-tables-row {
+    @apply border-green-250;
+}
+
+.filament-tables-row:hover {
+    background-color: #f0fffa !important;
+    @apply bg-green-250 transition delay-75 duration-75 ease-in-out shadow-lg;
+}
+
+.filament-tables-table {
+    @apply border-green-250;
+}
+
+.filament-tables-table tbody {
+    @apply border-green-250;
+}
+
+.attendanceClock:hover {
+    @apply transition delay-150 duration-300 ease-in-out shadow-2xl;
+}
+
+.btn-cmn:hover {
+    background-color: green !important;
+}
+.helo-ps {
+    --clr: #fff;
+    --outline: 2px solid #54b999;
+    color: var(--clr);
+
+    transition: outline-width 200ms ease, outline-offset 200ms ease;
+}
+
+.helo-ps:hover,
+.helo-ps:focus {
+    // outline: var(--outline);
+    border: var(--outline);
+    // outline-offset: -2px;
+    outline: var(--outline);
+    outline-width: 2px;
+    outline-offset: -2px;
+    // because of normalize
+}
