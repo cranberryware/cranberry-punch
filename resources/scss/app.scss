@@ -5,6 +5,7 @@
 }
 
 .cp-attendance-clock-widget {
+    display: contents;
     .filament-tables-container {
         > .filament-tables-table-container
             > table.filament-tables-table
@@ -37,7 +38,7 @@
 
 .attendence-calendar {
     .filament-tables-container {
-        @apply shadow-none border-b-0;
+        @apply shadow-none border-b-2;
     }
 }
 
