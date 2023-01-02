@@ -7,22 +7,17 @@
         "superlate" => "text-white bg-danger-500 animate-bounce animate-pulse duration-50",
     }
 @endphp
-<div class="oa-attendance-clock-btn-wrap grid grid-cols-3 gap-6 justify-items-center">
-    <h2 class="col-span-3 text-center text-2xl md:text-3xl">
+
+
+<div class="cp-attendance-clock-btn-wrap flex flex-col gap-6 justify-items-center">
+    <div class="col-span-3 text-center uppercase font-semibold">
         {{
-            __("open-attendance::open-attendance.attendance-kiosk.attendance-clock.widget.title", [
-                        "employee_name" => auth()->user()->employee ? auth()->user()->employee->full_name : ""
-                    ])
-        }}
-    </h2>
-    <div class="col-span-3 text-center uppercase">
-        {{
-            __("open-attendance::open-attendance.attendance-kiosk.attendance-clock.widget.subtitle", [
+            __("cranberry-punch::cranberry-punch.attendance-kiosk.attendance-clock.widget.subtitle", [
                 "action" => $getLabel()
             ])
         }}
     </div>
-    <div class="col-start-2 {{
+    <div class="col-start-2 clock-btn border-b border-green-350 pb-3 text-center {{
         (auth()->user()->employee && auth()->user()->employee->clocked_out())
                             ? ''
                             : 'animate-pulse'
@@ -32,15 +27,19 @@
             component="tables::button"
             :outlined="$isOutlined()"
             :icon-position="$getIconPosition()"
-            class="filament-tables-button-action oa-attendance-clock-btn"
+            class="filament-tables-button-action cp-attendance-clock-btn"
         >
-            {{ $getLabel() }}
+            @if ((auth()->user()->employee && auth()->user()->employee->clocked_out()))
+            <img src="{{ url('assets/clockIn.svg') }}" alt="image" />
+            @else
+            <img src="{{ url('assets/clockOut.svg') }}" alt="image" />
+            @endif
         </x-tables::actions.action>
     </div>
     <div class="col-span-3 text-center">
-        {{__("open-attendance::open-attendance.attendance-kiosk.widget.average-time-of-arrival", ["current_month" => now()->format("Y-m")])}}:
+        {{__("cranberry-punch::cranberry-punch.attendance-kiosk.widget.average-time-of-arrival", ["current_month" => now()->format("Y-m")])}}:
         <div>
-            <div class="inline-flex items-center justify-center space-x-1 rtl:space-x-reverse min-h-6 px-2 py-0.5 text-lg font-medium tracking-tight rounded-xl whitespace-nowrap {{$arrival_status}}">
+            <div class="inline-flex items-center justify-center space-x-1 rtl:space-x-reverse min-h-6 px-2 py-0.5 mt-2 text-lg font-medium tracking-tight rounded-xl whitespace-nowrap {{$arrival_status}}">
                 {{$getRecord()->employee->getAverageTimeOfArrival()}}
             </div>
 

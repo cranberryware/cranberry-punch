@@ -4,6 +4,7 @@ namespace App\Filament\Resources\EmployeeResource\Pages;
 
 use App\Filament\Resources\EmployeeResource;
 use Filament\Pages\Actions;
+use Filament\Pages\Actions\Action;
 use App\Filament\Resources\Pages\EditRecord;
 
 class EditEmployee extends EditRecord

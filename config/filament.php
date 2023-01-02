@@ -27,7 +27,7 @@ return [
     |
     */
 
-    'path' => env('FILAMENT_PATH', 'oa-dashboard'),
+    'path' => env('FILAMENT_PATH', 'cp-dashboard'),
 
 
     /*
@@ -111,7 +111,7 @@ return [
         'namespace' => 'App\\Filament\\Pages',
         'path' => app_path('Filament/Pages'),
         'register' => [
-            Pages\Dashboard::class,
+            App\Filament\Pages\Dashboard::class,
         ],
     ],
 
@@ -145,8 +145,8 @@ return [
         'namespace' => 'App\\Filament\\Widgets',
         'path' => app_path('Filament/Widgets'),
         'register' => [
-            Widgets\AccountWidget::class,
-            Widgets\FilamentInfoWidget::class,
+            // Widgets\AccountWidget::class,
+            // Widgets\FilamentInfoWidget::class,
         ],
     ],
 

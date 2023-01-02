@@ -8,6 +8,7 @@ use Filament\Pages\SettingsPage;
 use App\Settings\AttendanceSettings;
 use Closure;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Pages\Actions\Action;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TagsInput;
@@ -40,38 +41,38 @@ class ManageAttendanceSettings extends SettingsPage
 
     protected static function getNavigationGroup(): ?string
     {
-        return strval(__('open-attendance::open-attendance.section.group-open-attendance-settings'));
+        return strval(__('cranberry-punch::cranberry-punch.section.group-cranberry-punch-settings'));
     }
 
     public static function getLabel(): string
     {
-        return strval(__('open-attendance::open-attendance.section.open-attendance-attendance-settings'));
+        return strval(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings'));
     }
 
     public static function getNavigationLabel(): string
     {
-        return strval(__('open-attendance::open-attendance.section.open-attendance-attendance-settings'));
+        return strval(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings'));
     }
 
     public function getTitle(): string
     {
-        return strval(__('open-attendance::open-attendance.section.open-attendance-attendance-settings'));
+        return strval(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings'));
     }
 
     protected function getFormSchema(): array
     {
         return [
-            Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.location'))
+            Section::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.location'))
                 ->schema([
                     Repeater::make('ip_locations')
-                        ->label(__('open-attendance::open-attendance.section.open-attendance.input.ip-locations'))
+                        ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.ip-locations'))
                         ->schema([
                             TextInput::make('ip')
-                                ->label(__('open-attendance::open-attendance.section.open-attendance.input.ip-locations.ip'))
+                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.ip-locations.ip'))
                                 ->rules([new IpAddress()])
                                 ->required(),
                             TextInput::make('location')
-                                ->label(__('open-attendance::open-attendance.section.open-attendance.input.ip-locations.location'))
+                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.ip-locations.location'))
                                 ->rules([new Slug()])
                                 ->required(),
                         ])
@@ -82,25 +83,25 @@ class ManageAttendanceSettings extends SettingsPage
                         ->maxItems(25)
                         ->orderable(true),
                 ])->collapsible(),
-                Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.calendar-cell-colors'))
+                Section::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.calendar-cell-colors'))
                 ->schema([
                     Repeater::make('calendar_cell_colors')
-                        ->label(__('open-attendance::open-attendance.section.open-attendance.input.calendar-cell-colors'))
+                        ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.calendar-cell-colors'))
                         ->schema([
                             TextInput::make('max_value')
-                                ->label(__('open-attendance::open-attendance.section.open-attendance.input.calendar-cell-colors.max_value'))
+                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.calendar-cell-colors.max_value'))
                                 ->numeric()
                                 ->step(0.1)
                                 ->minValue(0)
                                 ->maxValue(24)
                                 ->required(),
                             TailwindColorPicker::make('background_color')
-                                ->label(__('open-attendance::open-attendance.section.open-attendance.input.calendar-cell-colors.cell-background-color'))
+                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.calendar-cell-colors.cell-background-color'))
                                 ->bgScope()
                                 ->required(),
                             TagsInput::make('extra_css_classes')
-                                ->label(__('open-attendance::open-attendance.section.open-attendance.input.calendar-cell-colors.extra-css-classes'))
-                                ->placeholder(__('open-attendance::open-attendance.section.open-attendance.placeholder.calendar-cell-colors.extra-css-classes')),
+                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.calendar-cell-colors.extra-css-classes'))
+                                ->placeholder(__('cranberry-punch::cranberry-punch.section.cranberry-punch.placeholder.calendar-cell-colors.extra-css-classes')),
                         ])
                         ->itemLabel(fn (array $state): ?string => "" ?? null)
                         ->columns(3)
@@ -109,10 +110,13 @@ class ManageAttendanceSettings extends SettingsPage
                         ->maxItems(25)
                         ->orderable(true),
                 ])->collapsible(),
-            Section::make(__('open-attendance::open-attendance.section.open-attendance-attendance-settings.weekly-day-offs'))
+            Section::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.weekly-day-offs'))
                 ->schema([
                     CheckboxList::make('weekly_day_offs')
-                        ->label(__('open-attendance::open-attendance.section.open-attendance.input.weekly-day-offs'))
+                        ->extraAttributes([
+                            'class' => 'custom-cl'
+                        ])
+                        ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.weekly-day-offs'))
                         ->options(function () {
                             $days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
                             $indexes = [

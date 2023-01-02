@@ -17,17 +17,17 @@ class AttendanceKiosk extends Page
 
     protected static function getNavigationGroup(): ?string
     {
-        return strval(__('open-attendance::open-attendance.section.group-attendance-management'));
+        return strval(__('cranberry-punch::cranberry-punch.section.group-attendance-management'));
     }
 
     public static function getNavigationLabel(): string
     {
-        return strval(__('open-attendance::open-attendance.section.attendance-kiosk.label'));
+        return strval(__('cranberry-punch::cranberry-punch.section.attendance-kiosk.label'));
     }
 
     public function getTitle(): string
     {
-        return strval(__('open-attendance::open-attendance.section.attendance-kiosk.title'));
+        return strval(__('cranberry-punch::cranberry-punch.section.attendance-kiosk.title'));
     }
 
     public function mount(): void
@@ -48,6 +48,14 @@ class AttendanceKiosk extends Page
     protected function getViewData(): array
     {
         return [];
+    }
+
+    protected function getHeaderWidgetsColumns(): int | array
+    {
+        if (auth()->user()->hasRole(['employee'])) {
+            return 3;
+        }
+        return 2;
     }
 
     protected function getHeaderWidgets(): array

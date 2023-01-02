@@ -19,3 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect(route('filament.auth.login'));
 });
+
+Route::get('/oa-dashboard', function () {
+    return redirect('/cp-dashboard');
+});
