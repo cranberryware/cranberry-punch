@@ -12,12 +12,15 @@
             > thead {
             display: none;
         }
+        >.filament-tables-table-container
+            > table{
+                @apply divide-y-0
+            }
         > .filament-tables-table-container
             > table.filament-tables-table
             > tbody
             > tr:hover {
-            background-color: white !important;
-            @apply rounded-full;
+            background-color: transparent !important;
         }
         > .filament-tables-pagination-container {
             display: none;
