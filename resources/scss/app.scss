@@ -25,6 +25,7 @@
         > .filament-tables-pagination-container {
             display: none;
         }
+        @apply h-full flex justify-center items-center
     }
 
     .cp-attendance-clock-btn-wrap {
@@ -40,8 +41,11 @@
 }
 
 .attendence-calendar {
-    .filament-tables-container {
-        @apply shadow-none border-b-2;
+    > .filament-tables-component{
+        > .filament-tables-container{
+            @apply h-full shadow-none
+        }
+        @apply h-full
     }
 }
 
