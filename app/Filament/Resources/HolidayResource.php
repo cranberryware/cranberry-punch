@@ -56,6 +56,7 @@ class HolidayResource extends Resource
                     'national'=>'National',
                     'regional'=>'Regional',
                     'week off'=>'Week Off',
+                    'other'=>'Other',
                 ])
                     ->required(),
                 Forms\Components\Toggle::make('is_confirmed')
