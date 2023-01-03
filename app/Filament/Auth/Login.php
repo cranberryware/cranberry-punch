@@ -23,8 +23,8 @@ class Login extends BasePage
                 ->placeholder("Password")
                 ->password()
                 ->required(),
-            Checkbox::make('remember')
-                ->label(__('filament::login.fields.remember.label')),
+            // Checkbox::make('remember')
+            //     ->label(__('filament::login.fields.remember.label')),
         ];
     }
 }

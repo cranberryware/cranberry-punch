@@ -3,7 +3,7 @@
         @foreach ($providers as $key => $provider)
             <x-filament::button tag="a" :href="route('socialite.oauth.redirect', $key)" class="bg-transparent shadow-none" :color="$provider['backgroundColor'] ?? 'transparent'"
                 style=" box-shadow: none;">
-                <div class="flex flex-row justify-center cursor-pointer items-center min-h-0">
+                <div class="flex flex-row justify-center cursor-pointer items-center min-h-0 hover-effect">
                     <span class="mr-2 text-xl text-{{ $provider['color'] ?? 'transparent' }} font-semibold">
                         {{ $provider['label'] ?? null }}
                     </span>

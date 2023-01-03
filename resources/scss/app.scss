@@ -1,8 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "../../vendor/filament/filament/resources/css/app.css";
 
 * {
     font-family: "Nunito", sans-serif;
 }
+
+$primary-250: theme("colors.green.250");
+$primary-450: theme("colors.green.450");
+$primary-550: theme("colors.green.550");
+$primary-650: theme("colors.green.650");
+$primary-750: theme("colors.green.750");
 
 .cp-attendance-clock-widget {
     display: contents;
@@ -12,10 +22,9 @@
             > thead {
             display: none;
         }
-        >.filament-tables-table-container
-            > table{
-                @apply divide-y-0
-            }
+        > .filament-tables-table-container > table {
+            @apply divide-y-0;
+        }
         > .filament-tables-table-container
             > table.filament-tables-table
             > tbody
@@ -25,7 +34,7 @@
         > .filament-tables-pagination-container {
             display: none;
         }
-        @apply h-full flex justify-center items-center
+        @apply h-full flex justify-center items-center;
     }
 
     .cp-attendance-clock-btn-wrap {
@@ -41,11 +50,11 @@
 }
 
 .attendence-calendar {
-    > .filament-tables-component{
-        > .filament-tables-container{
-            @apply h-full shadow-none
+    > .filament-tables-component {
+        > .filament-tables-container {
+            @apply h-full shadow-none;
         }
-        @apply h-full
+        @apply h-full;
     }
 }
 
@@ -58,7 +67,7 @@
 }
 
 .login .filament-button {
-    background-color: #059669 !important;
+    background-color: $primary-750 !important;
     @apply rounded-full bg-green-750 hover:bg-green-650 relative right-[25px] min-w-[30%];
 }
 
@@ -147,7 +156,7 @@
 }
 
 .custom-button:hover {
-    background-color: #007c56 !important;
+    background-color: $primary-650 !important;
     color: white !important;
     @apply bg-green-650 text-white;
 }
@@ -157,7 +166,7 @@
 }
 
 .custom-button:focus {
-    background-color: #007c56 !important;
+    background-color: $primary-650 !important;
     outline: 0 !important;
     box-shadow: none !important;
     color: white !important;
@@ -183,12 +192,12 @@
 }
 
 .filament-dropdown-list-item:hover {
-    background-color: #059669 !important;
+    background-color: $primary-750 !important;
     @apply bg-green-750 text-white;
 }
 
 .filament-dropdown-list-item:focus {
-    background-color: #059669 !important;
+    background-color: $primary-750 !important;
     @apply bg-green-750 text-white;
 }
 
@@ -211,12 +220,12 @@
 }
 
 .custom-cl:focus {
-    background-color: #007c56 !important;
+    background-color: $primary-650 !important;
     @apply bg-green-650;
 }
 
 .custom-cl:hover {
-    background-color: #007c56 !important;
+    background-color: $primary-650 !important;
     @apply bg-green-650;
 }
 
@@ -232,7 +241,7 @@
 }
 
 .filament-button.bg-primary-600:hover {
-    background-color: #007c56 !important;
+    background-color: $primary-650 !important;
     color: white !important;
     @apply bg-green-650 text-white;
 }
@@ -242,7 +251,7 @@
 }
 
 .filament-button.bg-primary-600 :focus {
-    background-color: #007c56 !important;
+    background-color: $primary-650 !important;
     outline: 0 !important;
     box-shadow: none !important;
     color: white !important;
@@ -251,7 +260,7 @@
 
 .filament-tables-component {
     .filament-tables-container {
-        border-color: #b5e2d4;
+        border-color: $primary-250;
     }
 }
 
@@ -285,11 +294,11 @@
 }
 
 .btn-cmn:hover {
-    background-color: green !important;
+    background-color: $primary-750 !important;
 }
 .helo-ps {
     --clr: #fff;
-    --outline: 2px solid #54b999;
+    --outline: 2px solid $primary-450;
     color: var(--clr);
 
     transition: outline-width 200ms ease, outline-offset 200ms ease;
@@ -305,4 +314,41 @@
     outline-offset: -2px;
     // because of normalize
     margin-left: -2px;
+}
+
+.hover-effect {
+    background-image: linear-gradient(
+        to right,
+        $primary-750,
+        $primary-750 50%,
+        #000 50%
+    );
+    background-size: 200% 100%;
+    background-position: -100%;
+    //   display: inline-block;
+    // padding: 5px 0;
+    position: relative;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+.hover-effect:before {
+    content: "";
+    // background: $primary-450;
+    display: block;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 0.5px;
+    transition: all 0.3s ease-in-out;
+}
+
+.hover-effect:hover {
+    background-position: 0;
+}
+
+.hover-effect:hover::before {
+    width: 100%;
 }
