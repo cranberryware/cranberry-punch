@@ -17,12 +17,16 @@ class Login extends BasePage
                 ->placeholder("Email or Username")
                 ->email()
                 ->required()
-                ->autocomplete(),
+                ->autocomplete()
+                ->autofocus()
+                ->extraAttributes(['class' =>'cp-login-email-input']),
             TextInput::make('password')
                 ->label("")
                 ->placeholder("Password")
                 ->password()
-                ->required(),
+                ->required()
+                ->autofocus()
+                ->extraAttributes(['class' =>'cp-login-password-input']),
             Checkbox::make('remember')
                 ->label(__('filament::login.fields.remember.label')),
         ];

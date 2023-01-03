@@ -2,9 +2,9 @@
     'breadcrumbs' => [],
 ])
 
-<div {{ $attributes->class(['filament-breadcrumbs flex-1 h-[80px]']) }}>
+<div {{ $attributes->class(['filament-breadcrumbs flex-1']) }}>
     <ul @class([
-        'hidden gap-4 items-center font-medium text-sm lg:flex h-[80px]',
+        'hidden gap-4 items-center font-medium text-sm lg:flex',
         'dark:text-white' => config('filament.dark_mode'),
     ])>
         @foreach ($breadcrumbs as $url => $label)
