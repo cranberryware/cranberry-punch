@@ -115,6 +115,10 @@ $primary-750: theme("colors.green.750");
     @apply bg-white shadow-none;
 }
 
+.remember{
+    display: none !important;
+}
+
 .filament-sidebar-nav {
     @apply bg-green-750  dark:bg-gray-800 dark:border-gray-700 dark:from-gray-800 dark:to-gray-800;
 }
@@ -352,3 +356,4 @@ $primary-750: theme("colors.green.750");
 .hover-effect:hover::before {
     width: 100%;
 }
+
