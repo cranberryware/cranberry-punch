@@ -15,6 +15,7 @@ use Laravel\Socialite\Contracts\User as SocialiteUserContract;
 use DutchCodingCompany\FilamentSocialite\Facades\FilamentSocialite as FilamentSocialiteFacade;
 use DutchCodingCompany\FilamentSocialite\FilamentSocialite;
 use Illuminate\Support\Facades\URL;
+use Illuminate\View\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -56,6 +57,12 @@ class AppServiceProvider extends ServiceProvider
                 app(Vite::class)('resources/scss/app.scss'),
             );
         });
+
+        Filament::registerRenderHook(
+            'head.end',
+            fn (): View => view('layout.favicon'),
+        );
+
         DateTimePicker::configureUsing(fn (DateTimePicker $component) => $component->timezone(config('app.user_timezone')));
         TextColumn::configureUsing(fn (TextColumn $column) => $column->timezone(config('app.user_timezone')));
         Blade::stringable(function (\Illuminate\Support\Carbon $dateTime) {
