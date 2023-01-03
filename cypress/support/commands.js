@@ -25,9 +25,6 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import "cypress-localstorage-commands";
-
-
-
 Cypress.Commands.add(
     "login",
     (email = "erin19@yahoo.com", password = "password") => {
