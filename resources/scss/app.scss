@@ -152,7 +152,7 @@ $primary-750: theme("colors.green.750");
 }
 
 .active-nav {
-    @apply bg-green-650 rounded-r-full border-green-450 border border-l-0;
+    @apply bg-green-650 rounded-r-full border-green-450 border border-l-0 -ml-[2px];
 }
 
 .custom-button {
@@ -302,9 +302,9 @@ $primary-750: theme("colors.green.750");
 }
 .helo-ps {
     --clr: #fff;
-    --outline: 2px solid $primary-450;
+    --outline: 2px solid #54b999;
     color: var(--clr);
-
+    margin-left: -2px;
     transition: outline-width 200ms ease, outline-offset 200ms ease;
 }
 
