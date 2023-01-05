@@ -13,7 +13,9 @@ describe("Login spec", () => {
         cy.contains("These credentials do not match our records.").should(
             "not.exist"
         );
+        cy.get('input[type="email"]').should('have.value', '');
         cy.get('input[type="email"]').type(email);
+        cy.get('input[type="password"]').should('have.value', '');
         cy.get('input[type="password"]').type(password);
         cy.get('input[type="checkbox"]').check();
         cy.get('button[type="submit"]').click();

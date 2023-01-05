@@ -34,6 +34,15 @@ Cypress.Commands.add(
         cy.get('button[type="submit"]').click();
     }
 );
+Cypress.Commands.add(
+    "adminLogin",
+    (email = "admin@example.com", password = "password") => {
+        cy.get('input[type="email"]').type(email);
+        cy.get('input[type="password"]').type(password);
+        cy.get('input[type="checkbox"]').check();
+        cy.get('button[type="submit"]').click();
+    }
+);
 
 Cypress.Commands.add("logout", () => {
     cy.wait(1500);
