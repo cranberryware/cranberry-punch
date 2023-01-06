@@ -60,6 +60,7 @@ $primary-750: theme("colors.green.750");
 
 .login {
     align-self: center;
+    @apply xxs:max-w-[77%] sm:max-w-full
 }
 
 .login .filament-forms-text-input-component input {
@@ -82,7 +83,7 @@ $primary-750: theme("colors.green.750");
 }
 
 .password {
-    @apply transition duration-75 rounded-lg  disabled:opacity-70 max-w-full;
+    @apply transition duration-75 rounded-lg  disabled:opacity-70  max-w-full ;
 }
 
 .login .filament-forms-text-input-component {
@@ -92,7 +93,7 @@ $primary-750: theme("colors.green.750");
 #password {
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
-    @apply min-w-[77%] bg-white p-[15px];
+    @apply min-w-[79%] bg-white p-[15px];
 }
 
 .password input:focus {
