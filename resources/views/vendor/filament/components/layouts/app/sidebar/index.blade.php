@@ -84,7 +84,7 @@
         </script>
 
         <ul class="space-y-6"
-            @if (config('filament.layout.sidebar.is_collapsible_on_desktop')) x-bind:class="$store.sidebar.isOpen ? 'pr-6' : 'pr-3'" @endif>
+            @if (config('filament.layout.sidebar.is_collapsible_on_desktop')) x-bind:class="$store.sidebar.isOpen ? 'pr-6' : 'pr-[0.5rem]'" @endif>
             @foreach ($navigation as $group)
                 <x-filament::layouts.app.sidebar.group :label="$group->getLabel()" :icon="$group->getIcon()" :collapsible="$group->isCollapsible()"
                     :items="$group->getItems()" />

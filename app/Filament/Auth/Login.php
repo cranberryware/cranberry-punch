@@ -28,7 +28,10 @@ class Login extends BasePage
                 ->autofocus()
                 ->extraAttributes(['class' =>'cp-login-password-input']),
             Checkbox::make('remember')
-                ->label(__('filament::login.fields.remember.label')),
+                ->label(__(''))
+                ->extraAttributes([
+                    'class'=>'remember',
+        ]),
         ];
     }
 }
