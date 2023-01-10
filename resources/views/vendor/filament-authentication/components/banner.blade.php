@@ -19,7 +19,7 @@ $impersonating = Filament\Facades\Filament::getUserName(auth()->user());
     >
     <div>
         {{ __('filament-authentication::filament-authentication.text.impersonating') }} <strong>{{ $impersonating }}</strong>
-        <a href="{{ route('filament-authentication.stop.impersonation') }}"><strong>{{ __('filament-authentication::filament-authentication.text.impersonating.end') }}</strong></a>
+        <a class="cp-end-impersonate" href="{{ route('filament-authentication.stop.impersonation') }}"><strong>{{ __('filament-authentication::filament-authentication.text.impersonating.end') }}</strong></a>
     </div>
 
 </div>
