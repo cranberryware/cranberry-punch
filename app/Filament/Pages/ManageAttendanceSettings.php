@@ -110,6 +110,30 @@ class ManageAttendanceSettings extends SettingsPage
                         ->maxItems(25)
                         ->orderable(true),
                 ])->collapsible(),
+            // colors section
+            Section::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.weekend-off-cell-colors'))
+                ->schema([
+                     Repeater::make('weekend_off_cell_colors')
+                        ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.calendar-cell-colors'))
+                        ->schema([
+                            TextInput::make('holidays')
+                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.calendar-cell-colors.holiday_type'))
+                                ->required(),
+                            TailwindColorPicker::make('background_color')
+                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.calendar-cell-colors.cell-background-color'))
+                                ->bgScope()
+                                ->required(),
+                            TagsInput::make('extra_css_classes')
+                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.calendar-cell-colors.extra-css-classes'))
+                                ->placeholder(__('cranberry-punch::cranberry-punch.section.cranberry-punch.placeholder.calendar-cell-colors.extra-css-classes')),
+                        ])
+                        ->itemLabel(fn (array $state): ?string => "" ?? null)
+                        ->columns(3)
+                        ->defaultItems(1)
+                        ->minItems(1)
+                        ->maxItems(25)
+                        ->orderable(true),
+                ])->collapsible(),
             Section::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.weekly-day-offs'))
                 ->schema([
                     CheckboxList::make('weekly_day_offs')
