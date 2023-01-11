@@ -8,12 +8,17 @@ use Filament\Pages\SettingsPage;
 use App\Settings\AttendanceSettings;
 use Closure;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Component;
 use Filament\Pages\Actions\Action;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\TextInput;
+use Illuminate\Support\Str;
 use HappyToDev\FilamentTailwindColorPicker\Forms\Components\TailwindColorPicker;
+use Illuminate\Database\Eloquent\Model;
+use Livewire\Livewire;
 
 class ManageAttendanceSettings extends SettingsPage
 {
@@ -61,6 +66,7 @@ class ManageAttendanceSettings extends SettingsPage
 
     protected function getFormSchema(): array
     {
+        $temp=[];
         return [
             Section::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.location'))
                 ->schema([
@@ -83,7 +89,7 @@ class ManageAttendanceSettings extends SettingsPage
                         ->maxItems(25)
                         ->orderable(true),
                 ])->collapsible(),
-                Section::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.calendar-cell-colors'))
+            Section::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.calendar-cell-colors'))
                 ->schema([
                     Repeater::make('calendar_cell_colors')
                         ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.calendar-cell-colors'))
@@ -127,8 +133,8 @@ class ManageAttendanceSettings extends SettingsPage
                                 "Fifth" => "5th"
                             ];
                             $options = [];
-                            foreach($indexes as $index => $index_num) {
-                                foreach($days as $day) {
+                            foreach ($indexes as $index => $index_num) {
+                                foreach ($days as $day) {
                                     $options["{$index} {$day}"] = "{$index_num} {$day} of Month";
                                 }
                             }
@@ -136,6 +142,41 @@ class ManageAttendanceSettings extends SettingsPage
                         })
                         ->columns(5)
                         ->required(),
+                ])->collapsible(),
+            Section::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.holidays_type'))
+                ->schema([
+                    KeyValue::make('holidays_type')
+                        ->keyLabel('value')
+                        ->valueLabel('key')
+                        ->disableEditingValues()
+                         ->lazy()
+                       
+                       
+                        ->afterStateUpdated(function (Closure $set, $state,?Model $record, Component $component) {
+                           
+                            if (filled($state)) {
+                                       
+                                        for ($i = 0; $i < count($state); $i++) {
+                                            $state[array_keys($state)[$i]] = Str::slug(array_keys($state)[$i]);
+                                            $item = [array_keys($state)[$i] => array_values($state)[$i]];
+                                            $set('holidays_type',  array_merge($state,$item));
+                                            
+                                        }
+                                    }
+                        })
+                        ->dehydrateStateUsing(function (Closure $set, $state) {
+                          return  array_flip($state);
+                          
+                        })
+                        ->afterStateHydrated(function (Closure $set, $state, ?Model $record,Component $component) use($temp) {
+                            // dump($state);
+                            $state = array_flip(array_merge($state,$temp));
+                            // dd($state);
+                            $component->state($state);
+                          
+                        
+                       })
+
                 ])->collapsible(),
         ];
     }

@@ -11,6 +11,8 @@ class AttendanceSettings extends Settings
     public array $calendar_cell_colors;
 
     public array $weekly_day_offs;
+    
+    public array $holidays_type;
 
     public static function group(): string
     {

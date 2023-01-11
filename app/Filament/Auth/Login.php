@@ -14,7 +14,7 @@ class Login extends BasePage
         return [
             TextInput::make('email')
                 ->label("")
-                ->placeholder("Email or Username")
+                ->placeholder(__('filament::login.fields.email.placeholder'))
                 ->email()
                 ->required()
                 ->autocomplete()
@@ -22,13 +22,13 @@ class Login extends BasePage
                 ->extraAttributes(['class' =>'cp-login-email-input']),
             TextInput::make('password')
                 ->label("")
-                ->placeholder("Password")
+                ->placeholder(__("filament::login.fields.password.placeholder"))
                 ->password()
                 ->required()
                 ->autofocus()
                 ->extraAttributes(['class' =>'cp-login-password-input']),
             Checkbox::make('remember')
-                ->label(__(''))
+                ->label(__('filament::login.fields.remember.label'))
                 ->extraAttributes([
                     'class'=>'remember',
         ]),

@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\HolidayResource\Pages;
 use App\Filament\Resources\HolidayResource\RelationManagers;
 use App\Models\Holiday;
+use App\Settings\AttendanceSettings;
 use Carbon\Carbon;
 use Closure;
 use Filament\Forms;
@@ -13,6 +14,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use HolidaySettings;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -34,6 +36,7 @@ class HolidayResource extends Resource
                 Forms\Components\DatePicker::make('date')
                 ->reactive()
                 ->afterStateUpdated(function(Closure $set,$state){
+                   
                     $day=Carbon::parse($state)->format('l');
                     $set('day_name',$day);
                 })
@@ -52,12 +55,18 @@ class HolidayResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('holiday_type')
-                ->options([
-                    'national'=>'National',
-                    'regional'=>'Regional',
-                    'week off'=>'Week Off',
-                    'other'=>'Other',
-                ])
+                ->options(function (){
+                    $json =app(AttendanceSettings::class)->holidays_type;
+                    // dd($json);
+                    return $json;
+                })
+                    // 'national'=>'National',
+                    // 'regional'=>'Regional',
+                    // 'week off'=>'Week Off',
+                    // 'other'=>'Other',
+
+                  
+               
                     ->required(),
                 Forms\Components\Toggle::make('is_confirmed')
                 ->label('Holiday Comfirmation Status'),
