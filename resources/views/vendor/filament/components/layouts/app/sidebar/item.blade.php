@@ -40,7 +40,7 @@
             "
             x-tooltip.html="tooltip" @endif
         @class([
-            'flex items-center justify-center gap-3 px-3 py-2 rounded-lg font-medium transition',
+            'flex items-center justify-center gap-3 pl-3 py-2 rounded-lg font-medium transition',
 
             'dark:text-gray-300 dark:hover:bg-gray-700' =>
                 !$active && config('filament.dark_mode'),
