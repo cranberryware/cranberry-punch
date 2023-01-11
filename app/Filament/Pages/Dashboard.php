@@ -8,9 +8,9 @@ class Dashboard extends das
 {
     protected function getColumns(): int | array
     {
-        if (auth()->user()->hasRole(['employee','hr-manager'])) {
-            return 3;
-        }
-        return 2;
+        // if (auth()->user()->hasRole(['employee','hr-manager'])) {
+        //     return 3;
+        // }
+        return 3;
     }
 }
