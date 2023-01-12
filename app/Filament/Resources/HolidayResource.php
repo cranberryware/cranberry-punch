@@ -33,6 +33,7 @@ class HolidayResource extends Resource
             ->schema([
                 Forms\Components\DatePicker::make('date')
                 ->reactive()
+                ->timezone(config('user_timezone'))
                 ->afterStateUpdated(function(Closure $set,$state){
                     $day=Carbon::parse($state)->format('l');
                     $set('day_name',$day);
@@ -87,14 +88,14 @@ class HolidayResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -103,5 +104,5 @@ class HolidayResource extends Resource
             'view' => Pages\ViewHoliday::route('/{record}'),
             'edit' => Pages\EditHoliday::route('/{record}/edit'),
         ];
-    }    
+    }
 }
