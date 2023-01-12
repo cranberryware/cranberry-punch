@@ -157,7 +157,6 @@ trait HasAttendanceCalendar
                 ->extraAttributes(function (Model $record) use ($date) {
                     $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
                     $weekly_day_offs = app(AttendanceSettings::class)->weekly_day_offs;
-
                     $first_max_value = reset($calendar_cell_colors);
 
                     $cell_value = $record->{$date};
@@ -172,14 +171,19 @@ trait HasAttendanceCalendar
 
                     $classes .= " day-" . strtolower($cell_value_date->format('l'));
 
+                    $weekly_day_off_dates_array=[];
+
                     foreach($weekly_day_offs as $weekly_day_off) {
                         $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
-                        if($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
-                            $classes .= " bg-primary-500 text-white";
-                        }
+                        array_push($weekly_day_off_dates_array,$weekly_day_off_date);
+                        
                     }
-
-                    if($cell_value_date->gt(today())) {
+                    if(in_array($cell_value_date,$weekly_day_off_dates_array)){
+                        return [
+                            'class'=>"{$classes} bg-slate-500 text-white"
+                        ];
+                    };
+                    if($cell_value_date->gt(today()) ) {
                         return [
                             'class' => "{$classes} bg-primary-200"
                         ];
