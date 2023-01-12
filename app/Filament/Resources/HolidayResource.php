@@ -79,7 +79,7 @@ class HolidayResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('date')
                     ->date(),
-                Tables\Columns\TextColumn::make('day'),
+                Tables\Columns\TextColumn::make('day_name'),
                 Tables\Columns\TextColumn::make('holiday_name'),
                 Tables\Columns\TextColumn::make('holiday_type'),
                 Tables\Columns\IconColumn::make('is_confirmed')

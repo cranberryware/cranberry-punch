@@ -4,6 +4,7 @@ namespace App\Filament\Concerns;
 
 use App\Models\Attendance;
 use App\Models\Employee;
+use App\Models\Holiday;
 use App\Settings\AttendanceSettings;
 use Carbon\Carbon;
 use Closure;
@@ -165,37 +166,57 @@ trait HasAttendanceCalendar
                     $cell_value_date = reset($cell_value_arr);
                     $cell_value_date = Carbon::parse($cell_value_date);
                     $cell_value = end($cell_value_arr);
+                 
 
                     $cell_value_month = $cell_value_date->format('Y-m');
 
                     $classes = 'text-xs  rounded-full h-9 w-9 attendance-calender-item';
 
                     $classes .= " day-" . strtolower($cell_value_date->format('l'));
+                   
+                    $holidays = Holiday::all()->pluck('date');
+                    foreach($holidays as $holiday) {
+                        if($cell_value_date->toDateString() === $holiday){
+
+                            return [
+                                'class' => "{$classes} bg-cyan-300"
+                            ];
+                            
+                         }
+                    };
 
                     foreach($weekly_day_offs as $weekly_day_off) {
+                      
                         $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
                         if($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
                             $classes .= " bg-primary-500 text-white";
                         }
                     }
-
                     if($cell_value_date->gt(today())) {
                         return [
-                            'class' => "{$classes} bg-primary-200"
+                            'class' => "{$classes} bg-slate-200"
                         ];
                     }
-
                     if($cell_value_date->eq(today())) {
                         return [
                             'class' => "{$classes} bg-primary-200 animate-pulse"
                         ];
                     }
 
+
                     if ($cell_value === null || $cell_value === "") {
                         return [
                             'class' => "{$classes} bg-white"
                         ];
                     }
+                    if ($cell_value === null || $cell_value === "") {
+                        return [
+                            'class' => "{$classes} bg-white"
+                        ];
+                    }
+                   
+                 
+                   
                     usort($calendar_cell_colors, function ($a, $b) {
                         return $a['max_value'] > $b['max_value'];
                     });
@@ -248,7 +269,6 @@ trait HasAttendanceCalendar
                     if (floatval($cell_value) < floatval($first_max_value['max_value'])) {
                         return '-';
                     }
-
                     return $cell_value;
                 })
                 ->tooltip(function (Model $record) use ($date) {
@@ -263,17 +283,29 @@ trait HasAttendanceCalendar
                     $cell_value_date = Carbon::parse($cell_value_date);
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
+                    $holidays = Holiday::all();
 
-                    if($cell_value_date->gte(today()) || $cell_value === null || $cell_value === "") {
-                        return '';
+                    foreach($holidays as $holiday){
+                        if($cell_value_date->toDateString() === $holiday->date){
+                            return $holiday->holiday_name;
+                        }
                     }
 
+                    if(($cell_value_date->gte(today()) || $cell_value === null || $cell_value === "") && ($cell_value_date->toDateString() !== $holiday->date)) {
+                        return '';
+                    }
                     $hours = $record->{$date};
+        
+            
+
+                   
                     return empty($hours) ? null : "{$hours} Hours";
                 })
                 ->alignCenter();
         }
         return $columns;
+          
+
     }
 
     public function getDefaultTableSortColumn(): ?string

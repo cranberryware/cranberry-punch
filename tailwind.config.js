@@ -32,6 +32,10 @@ module.exports = {
                     30: "#F5F5F5",
                     750: "#565656",
                 },
+                primary: {
+                   200: "#64748B",
+                },
+              
                 danger: colors.red,
                 primary: colors.slate,
                 success: colors.emerald,
