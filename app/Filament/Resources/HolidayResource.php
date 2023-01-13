@@ -9,6 +9,8 @@ use App\Settings\AttendanceSettings;
 use Carbon\Carbon;
 use Closure;
 use Filament\Forms;
+use Filament\Forms\Components\Component;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -36,10 +38,10 @@ class HolidayResource extends Resource
                 Forms\Components\DatePicker::make('date')
                 ->reactive()
                 ->afterStateUpdated(function(Closure $set,$state){
-                   
                     $day=Carbon::parse($state)->format('l');
                     $set('day_name',$day);
                 })
+                ->timezone((config('user_timezone')))
                 ->required(),
                 Select::make('day_name')
                 ->options([
@@ -57,22 +59,13 @@ class HolidayResource extends Resource
                 Forms\Components\Select::make('holiday_type')
                 ->options(function (){
                     $json =app(AttendanceSettings::class)->holidays_type;
-                    // dd($json);
                     return $json;
                 })
-                    // 'national'=>'National',
-                    // 'regional'=>'Regional',
-                    // 'week off'=>'Week Off',
-                    // 'other'=>'Other',
-
-                  
-               
-                    ->required(),
+                ->required(),
                 Forms\Components\Toggle::make('is_confirmed')
                 ->label('Holiday Comfirmation Status'),
             ]);
     }
-
     public static function table(Table $table): Table
     {
         return $table
@@ -103,7 +96,6 @@ class HolidayResource extends Resource
             //
         ];
     }
-    
     public static function getPages(): array
     {
         return [

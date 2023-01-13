@@ -66,7 +66,7 @@ class ManageAttendanceSettings extends SettingsPage
 
     protected function getFormSchema(): array
     {
-        $temp=[];
+        $temp = [];
         return [
             Section::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.location'))
                 ->schema([
@@ -149,35 +149,29 @@ class ManageAttendanceSettings extends SettingsPage
                         ->keyLabel('value')
                         ->valueLabel('key')
                         ->disableEditingValues()
-                         ->lazy()
-                       
-                       
-                        ->afterStateUpdated(function (Closure $set, $state,?Model $record, Component $component) {
-                           
+                        ->lazy()
+                        ->afterStateUpdated(function (Closure $set, $state, ?Model $record, Component $component) {
                             if (filled($state)) {
-                                       
-                                        for ($i = 0; $i < count($state); $i++) {
-                                            $state[array_keys($state)[$i]] = Str::slug(array_keys($state)[$i]);
-                                            $item = [array_keys($state)[$i] => array_values($state)[$i]];
-                                            $set('holidays_type',  array_merge($state,$item));
-                                            
-                                        }
-                                    }
+                                for ($i = 0; $i < count($state); $i++) {
+                                    $state[array_keys($state)[$i]] = Str::slug(array_keys($state)[$i]);
+                                    $item = [array_keys($state)[$i] => array_values($state)[$i]];
+                                    $set('holidays_type',  array_merge($state, $item));
+                                }
+                            }
                         })
                         ->dehydrateStateUsing(function (Closure $set, $state) {
-                          return  array_flip($state);
-                          
+                            return  array_flip($state);
                         })
-                        ->afterStateHydrated(function (Closure $set, $state, ?Model $record,Component $component) use($temp) {
-                            // dump($state);
-                            $state = array_flip(array_merge($state,$temp));
-                            // dd($state);
+                        ->afterStateHydrated(function (Closure $set, $state, ?Model $record, Component $component) use ($temp) {
+                            $state = array_flip(array_merge($state, $temp));
                             $component->state($state);
-                          
-                        
-                       })
-
+                        }),
+                    TailwindColorPicker::make('holiday_type_color')
+                        ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holiday_type.holidays_type_color'))
+                        ->bgScope()
+                        ->required(),
                 ])->collapsible(),
+
         ];
     }
 }
