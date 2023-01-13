@@ -33,9 +33,7 @@ class HolidayResource extends Resource
         return $form
             ->schema([
                 Forms\Components\DatePicker::make('date') ->timezone(config('app.timezone'))
-
                 ->reactive()
-                ->timezone(config('user_timezone'))
                 ->afterStateUpdated(function(Closure $set,$state){
                     $day=Carbon::parse($state)->format('l');
                     $set('day_name',$day);
