@@ -61,19 +61,11 @@ class HolidayResource extends Resource
                     $json =app(AttendanceSettings::class)->holidays_type;
                     return $json;
                 })
-                    // 'national'=>'National',
-                    // 'regional'=>'Regional',
-                    // 'week off'=>'Week Off',
-                    // 'other'=>'Other',
-
-                  
-               
-                    ->required(),
+                ->required(),
                 Forms\Components\Toggle::make('is_confirmed')
                 ->label('Holiday Comfirmation Status'),
             ]);
     }
-
     public static function table(Table $table): Table
     {
         return $table
@@ -104,7 +96,6 @@ class HolidayResource extends Resource
             //
         ];
     }
-    
     public static function getPages(): array
     {
         return [

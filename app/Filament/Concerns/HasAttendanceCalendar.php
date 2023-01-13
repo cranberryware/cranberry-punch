@@ -132,7 +132,6 @@ trait HasAttendanceCalendar
                     foreach ($employees as $employee_code_with_full_name) {
                         $indicators[] = $employee_code_with_full_name;
                     }
-
                     return __('cranberry-punch::cranberry-punch.attendance.filter.indicator.employee', ["employees" => join(', ', $indicators)]);
                 }),
         ];
@@ -150,17 +149,15 @@ trait HasAttendanceCalendar
         ];
 
         $month_dates = $this->getMonthDates("2022-01-01");
-
         foreach ($month_dates as $month_date) {
             $date = explode("-", $month_date);
             $date = end($date);
             $columns[] = TextColumn::make("{$date}")
                 ->extraAttributes(function (Model $record) use ($date) {
                     $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
+                    $holiday_type_color = app(AttendanceSettings::class)->holiday_type_color;
                     $weekly_day_offs = app(AttendanceSettings::class)->weekly_day_offs;
-
                     $first_max_value = reset($calendar_cell_colors);
-
                     $cell_value = $record->{$date};
                     $cell_value_arr = explode(' = ', $cell_value);
                     $cell_value_date = reset($cell_value_arr);
@@ -169,22 +166,17 @@ trait HasAttendanceCalendar
                  
 
                     $cell_value_month = $cell_value_date->format('Y-m');
-
                     $classes = 'text-xs  rounded-full h-9 w-9 attendance-calender-item';
-
                     $classes .= " day-" . strtolower($cell_value_date->format('l'));
                    
                     $holidays = Holiday::all()->pluck('date');
                     foreach($holidays as $holiday) {
                         if($cell_value_date->toDateString() === $holiday){
-
                             return [
-                                'class' => "{$classes} bg-cyan-300"
+                                'class' => "{$classes} {$holiday_type_color}"
                             ];
-                            
                          }
                     };
-
                     foreach($weekly_day_offs as $weekly_day_off) {
                       
                         $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
@@ -202,8 +194,6 @@ trait HasAttendanceCalendar
                             'class' => "{$classes} bg-primary-200 animate-pulse"
                         ];
                     }
-
-
                     if ($cell_value === null || $cell_value === "") {
                         return [
                             'class' => "{$classes} bg-white"
@@ -214,9 +204,6 @@ trait HasAttendanceCalendar
                             'class' => "{$classes} bg-white"
                         ];
                     }
-                   
-                 
-                   
                     usort($calendar_cell_colors, function ($a, $b) {
                         return $a['max_value'] > $b['max_value'];
                     });
@@ -257,7 +244,6 @@ trait HasAttendanceCalendar
                             return $cell_value_date->format('D');
                         }
                     }
-
                     if($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
                         return '';
                     }
@@ -290,24 +276,16 @@ trait HasAttendanceCalendar
                             return $holiday->holiday_name;
                         }
                     }
-
                     if(($cell_value_date->gte(today()) || $cell_value === null || $cell_value === "") && ($cell_value_date->toDateString() !== $holiday->date)) {
                         return '';
                     }
                     $hours = $record->{$date};
-        
-            
-
-                   
                     return empty($hours) ? null : "{$hours} Hours";
                 })
                 ->alignCenter();
         }
         return $columns;
-          
-
     }
-
     public function getDefaultTableSortColumn(): ?string
     {
         return "employee.employee_code_with_full_name";
@@ -317,12 +295,10 @@ trait HasAttendanceCalendar
     {
         return "asc";
     }
-
     protected function getTableRecordUrlUsing(): ?Closure
     {
         return null;
     }
-
     protected function getTableRecordsPerPageSelectOptions(): array
     {
         return [25, 50, 100, 150];

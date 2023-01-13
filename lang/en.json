@@ -90,9 +90,11 @@
     "cranberry-punch::cranberry-punch.section.contact": "Contact",
     "cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings": "Attendance Settings",
     "cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.calendar-cell-colors": "Calendar Cell Colors",
-    "cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.holidays_type": "cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.holidays_type",
+    "cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.holidays_type": "Holidays Type",
     "cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.location": "Location",
     "cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.weekly-day-offs": "Weekly Days Off",
+    "cranberry-punch::cranberry-punch.section.cranberry-punch.input.holiday_type.holidays_type_color": "Holidays Type Color",
+    
     "cranberry-punch::cranberry-punch.section.cranberry-punch.input.calendar-cell-colors": "Calendar Cell Colors",
     "cranberry-punch::cranberry-punch.section.cranberry-punch.input.calendar-cell-colors.cell-background-color": "Cell Background Color",
     "cranberry-punch::cranberry-punch.section.cranberry-punch.input.calendar-cell-colors.extra-css-classes": "Extra CSS Classes",

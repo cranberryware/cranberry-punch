@@ -8,11 +8,10 @@ class HolidaySettings extends SettingsMigration
     {
 
         $this->migrator->add('attendance.holidays_type', []);
+        $this->migrator->add('attendance.holiday_type_color', 'bg-cyan-500');
     }
-
     public function down(): void
     {
-
         $this->migrator->delete('attendance.holidays_type');
     }
 }
