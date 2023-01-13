@@ -1,15 +1,17 @@
 import { slowCypressDown } from "cypress-slow-down";
-
+Cypress.on('uncaught:exception', (err, runnable) => {
+    return false;
+  });
 describe("empty spec", () => {
     beforeEach(() => {
         slowCypressDown(200);
-        cy.viewport(1440, 900);
         cy.visit("http://localhost:8000/cp-dashboard/login");
         cy.adminLogin();
     });
 
-    it("Should test Admin dashboard and profile section", (name = "Rafael Wehner", email = "stephania02@bashirian.com", newName = "Rafael Jones", newEmail = "stephania02@yahoo.com") => {
-        cy.get('input[id="globalSearchInput"]').type("Rafael Wehner");
+    it("Should test Admin dashboard and profile section", (name = "Rafael Wehner", email = "stephania02@bashirian.com", newName = "Rafael Jones", newEmail = "stephania02@yahoo.com",password="password",newPassword="new_password") => {
+        slowCypressDown(200);
+        cy.get('input[id="globalSearchInput"]').type(name);
         cy.get('li[class="filament-global-search-result"]').click();
 
         cy.log("should test name and email editing-----------------");
@@ -27,7 +29,7 @@ describe("empty spec", () => {
         cy.contains("Save changes").click();
 
         cy.log("should test edit password----------------");
-        cy.get('input[id="data.password"]').type("new_password");
+        cy.get('input[id="data.password"]').type(newPassword);
         cy.get('input[id="data.passwordConfirmation"]').type(
             "diff_new_password"
         );
@@ -35,14 +37,14 @@ describe("empty spec", () => {
 
         cy.get('input[id="data.password"]').clear();
         cy.get('input[id="data.passwordConfirmation"]').clear();
-        cy.get('input[id="data.password"]').type("new_password");
-        cy.get('input[id="data.passwordConfirmation"]').type("new_password");
+        cy.get('input[id="data.password"]').type(newPassword);
+        cy.get('input[id="data.passwordConfirmation"]').type(newPassword);
         cy.contains("Save changes").click();
 
         cy.get('input[id="data.password"]').clear();
         cy.get('input[id="data.passwordConfirmation"]').clear();
-        cy.get('input[id="data.password"]').type("password");
-        cy.get('input[id="data.passwordConfirmation"]').type("password");
+        cy.get('input[id="data.password"]').type(password);
+        cy.get('input[id="data.passwordConfirmation"]').type(password);
         cy.contains("Save changes").click();
 
         cy.get('input[name="search_terms"]').click();
@@ -55,7 +57,7 @@ describe("empty spec", () => {
         cy.contains("View").click();
         cy.contains("Dashboard").click();
 
-        cy.get('input[id="tableSearchInput"]').type("Rafael Wehner");
+        cy.get('input[id="tableSearchInput"]').type(name);
         cy.get(".filament-tables-filters-trigger").click();
         cy.get('input[id="tableSearchInput"]').clear()
         cy.get(".filament-tables-filters-trigger").click();

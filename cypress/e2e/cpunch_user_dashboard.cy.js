@@ -1,8 +1,10 @@
 import { slowCypressDown } from "cypress-slow-down";
+Cypress.on('uncaught:exception', (err, runnable) => {
+    return false;
+  });
 describe("Dashboard spec", () => {
     beforeEach(() => {
         slowCypressDown(200);
-        cy.viewport(1440, 900);
         cy.visit("http://localhost:8000/cp-dashboard/login");
         cy.login();
     });

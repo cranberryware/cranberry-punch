@@ -43,17 +43,20 @@ class AttendanceResource extends Resource
                     ->placeholder(__('cranberry-punch::cranberry-punch.attendance.input.employee'))
                     ->searchable()
                     ->relationship('employee', fn () => "employee_code_with_full_name")
+                    ->extraAttributes(['class'=> 'cp-attendance-empId-field'])
                     ->required(),
                 Forms\Components\Select::make('user_id')
                     ->label(__('cranberry-punch::cranberry-punch.attendance.input.user'))
                     ->placeholder(__('cranberry-punch::cranberry-punch.attendance.input.user'))
                     ->searchable()
                     ->relationship('user', fn () => "name")
+                    ->extraAttributes(['class'=> 'cp-attendance-user-field'])
                     ->disabled(!auth()->user()->hasRole(['hr-manager', 'super-admin']))
                     ->required(),
                 Forms\Components\DateTimePicker::make('check_in')
                     ->label(__('cranberry-punch::cranberry-punch.attendance.input.check-in'))
                     ->placeholder(__('cranberry-punch::cranberry-punch.attendance.input.check-in'))
+                    ->extraAttributes(['class'=> 'cp-checkin'])
                     ->required(),
                 Forms\Components\DateTimePicker::make('check_out')
                     ->label(__('cranberry-punch::cranberry-punch.attendance.input.check-out'))

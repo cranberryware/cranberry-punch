@@ -145,7 +145,7 @@
     "filament::login.fields.password.placeholder": "Password",
     "filament::login.fields.remember.label": "Remember Me",
     "filament::resources\/pages\/edit-record.form.actions.cancel.label": "Cancel",
-    "filament::resources\/pages\/edit-record.form.actions.save.label": "Save Changes",
+    "filament::resources\/pages\/edit-record.form.actions.save.label": "Save changes",
     "filament::widgets\/account-widget.buttons.logout.label": "Logout",
     "filament::widgets\/account-widget.welcome": "Welcome"
 }
