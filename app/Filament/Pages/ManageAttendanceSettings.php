@@ -169,7 +169,7 @@ class ManageAttendanceSettings extends SettingsPage
                     TailwindColorPicker::make('holiday_type_color')
                         ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holiday_type.holidays_type_color'))
                         ->bgScope()
-                        // ->required(),
+                        ->required(),
                 ])->collapsible(),
 
         ];
