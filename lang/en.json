@@ -133,7 +133,7 @@
     "filament::layout.buttons.dark_mode.label": "filament::layout.buttons.dark_mode.label",
     "filament::layout.buttons.database_notifications.label": "filament::layout.buttons.database_notifications.label",
     "filament::layout.buttons.light_mode.label": "filament::layout.buttons.light_mode.label",
-    "filament::layout.buttons.logout.label": "filament::layout.buttons.logout.label",
+    "filament::layout.buttons.logout.label": "Logout",
     "filament::layout.buttons.sidebar.collapse.label": "filament::layout.buttons.sidebar.collapse.label",
     "filament::layout.buttons.sidebar.expand.label": "filament::layout.buttons.sidebar.expand.label",
     "filament::layout.buttons.user_menu.label": "filament::layout.buttons.user_menu.label",
@@ -142,8 +142,8 @@
     "filament::login.fields.email.placeholder": "Email or Username",
     "filament::login.fields.password.placeholder": "Password",
     "filament::login.fields.remember.label": "Remember Me",
-    "filament::resources\/pages\/edit-record.form.actions.cancel.label": "filament::resources\/pages\/edit-record.form.actions.cancel.label",
-    "filament::resources\/pages\/edit-record.form.actions.save.label": "filament::resources\/pages\/edit-record.form.actions.save.label",
-    "filament::widgets\/account-widget.buttons.logout.label": "filament::widgets\/account-widget.buttons.logout.label",
-    "filament::widgets\/account-widget.welcome": "filament::widgets\/account-widget.welcome"
+    "filament::resources\/pages\/edit-record.form.actions.cancel.label": "Cancel",
+    "filament::resources\/pages\/edit-record.form.actions.save.label": "Save Changes",
+    "filament::widgets\/account-widget.buttons.logout.label": "Logout",
+    "filament::widgets\/account-widget.welcome": "Welcome"
 }
