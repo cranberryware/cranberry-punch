@@ -275,8 +275,11 @@ trait HasAttendanceCalendar
                         if($cell_value_date->toDateString() === $holiday->date){
                             return $holiday->holiday_name;
                         }
+                        if($cell_value_date->toDateString() !== $holiday->date){
+                            return $holiday->holiday_date;
+                        }
                     }
-                    if(($cell_value_date->gte(today()) || $cell_value === null || $cell_value === "") && ($cell_value_date->toDateString() !== $holiday->date)) {
+                    if(($cell_value_date->gte(today()) || $cell_value === null || $cell_value === "")) {
                         return '';
                     }
                     $hours = $record->{$date};
