@@ -3,7 +3,7 @@ import { slowCypressDown } from "cypress-slow-down";
 Cypress.on('uncaught:exception', (err, runnable) => {
   return false;
 });
-describe("empty spec", () => {
+describe("Admin_User spec", () => {
     beforeEach(() => {
         slowCypressDown(200);
         cy.visit("http://localhost:8000/cp-dashboard/login");
