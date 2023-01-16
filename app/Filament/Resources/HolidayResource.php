@@ -8,6 +8,7 @@ use App\Models\Holiday;
 use App\Settings\AttendanceSettings;
 use Carbon\Carbon;
 use Closure;
+use DateTimeZone;
 use Filament\Forms;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\DatePicker;
@@ -19,7 +20,7 @@ use Filament\Tables;
 use HolidaySettings;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use Filament\Forms\Components\DatePicker;
 class HolidayResource extends Resource
 {
     protected static ?string $model = Holiday::class;
@@ -35,7 +36,8 @@ class HolidayResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\DatePicker::make('date')
+                DatePicker::make('date')
+                ->timezone(config('app.timezone'))
                 ->reactive()
                 ->afterStateUpdated(function(Closure $set,$state){
                     $day=Carbon::parse($state)->format('l');
@@ -68,6 +70,7 @@ class HolidayResource extends Resource
     }
     public static function table(Table $table): Table
     {
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('date')
@@ -89,7 +92,7 @@ class HolidayResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
@@ -104,5 +107,5 @@ class HolidayResource extends Resource
             'view' => Pages\ViewHoliday::route('/{record}'),
             'edit' => Pages\EditHoliday::route('/{record}/edit'),
         ];
-    }    
+    }
 }

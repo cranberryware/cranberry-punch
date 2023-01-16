@@ -168,21 +168,19 @@ trait HasAttendanceCalendar
                     $cell_value_month = $cell_value_date->format('Y-m');
                     $classes = 'text-xs  rounded-full h-9 w-9 attendance-calender-item';
                     $classes .= " day-" . strtolower($cell_value_date->format('l'));
-                   
-                    $holidays = Holiday::all()->pluck('date');
-                    foreach($holidays as $holiday) {
-                        if($cell_value_date->toDateString() === $holiday){
-                            return [
-                                'class' => "{$classes} {$holiday_type_color}"
-                            ];
-                         }
-                    };
+
+                    $weekly_day_off_dates = [];
                     foreach($weekly_day_offs as $weekly_day_off) {
-                      
-                        $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
-                        if($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
-                            $classes .= " bg-primary-500 text-white";
-                        }
+                        array_push($weekly_day_off_dates,Carbon::parse("{$weekly_day_off} {$cell_value_month}"));
+                        // if($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
+                        //     $classes .= " bg-primary-500 text-white";
+                        // }
+                    }
+
+                    if( in_array($cell_value_date,$weekly_day_off_dates) && (empty($cell_value) || $cell_value == '0.00')) {
+                        return [
+                            'class' => "{$classes} bg-primary-500 text-white"
+                        ];
                     }
                     if($cell_value_date->gt(today())) {
                         return [
@@ -240,7 +238,7 @@ trait HasAttendanceCalendar
 
                     foreach($weekly_day_offs as $weekly_day_off) {
                         $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
-                        if($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
+                        if($cell_value_date->eq($weekly_day_off_date) && (empty($cell_value) || $cell_value == '0.00')) {
                             return $cell_value_date->format('D');
                         }
                     }
