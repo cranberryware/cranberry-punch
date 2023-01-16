@@ -16,7 +16,7 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use Filament\Forms\Components\DatePicker;
 class HolidayResource extends Resource
 {
     protected static ?string $model = Holiday::class;
@@ -32,7 +32,8 @@ class HolidayResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\DatePicker::make('date') ->timezone(config('app.timezone'))
+                DatePicker::make('date')
+                ->timezone(config('app.timezone'))
                 ->reactive()
                 ->afterStateUpdated(function(Closure $set,$state){
                     $day=Carbon::parse($state)->format('l');
