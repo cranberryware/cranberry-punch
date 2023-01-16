@@ -6,9 +6,7 @@ class HolidaySettings extends SettingsMigration
 {
     public function up(): void
     {
-
         $this->migrator->add('attendance.holidays_type', []);
-       
     }
     public function down(): void
     {
