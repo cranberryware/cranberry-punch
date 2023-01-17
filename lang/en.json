@@ -93,8 +93,8 @@
     "cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.holidays_type": "Holidays Type",
     "cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.location": "Location",
     "cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.weekly-day-offs": "Weekly Days Off",
-    "cranberry-punch::cranberry-punch.section.cranberry-punch.input.holiday_type.holidays_type_color": "Holidays Type Color",
-    
+    "cranberry-punch::cranberry-punch.section.cranberry-punch.input.holidays_type.holiday_type_color": "Holidays Type Color",
+    "cranberry-punch::cranberry-punch.section.cranberry-punch.input.holidays_type": " Holidays",
     "cranberry-punch::cranberry-punch.section.cranberry-punch.input.calendar-cell-colors": "Calendar Cell Colors",
     "cranberry-punch::cranberry-punch.section.cranberry-punch.input.calendar-cell-colors.cell-background-color": "Cell Background Color",
     "cranberry-punch::cranberry-punch.section.cranberry-punch.input.calendar-cell-colors.extra-css-classes": "Extra CSS Classes",
@@ -135,7 +135,7 @@
     "filament::layout.buttons.dark_mode.label": "filament::layout.buttons.dark_mode.label",
     "filament::layout.buttons.database_notifications.label": "filament::layout.buttons.database_notifications.label",
     "filament::layout.buttons.light_mode.label": "filament::layout.buttons.light_mode.label",
-    "filament::layout.buttons.logout.label": "filament::layout.buttons.logout.label",
+    "filament::layout.buttons.logout.label": "Logout",
     "filament::layout.buttons.sidebar.collapse.label": "filament::layout.buttons.sidebar.collapse.label",
     "filament::layout.buttons.sidebar.expand.label": "filament::layout.buttons.sidebar.expand.label",
     "filament::layout.buttons.user_menu.label": "filament::layout.buttons.user_menu.label",
@@ -144,8 +144,8 @@
     "filament::login.fields.email.placeholder": "Email or Username",
     "filament::login.fields.password.placeholder": "Password",
     "filament::login.fields.remember.label": "Remember Me",
-    "filament::resources\/pages\/edit-record.form.actions.cancel.label": "filament::resources\/pages\/edit-record.form.actions.cancel.label",
-    "filament::resources\/pages\/edit-record.form.actions.save.label": "filament::resources\/pages\/edit-record.form.actions.save.label",
+    "filament::resources\/pages\/edit-record.form.actions.cancel.label": "cancel",
+    "filament::resources\/pages\/edit-record.form.actions.save.label": "save",
     "filament::widgets\/account-widget.buttons.logout.label": "filament::widgets\/account-widget.buttons.logout.label",
     "filament::widgets\/account-widget.welcome": "filament::widgets\/account-widget.welcome"
 }

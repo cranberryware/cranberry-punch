@@ -155,7 +155,7 @@ trait HasAttendanceCalendar
             $columns[] = TextColumn::make("{$date}")
                 ->extraAttributes(function (Model $record) use ($date) {
                     $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
-                    $holiday_type_color = app(AttendanceSettings::class)->holiday_type_color;
+                    $holiday_type_color = app(AttendanceSettings::class)->holidays_type;
                     $weekly_day_offs = app(AttendanceSettings::class)->weekly_day_offs;
                     $first_max_value = reset($calendar_cell_colors);
                     $cell_value = $record->{$date};
@@ -163,33 +163,36 @@ trait HasAttendanceCalendar
                     $cell_value_date = reset($cell_value_arr);
                     $cell_value_date = Carbon::parse($cell_value_date);
                     $cell_value = end($cell_value_arr);
-                 
+
 
                     $cell_value_month = $cell_value_date->format('Y-m');
                     $classes = 'text-xs  rounded-full h-9 w-9 attendance-calender-item';
                     $classes .= " day-" . strtolower($cell_value_date->format('l'));
-                   
-                    $holidays = Holiday::all()->pluck('date');
-                    foreach($holidays as $holiday) {
-                        if($cell_value_date->toDateString() === $holiday){
-                            return [
-                                'class' => "{$classes} {$holiday_type_color}"
-                            ];
-                         }
+                    $holidays = Holiday::all();
+                
+                    foreach ($holidays as $holiday) {
+                        foreach($holiday_type_color as $type){
+                            if ($cell_value_date->toDateString() === $holiday->date) {
+                                if(array_keys($type['holidays_type'])[0] === $holiday->holiday_type){
+                                    return [
+                                        'class' => "{$classes} {$type['holiday_type_color']}"
+                                    ];
+                                }
+                            }
+                        }
                     };
-                    foreach($weekly_day_offs as $weekly_day_off) {
-                      
+                    foreach ($weekly_day_offs as $weekly_day_off) {
                         $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
-                        if($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
+                        if ($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
                             $classes .= " bg-primary-500 text-white";
                         }
                     }
-                    if($cell_value_date->gt(today())) {
+                    if ($cell_value_date->gt(today())) {
                         return [
                             'class' => "{$classes} bg-slate-200"
                         ];
                     }
-                    if($cell_value_date->eq(today())) {
+                    if ($cell_value_date->eq(today())) {
                         return [
                             'class' => "{$classes} bg-primary-200 animate-pulse"
                         ];
@@ -238,17 +241,17 @@ trait HasAttendanceCalendar
                     $cell_value_month = $cell_value_date->format('Y-m');
 
 
-                    foreach($weekly_day_offs as $weekly_day_off) {
+                    foreach ($weekly_day_offs as $weekly_day_off) {
                         $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
-                        if($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
+                        if ($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
                             return $cell_value_date->format('D');
                         }
                     }
-                    if($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
+                    if ($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
                         return '';
                     }
 
-                    if($cell_value_date->eq(today())) {
+                    if ($cell_value_date->eq(today())) {
                         return $cell_value;
                     }
 
@@ -270,16 +273,12 @@ trait HasAttendanceCalendar
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
                     $holidays = Holiday::all();
-
-                    foreach($holidays as $holiday){
-                        if($cell_value_date->toDateString() === $holiday->date){
+                    foreach ($holidays as $holiday) {
+                        if ($cell_value_date->toDateString() === $holiday->date) {
                             return $holiday->holiday_name;
                         }
-                        if($cell_value_date->toDateString() !== $holiday->date){
-                            return $holiday->holiday_date;
-                        }
                     }
-                    if(($cell_value_date->gte(today()) || $cell_value === null || $cell_value === "")) {
+                    if (($cell_value_date->gte(today()) || $cell_value === null || $cell_value === "")) {
                         return '';
                     }
                     $hours = $record->{$date};
