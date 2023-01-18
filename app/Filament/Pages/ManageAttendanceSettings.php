@@ -9,6 +9,7 @@ use App\Settings\AttendanceSettings;
 use Closure;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Component;
+use Filament\Forms\Components\Grid;
 use Filament\Pages\Actions\Action;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Repeater;
@@ -143,119 +144,46 @@ class ManageAttendanceSettings extends SettingsPage
                         ->columns(5)
                         ->required(),
                 ])->collapsible(),
-            // Section::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.holidays_type'))
-            //     ->schema([
-            //         KeyValue::make('holidays_type')
-            //             ->keyLabel('value')
-            //             ->valueLabel('key')
-            //             ->disableEditingValues()
-            //             ->lazy()
-            //             ->afterStateUpdated(function (Closure $set, $state, ?Model $record, Component $component) {
-            //                 if (filled($state)) {
-            //                     for ($i = 0; $i < count($state); $i++) {
-            //                         $state[array_keys($state)[$i]] = Str::slug(array_keys($state)[$i]);
-            //                         $item = [array_keys($state)[$i] => array_values($state)[$i]];
-            //                         $set('holidays_type',  array_merge($state, $item));
-            //                     }
-            //                 }
-            //             })
-            //             ->dehydrateStateUsing(function (Closure $set, $state) {
-            //                 return  array_flip($state);
-            //             })
-            //             ->afterStateHydrated(function (Closure $set, $state, ?Model $record, Component $component) use ($temp) {
-            //                 $state = array_flip(array_merge($state, $temp));
-            //                 $component->state($state);
-            //             }),
-            //         TailwindColorPicker::make('holiday_type_color')
-            //             ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holiday_type.holidays_type_color'))
-            //             ->bgScope()
-            //             ->required(),
-            //     ])->collapsible(),
-
-            // Section::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.holidays_type'))
-            //     ->schema([
-            //         Repeater::make('holidays')
-            //             ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.holidays_type'))
-            //             ->schema([
-            //                 KeyValue::make('holidays_type')
-            //                     ->keyLabel('value')
-            //                     ->valueLabel('key')
-            //                     ->disableAddingRows()
-            //                     ->disableEditingValues()
-            //                     ->lazy()
-            //                     ->afterStateUpdated(function (Closure $set, $state, ?Model $record, Component $component) {
-
-            //                         if (filled($state)) {
-            //                             for ($i = 0; $i < count($state); $i++) {
-            //                                 $state[array_keys($state)[$i]] = Str::slug(array_keys($state)[$i]);
-            //                                 $item = [array_keys($state)[$i] => array_values($state)[$i]];
-
-            //                                 // $set('holidays_type',  array_merge($state, $item));
-            //                                 $set('holidays_type', $item);
-            //                                 // dd($state);
-            //                             }
-            //                         }
-            //                     })
-            //                     ->dehydrateStateUsing(function (Closure $set, $state) {
-            //                         return  array_flip($state);
-            //                     })
-            //                     ->afterStateHydrated(function (Closure $set, $state, ?Model $record, Component $component) use ($temp) {
-            //                         // $state = array_flip($state);
-            //                         // $component->state($state);
-            //                         $set('holidays_type', array_flip($temp));
-            //                     }),
-            //                 TailwindColorPicker::make('holiday_type_color')
-            //                     ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holiday_type.holidays_type_color'))
-            //                     ->bgScope()
-            //                     ->required(),
-
-            //             ])
-            //             // ->itemLabel(fn (array $state): ?string => "" ?? null)
-            //             ->defaultItems(1)
-            //             ->minItems(1)
-            //             ->maxItems(25)
-
-            //     ])->collapsible(),
-
-                Section::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.holidays_type'))
+            Section::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.holidays_type'))
+            // Grid::make()
                 ->schema([
                     Repeater::make('holidays_type')
                         ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holidays_type'))
-                        ->extraAttributes([
-                            'class' => ''
-                        ])
                         ->schema([
                             KeyValue::make('holidays_type')
-                            ->keyLabel('value')
-                            ->valueLabel('key')
-                            ->disableAddingRows()
-                            ->disableEditingValues()
-                            ->lazy()
-                            ->afterStateUpdated(function (Closure $set, $state, ?Model $record, Component $component) {
-                                if (filled($state)) {
-                                    for ($i = 0; $i < count($state); $i++) {
-                                        $state[array_keys($state)[$i]] = Str::slug(array_keys($state)[$i]);
-                                        $item = [array_keys($state)[$i] => array_values($state)[$i]];
-                                        $set('holidays_type',  array_merge($state, $item));
+                                ->keyLabel('value')
+                                ->valueLabel('key')
+                                ->disableAddingRows()
+                                ->disableEditingValues()
+                                ->lazy()
+                                ->afterStateUpdated(function (Closure $set, $state, ?Model $record, Component $component) {
+                                    if (filled($state)) {
+                                        for ($i = 0; $i < count($state); $i++) {
+                                            $state[array_keys($state)[$i]] = Str::slug(array_keys($state)[$i]);
+                                            $item = [array_keys($state)[$i] => array_values($state)[$i]];
+                                            $set('holidays_type',  array_merge($state, $item));
+                                        }
                                     }
-                                }
-                            })
-                            ->dehydrateStateUsing(function (Closure $set, $state) {
-                                return  array_flip($state);
-                            })
-                            ->afterStateHydrated(function (Closure $set, $state, ?Model $record, Component $component) use ($temp) {
-                            $state = array_flip(array_merge($state, $temp));
-                            $component->state($state);
-                            }),
+                                })
+                                ->dehydrateStateUsing(function (Closure $set, $state) {
+                                    return  array_flip($state);
+                                })
+                                ->afterStateHydrated(function (Closure $set, $state, ?Model $record, Component $component) use ($temp) {
+                                    $state = array_flip(array_merge($state, $temp));
+                                    $component->state($state);
+                                }),
                             TailwindColorPicker::make('holiday_type_color')
-                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holidays_type.holiday_type_color'))
                                 ->bgScope()
-                        ])
+                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holidays_type.holiday_type_color'))
+                                ->extraAttributes([
+                                    'class' => 'text-red-400',
+                                    // 'style' => 'height:auto; max-height:35vh; padding:2rem; min-height:25vh; text-transform:uppercase; font-size:1.5rem; margin:2vh 1vh;',
+                                    ])
+                                ])
                         ->defaultItems(1)
-                        // ->minItems(1)
-                        // ->maxItems(25)
-                        // ->orderable(true),
-                ])->collapsible(),
+                        ->columns(2)
+                    
+                ])
 
         ];
     }
