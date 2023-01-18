@@ -33,38 +33,46 @@ class HolidayResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $value = [];
         return $form
             ->schema([
-                DatePicker::make('date')
-                ->timezone(config('app.timezone'))
-                ->reactive()
-                ->afterStateUpdated(function(Closure $set,$state){
-                    $day=Carbon::parse($state)->format('l');
-                    $set('day_name',$day);
-                })
-                ->timezone((config('user_timezone')))
-                ->required(),
+                Forms\Components\DatePicker::make('date')
+                    ->reactive()
+                    ->afterStateUpdated(function (Closure $set, $state) {
+                        $day = Carbon::parse($state)->format('l');
+                        $set('day_name', $day);
+                    })
+                    ->timezone((config('user_timezone')))
+                    ->required(),
                 Select::make('day_name')
-                ->options([
-                    'Sunday'=>'Sunday','Monday'=>'Monday',
-                    'Tuesday'=>'Tuesday','Wednesday'=>'Wednesday',
-                    'Thursday'=>'Thursday','Friday'=>'Friday',
-                    'Saturday'=>'Saturday'
-                ])
-                ->disabled(function(Closure $get){
-                    return $get('date')!==null;
-                }),
+                    ->options([
+                        'Sunday' => 'Sunday', 'Monday' => 'Monday',
+                        'Tuesday' => 'Tuesday', 'Wednesday' => 'Wednesday',
+                        'Thursday' => 'Thursday', 'Friday' => 'Friday',
+                        'Saturday' => 'Saturday'
+                    ])
+                    ->disabled(function (Closure $get) {
+                        return $get('date') !== null;
+                    }),
                 Forms\Components\TextInput::make('holiday_name')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('holiday_type')
-                ->options(function (){
-                    $json =app(AttendanceSettings::class)->holidays_type;
-                    return $json;
-                })
-                ->required(),
+                    ->options(function () {
+                        $dump = [];
+                        $json = app(AttendanceSettings::class)->holidays_type;
+                        foreach ($json as $item) {
+                            $variable = array_values($item['holidays_type']);
+                            foreach($json as $item){
+                                $variable = $item['holidays_type'];
+                                $dump[array_keys($variable)[0]] = array_values($variable)[0];
+                            }
+                        }
+                       return $dump;
+                    })
+                    ->required(),
                 Forms\Components\Toggle::make('is_confirmed')
-                ->label('Holiday Comfirmation Status'),
+                    ->label('Holiday Comfirmation Status'),
             ]);
     }
     public static function table(Table $table): Table

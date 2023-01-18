@@ -6,7 +6,9 @@ class HolidayColorSettings extends SettingsMigration
 {
     public function up(): void
     {
-        $this->migrator->add('attendance.holiday_type_color', 'bg-cyan-500');
+        $this->migrator->add('attendance.holiday_type_color', [
+            
+        ]);
     }
     public function down(): void
     {
