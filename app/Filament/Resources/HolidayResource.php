@@ -20,7 +20,6 @@ use Filament\Tables;
 use HolidaySettings;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\DatePicker;
 class HolidayResource extends Resource
 {
     protected static ?string $model = Holiday::class;

@@ -8,7 +8,7 @@ describe("Attendance_Management spec", () => {
         cy.visit("http://localhost:8000/cp-dashboard/login");
         cy.adminLogin();
     });
-    it("Should test the Attendance section", (employeeId = "NTE-006: Rafael Wehner", name = "Rafael Wehner") => {
+    it("Should test the Attendance Management section", (employeeId = "NTE-006: Rafael Wehner", name = "Rafael Wehner") => {
         cy.log("Should test calander view & List view button-----------------");
         cy.visit("http://localhost:8000/cp-dashboard/attendances");
         cy.contains("Calendar View").click();
