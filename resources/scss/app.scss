@@ -377,7 +377,10 @@ $primary-750: theme("colors.green.750");
 }
 
 .filament-forms-tabs-component-header{
-    @apply bg-emerald-50 ;
+    @apply bg-green-100 ;
+}
+.filament-forms-tabs-component-button-active {
+    @apply bg-[#059669] text-white rounded-lg
 }
 
 
