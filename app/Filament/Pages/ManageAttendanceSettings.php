@@ -150,38 +150,23 @@ class ManageAttendanceSettings extends SettingsPage
                     Repeater::make('holidays_type')
                         ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holidays_type'))
                         ->schema([
-                            KeyValue::make('holidays_type')
-                                ->keyLabel('value')
-                                ->valueLabel('key')
-                                ->disableAddingRows()
-                                ->disableEditingValues()
-                                ->lazy()
-                                ->afterStateUpdated(function (Closure $set, $state, ?Model $record, Component $component) {
-                                    if (filled($state)) {
-                                        for ($i = 0; $i < count($state); $i++) {
-                                            $state[array_keys($state)[$i]] = Str::slug(array_keys($state)[$i]);
-                                            $item = [array_keys($state)[$i] => array_values($state)[$i]];
-                                            $set('holidays_type',  array_merge($state, $item));
-                                        }
-                                    }
-                                })
-                                ->dehydrateStateUsing(function (Closure $set, $state) {
-                                    return  array_flip($state);
-                                })
-                                ->afterStateHydrated(function (Closure $set, $state, ?Model $record, Component $component) use ($temp) {
-                                    $state = array_flip(array_merge($state, $temp));
-                                    $component->state($state);
-                                }),
-                            TailwindColorPicker::make('holiday_type_color')
-                                ->bgScope()
-                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holidays_type.holiday_type_color'))
-                                ->extraAttributes([
-                                    'class' => 'text-red-400',
-                                    // 'style' => 'height:auto; max-height:35vh; padding:2rem; min-height:25vh; text-transform:uppercase; font-size:1.5rem; margin:2vh 1vh;',
-                                    ])
-                                ])
+                            TextInput::make('name')
+                            ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holidays_type.name'))
+                            ->reactive()
+                            ->afterStateUpdated(function (Closure $set, $state) {
+                                $set('slug', Str::slug($state));
+                            })->required(),
+                            TextInput::make('slug')
+                            ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holidays_type.slug'))
+                            ->required()
+                            ,
+                            TailwindColorPicker::make('holiday_color')
+                            ->bgScope()
+                            ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holidays_type.holiday_color'))
+                            ->required()
+                            ])
                         ->defaultItems(1)
-                        ->columns(2)
+                        ->columns(3)
                     
                 ])
 

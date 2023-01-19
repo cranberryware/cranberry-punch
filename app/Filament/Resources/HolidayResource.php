@@ -59,16 +59,12 @@ class HolidayResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Select::make('holiday_type')
                     ->options(function () {
-                        $dump = [];
-                        $json = app(AttendanceSettings::class)->holidays_type;
-                        foreach ($json as $item) {
-                            $variable = array_values($item['holidays_type']);
-                            foreach($json as $item){
-                                $variable = $item['holidays_type'];
-                                $dump[array_keys($variable)[0]] = array_values($variable)[0];
-                            }
+                            $array = [];
+                            $json = app(AttendanceSettings::class)->holidays_type;
+                        foreach ($json as $value) {
+                            $array[$value['slug']] = $value['name'];
                         }
-                       return $dump;
+                        return $array;
                     })
                     ->required(),
                 Forms\Components\Toggle::make('is_confirmed')

@@ -29,7 +29,6 @@ trait HasAttendanceCalendar
     private function getMonthDates($month_selected): array
     {
         $month_dates = [];
-
         $start_of_month = Carbon::parse($month_selected)->startOfMonth();
         $end_of_month = Carbon::parse($month_selected)->endOfMonth();
         while ($start_of_month->lte($end_of_month)) {
@@ -172,10 +171,11 @@ trait HasAttendanceCalendar
                 
                     foreach ($holidays as $holiday) {
                         foreach($holiday_type_color as $type){
+                            // dd($type['slug']);
                             if ($cell_value_date->toDateString() === $holiday->date) {
-                                if(array_keys($type['holidays_type'])[0] === $holiday->holiday_type){
+                                if($type['slug'] === $holiday->holiday_type){
                                     return [
-                                        'class' => "{$classes} {$type['holiday_type_color']}"
+                                        'class' => "{$classes} {$type['holiday_color']}"
                                     ];
                                 }
                             }
