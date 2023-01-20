@@ -102,4 +102,5 @@ class PermissionResource extends Resource
             'view' => ViewPermission::route('/{record}'),
         ];
     }
+    
 }
