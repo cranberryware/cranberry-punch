@@ -19,7 +19,7 @@ class CustomRoleRelationManager extends RoleRelationManager
             ->schema([
                 TextInput::make('name')
                     ->unique()
-                    ->label(strval(__('filament-authentication::filament-authentication.field.test'))),
+                    ->label(strval(__('filament-authentication::filament-authentication.field.name'))),
                 TextInput::make('guard_name')
                     ->label(strval(__('filament-authentication::filament-authentication.field.guard_name')))
                      ->default(config('auth.defaults.guard')),
