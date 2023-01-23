@@ -15,10 +15,11 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Phpsa\FilamentAuthentication\Resources\RoleResource ;
+use Spatie\Permission\Models\Role;
 
 class CustomRoleResource extends RoleResource
 {
-    protected static ?string $model = CustomRole::class;
+    protected static ?string $model = Role::class;
     // protected static ?string $model = Role::class;
 
 

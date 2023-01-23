@@ -16,10 +16,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Phpsa\FilamentAuthentication\Resources\PermissionResource;
 use Phpsa\FilamentAuthentication\Resources\PermissionResource\RelationManager\RoleRelationManager;
+use Spatie\Permission\Models\Permission as ModelsPermission;
 
 class CustomPermissionResource extends PermissionResource
 {
-    protected static ?string $model = CustomPermission::class;
+    protected static ?string $model = ModelsPermission::class;
 
     // protected static ?string $navigationIcon = 'heroicon-o-collection';
 

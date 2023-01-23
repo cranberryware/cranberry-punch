@@ -25,6 +25,16 @@ class CustomRoleRelationManager extends RoleRelationManager
                      ->default(config('auth.defaults.guard')),
             ]);
     }
+
+    public function afterAttach(): void
+    {
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+    }
+
+    public function afterDetach(): void
+    {
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+    }
     
 
 }
