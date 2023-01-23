@@ -7,6 +7,7 @@ use App\Filament\Resources\CustomPermissionResource\Pages;
 use App\Filament\Resources\CustomPermissionResource\RelationManagers;
 use App\Models\CustomPermission;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -22,13 +23,20 @@ class CustomPermissionResource extends PermissionResource
 
     // protected static ?string $navigationIcon = 'heroicon-o-collection';
 
-    // public static function form(Form $form): Form
-    // {
-    //     return $form
-    //         ->schema([
-    //             //
-    //         ]);
-    // }
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                TextInput::make('name')
+                ->unique()
+                ->label(strval(__('filament-authentication::filament-authentication.field.name')))
+                ->required(),
+                TextInput::make('guard_name')
+                ->label(strval(__('filament-authentication::filament-authentication.field.guard_name')))
+                ->required()
+                ->default(config('auth.defaults.guard')),
+            ]);
+    }
 
     // public static function table(Table $table): Table
     // {

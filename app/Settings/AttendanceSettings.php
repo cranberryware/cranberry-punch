@@ -14,7 +14,6 @@ class AttendanceSettings extends Settings
     
     public array $holidays_type;
 
-    public array $holiday_type_color;
 
 
     public static function group(): string

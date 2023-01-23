@@ -7,6 +7,7 @@ use App\Filament\Resources\CustomRoleResource\Pages;
 use App\Filament\Resources\CustomRoleResource\RelationManagers;
 use App\Models\CustomRole;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -28,13 +29,20 @@ class CustomRoleResource extends RoleResource
     //     static::$model = config('filament-authentication.models.CustomRole');
     // }
 
-    // public static function form(Form $form): Form
-    // {
-    //     return $form
-    //         ->schema([
-    //             //
-    //         ]);
-    // }
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                TextInput::make('name')
+                ->unique()
+                ->label(strval(__('filament-authentication::filament-authentication.field.name')))
+                ->required(),
+                TextInput::make('guard_name')
+                ->label(strval(__('filament-authentication::filament-authentication.field.guard_name')))
+                ->required()
+                ->default(config('auth.defaults.guard')),
+            ]);
+    }
 
     // public static function table(Table $table): Table
     // {
@@ -60,7 +68,6 @@ class CustomRoleResource extends RoleResource
             CustomPermissionRelationManager::class,
         ];
     }
-    
     public static function getPages(): array
     {
         return [
