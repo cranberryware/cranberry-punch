@@ -7,6 +7,8 @@ use App\Filament\Resources\CustomPermissionResource\Pages;
 use App\Filament\Resources\CustomPermissionResource\RelationManagers;
 use App\Models\CustomPermission;
 use Filament\Forms;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -26,17 +28,25 @@ class CustomPermissionResource extends PermissionResource
 
     public static function form(Form $form): Form
     {
-        return $form
+            return $form
             ->schema([
-                TextInput::make('name')
-                ->unique()
-                ->label(strval(__('filament-authentication::filament-authentication.field.name')))
-                ->required(),
-                TextInput::make('guard_name')
-                ->label(strval(__('filament-authentication::filament-authentication.field.guard_name')))
-                ->required()
-                ->default(config('auth.defaults.guard')),
-            ]);
+                Card::make()
+                    ->schema([
+                        Grid::make(2)
+                        ->schema([
+                            TextInput::make('name')
+                            ->unique()
+                            ->label(strval(__('filament-authentication::filament-authentication.field.name')))
+                            ->required(),
+                            TextInput::make('guard_name')
+                            ->label(strval(__('filament-authentication::filament-authentication.field.guard_name')))
+                            ->required()
+                            ->default(config('auth.defaults.guard')),
+                        ])
+                
+            ])
+
+        ]);
     }
 
     // public static function table(Table $table): Table
