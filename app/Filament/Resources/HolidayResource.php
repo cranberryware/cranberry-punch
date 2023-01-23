@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\HolidayResource\Pages;
 use App\Filament\Resources\HolidayResource\RelationManagers;
 use App\Models\Holiday;
+use App\Settings\AttendanceSettings;
 use Carbon\Carbon;
 use Closure;
 use DateTimeZone;
@@ -33,36 +34,39 @@ class HolidayResource extends Resource
         return $form
             ->schema([
                 DatePicker::make('date')
-                ->timezone(config('app.timezone'))
-                ->reactive()
-                ->afterStateUpdated(function(Closure $set,$state){
-                    $day=Carbon::parse($state)->format('l');
-                    $set('day_name',$day);
-                })
-                ->required(),
+                    ->label(__('cranberry-punch::cranberry-punch.section.holiday.input.date'))
+                    ->timezone(config('app.timezone'))
+                    ->afterStateUpdated(function(Closure $set,$state){
+                        $day=Carbon::parse($state)->format('l');
+                        $set('day_name',$day);
+                    })
+                    ->reactive()
+                    ->required(),
                 Select::make('day_name')
-                ->options([
-                    'Sunday'=>'Sunday','Monday'=>'Monday',
-                    'Tuesday'=>'Tuesday','Wednesday'=>'Wednesday',
-                    'Thursday'=>'Thursday','Friday'=>'Friday',
-                    'Saturday'=>'Saturday'
-                ])
-                ->disabled(function(Closure $get){
-                    return $get('date')!==null;
-                }),
+                    ->label(__('cranberry-punch::cranberry-punch.section.holiday.input.day_name'))
+                    ->options(function() {
+                        $days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+                        return array_combine($days, $days);
+                    })
+                    ->disabled(function(Closure $get){
+                        return $get('date')!==null;
+                    }),
                 Forms\Components\TextInput::make('holiday_name')
+                    ->label(__('cranberry-punch::cranberry-punch.section.holiday.input.holiday_name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('holiday_type')
-                ->options([
-                    'national'=>'National',
-                    'regional'=>'Regional',
-                    'week off'=>'Week Off',
-                    'other'=>'Other',
-                ])
+                    ->label(__('cranberry-punch::cranberry-punch.section.holiday.input.holiday_type'))
+                    ->options(function() {
+                        $options = [];
+                        foreach (app(AttendanceSettings::class)->holiday_types as $holiday_type) {
+                            $options[$holiday_type['slug']] = $holiday_type['name'];
+                        }
+                        return $options;
+                    })
                     ->required(),
                 Forms\Components\Toggle::make('is_confirmed')
-                ->label('Holiday Comfirmation Status'),
+                    ->label(__('cranberry-punch::cranberry-punch.section.holiday.input.holiday_status'))
             ]);
     }
 
@@ -73,8 +77,7 @@ class HolidayResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('date')
                     ->date(),
-
-                Tables\Columns\TextColumn::make('day'),
+                Tables\Columns\TextColumn::make('day_name'),
                 Tables\Columns\TextColumn::make('holiday_name'),
                 Tables\Columns\TextColumn::make('holiday_type'),
                 Tables\Columns\IconColumn::make('is_confirmed')
