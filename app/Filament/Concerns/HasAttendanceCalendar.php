@@ -249,7 +249,6 @@ trait HasAttendanceCalendar
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
 
-
                     foreach($weekly_day_offs as $weekly_day_off) {
                         $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
                         if($cell_value_date->eq($weekly_day_off_date) && (empty($cell_value) || $cell_value == '0.00')) {
@@ -257,12 +256,19 @@ trait HasAttendanceCalendar
                         }
                     }
 
-                    if($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
-                        return '';
-                    }
-
                     if($cell_value_date->eq(today())) {
                         return $cell_value;
+                    }
+
+                    $holidays = Holiday::where('is_confirmed', true)->get();
+                    foreach ($holidays as $holiday) {
+                        if ($cell_value_date->toDateString() === $holiday->date) {
+                            return "H";
+                        }
+                    };
+
+                    if($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
+                        return '';
                     }
 
                     if (floatval($cell_value) < floatval($first_max_value['max_value'])) {
