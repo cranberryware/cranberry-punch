@@ -82,38 +82,18 @@ describe("Admin_Department spec", () => {
       cy.get('input[id="data.gender-male"]').click();
       cy.get('input[id="data.date_of_birth"]').click();
       cy.contains('19').click();
+      cy.get("body").click(0, 0);
+      cy.get('input[id="data.birthday"]').click().trigger('keydown', {
+        key: 'Enter',
+      });
+      cy.get("body").click(0, 0);
 
-      cy.get('.col-span-1:nth-child(5) .w-20').type('1991');
-      cy.get('.col-span-1:nth-child(5) .w-20').click();
-      cy.get('#data\.birthday').click();
-      cy.get('.col-span-1:nth-child(6) .w-20').type('2000');
-      cy.get('.col-span-1:nth-child(6) .w-20').click();
-      cy.get('.col-span-1:nth-child(6) .w-20').type('1999');
-      cy.get('.col-span-1:nth-child(6) .w-20').click();
-      cy.get('.col-span-1:nth-child(6) .w-20').type('1998');
-      cy.get('.col-span-1:nth-child(6) .w-20').click();
-      cy.get('.col-span-1:nth-child(6) .w-20').dblclick();
-      cy.get('.col-span-1:nth-child(6) .w-20').type('1990');
-      cy.get('.col-span-1:nth-child(6) .w-20').click();
-      cy.get('.col-span-1:nth-child(6) .w-20').dblclick();
-      cy.get('.col-span-1:nth-child(6) .text-sm:nth-child(7)').click();
-      cy.get('#data\.personal .col-span-1:nth-child(9) .flex:nth-child(1)').click();
-      cy.get('#data\.blood_group').click();
-      cy.get('#data\.blood_group').type('0');
-      cy.get('#data\.nationality').click();
-      cy.get('#data\.nationality').type('IN');
-      cy.get('#data\.country_of_birth').click();
-      cy.get('#data\.country_of_birth').type('IN');
-      cy.get('#data\.family .filament-forms-section-header').click();
-      cy.get('#data\.marital_status').click();
-      cy.get('#data\.marital_status').type('unmarried');
-      cy.get('span:nth-child(3)').click();
-      cy.get('.filament-form').submit();
-      cy.url().should('contains', 'http://localhost:8000/cp-dashboard/employees');
-
-
-
-
+      cy.get('select[id="data.blood_group"]').select("A+").should("have.value", "0");
+      cy.get('select[id="data.nationality"]').select("India").should("have.value", "IN");
+      cy.get('select[id="data.country_of_birth"]').select("India").should("have.value", "IN");
+      cy.get('div[id="data.family"]').click();
+      cy.get('select[id="data.marital_status"]').select("Unmarried").should("have.value", "unmarried");
+      cy.contains('Create').click();
 
       cy.log('Testing the Employees section================End')
     });

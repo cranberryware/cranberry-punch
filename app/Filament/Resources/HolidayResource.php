@@ -33,7 +33,6 @@ class HolidayResource extends Resource
 
     public static function form(Form $form): Form
     {
-        $value = [];
         return $form
             ->schema([
                 Forms\Components\DatePicker::make('date')
@@ -59,8 +58,8 @@ class HolidayResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Select::make('holiday_type')
                     ->options(function () {
-                            $array = [];
-                            $json = app(AttendanceSettings::class)->holidays_type;
+                        $array = [];
+                        $json = app(AttendanceSettings::class)->holidays_type;
                         foreach ($json as $value) {
                             $array[$value['slug']] = $value['name'];
                         }
@@ -95,7 +94,6 @@ class HolidayResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-
     public static function getRelations(): array
     {
         return [
