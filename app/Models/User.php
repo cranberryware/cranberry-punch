@@ -77,4 +77,14 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Attendance::class);
     }
 
+    public function devices()
+    {
+        return $this->hasMany(Device::class);
+    }
+    public function webhooks()
+    {
+        return $this->hasMany(Webhook::class);
+    }
+
+
 }

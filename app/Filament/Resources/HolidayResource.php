@@ -44,14 +44,19 @@ class HolidayResource extends Resource
                     ->timezone((config('user_timezone')))
                     ->required(),
                 Select::make('day_name')
-                    ->options([
-                        'Sunday' => 'Sunday', 'Monday' => 'Monday',
-                        'Tuesday' => 'Tuesday', 'Wednesday' => 'Wednesday',
-                        'Thursday' => 'Thursday', 'Friday' => 'Friday',
-                        'Saturday' => 'Saturday'
-                    ])
-                    ->disabled(function (Closure $get) {
-                        return $get('date') !== null;
+                    // ->options([
+                    //     'Sunday' => 'Sunday', 'Monday' => 'Monday',
+                    //     'Tuesday' => 'Tuesday', 'Wednesday' => 'Wednesday',
+                    //     'Thursday' => 'Thursday', 'Friday' => 'Friday',
+                    //     'Saturday' => 'Saturday'
+                    // ])
+                    // ->disabled(function (Closure $get) {
+                    //     return $get('date') !== null;
+                    // })
+                    ->options(function () {
+                        $options = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+                        $days = array_combine($options, $options);
+                        return  $days;
                     }),
                 Forms\Components\TextInput::make('holiday_name')
                     ->required()
@@ -59,10 +64,14 @@ class HolidayResource extends Resource
                 Forms\Components\Select::make('holiday_type')
                     ->options(function () {
                         $array = [];
-                        $json = app(AttendanceSettings::class)->holidays_type;
-                        foreach ($json as $value) {
-                            $array[$value['slug']] = $value['name'];
+                        // $json = app(AttendanceSettings::class)->holiday_type;
+                        // foreach ($json as $value) {
+                        //     $array[$value['slug']] = $value['name'];
+                        // }
+                        foreach (app(AttendanceSettings::class)->holiday_type as $holiday) {
+                            $array[$holiday['slug']] = $holiday['name'];
                         }
+
                         return $array;
                     })
                     ->required(),

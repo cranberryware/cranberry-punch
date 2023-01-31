@@ -149,23 +149,23 @@ class ManageAttendanceSettings extends SettingsPage
                                         ->columns(5)
                                         ->required(),
                                 ]),
-                            Tab::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.holidays_type'))
+                            Tab::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.holiday_type'))
                                 ->schema([
-                                    Repeater::make('holidays_type')
-                                        ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holidays_type'))
+                                    Repeater::make('holiday_type')
+                                        ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holiday_type'))
                                         ->schema([
                                             TextInput::make('name')
-                                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holidays_type.name'))
+                                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holiday_type.name'))
                                                 ->reactive()
                                                 ->afterStateUpdated(function (Closure $set, $state) {
                                                     $set('slug', Str::slug($state));
                                                 })->required(),
                                             TextInput::make('slug')
-                                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holidays_type.slug'))
+                                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holiday_type.slug'))
                                                 ->required(),
                                             TailwindColorPicker::make('holiday_color')
                                                 ->bgScope()
-                                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holidays_type.holiday_color'))
+                                                ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holiday_type.holiday_color'))
                                                 ->required()
                                         ])
                                         ->defaultItems(1)

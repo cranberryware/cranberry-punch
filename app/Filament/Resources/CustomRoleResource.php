@@ -16,7 +16,7 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Phpsa\FilamentAuthentication\Resources\RoleResource ;
+use Phpsa\FilamentAuthentication\Resources\RoleResource;
 use Spatie\Permission\Models\Role;
 
 class CustomRoleResource extends RoleResource
@@ -35,24 +35,23 @@ class CustomRoleResource extends RoleResource
     public static function form(Form $form): Form
     {
         return $form
-        ->schema([
-            Card::make()
-                ->schema([
-                    Grid::make(2)
+            ->schema([
+                Card::make()
                     ->schema([
-                        TextInput::make('name')
-                        ->unique()
-                        ->label(strval(__('filament-authentication::filament-authentication.field.name')))
-                        ->required(),
-                        TextInput::make('guard_name')
-                        ->label(strval(__('filament-authentication::filament-authentication.field.guard_name')))
-                        ->required()
-                        ->default(config('auth.defaults.guard')),
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('name')
+                                    ->unique()
+                                    ->label(strval(__('filament-authentication::filament-authentication.field.name')))
+                                    ->required(),
+                                TextInput::make('guard_name')
+                                    ->label(strval(__('filament-authentication::filament-authentication.field.guard_name')))
+                                    ->required()
+                                    ->default(config('auth.defaults.guard')),
+                            ])
                     ])
-            
-        ])
 
-    ]);
+            ]);
     }
 
     // public static function table(Table $table): Table
@@ -71,8 +70,7 @@ class CustomRoleResource extends RoleResource
     //             Tables\Actions\DeleteBulkAction::make(),
     //         ]);
     // }
-    
-    
+
     public static function getRelations(): array
     {
         return [
@@ -86,5 +84,5 @@ class CustomRoleResource extends RoleResource
             'create' => Pages\CreateCustomRole::route('/create'),
             'edit' => Pages\EditCustomRole::route('/{record}/edit'),
         ];
-    }    
+    }
 }

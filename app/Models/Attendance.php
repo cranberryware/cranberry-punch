@@ -81,4 +81,13 @@ class Attendance extends Model
     //     $date = is_a($date, Carbon::class) ? $date : Carbon::parse($date);
 
     // }
+
+    public function devices()
+    {
+        return $this->hasMany(Device::class);
+    }
+    public function webhooks()
+    {
+        return $this->hasMany(Webhook::class);
+    }
 }

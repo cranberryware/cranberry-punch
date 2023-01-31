@@ -12,7 +12,7 @@ class AttendanceSettings extends Settings
 
     public array $weekly_day_offs;
     
-    public array $holidays_type;
+    public array $holiday_type;
 
 
 
