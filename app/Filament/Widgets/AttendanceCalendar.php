@@ -25,4 +25,9 @@ class AttendanceCalendar extends TableWidget
         // }
         return 2;
     }
+    // public function updated($name,$value){
+    //     dump($this->tableColumns);
+    //     $this->render();
+
+    // }
 }

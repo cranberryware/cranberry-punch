@@ -8,6 +8,7 @@ use App\Models\Holiday;
 use App\Settings\AttendanceSettings;
 use Carbon\Carbon;
 use Closure;
+use Exception;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
@@ -19,13 +20,12 @@ use Illuminate\Support\Facades\DB;
 trait HasAttendanceCalendar
 {
     protected ?string $defaultSortDirection = "asc";
-
+    public  ?string $selectedMonth = "";
     protected function getTable(): Table
     {
         $table = parent::getTable();
         return $table;
     }
-
     private function getMonthDates($month_selected): array
     {
         $month_dates = [];
@@ -37,17 +37,18 @@ trait HasAttendanceCalendar
             $month_dates[] = $date;
             $start_of_month->addDay();
         }
+        // dump($month_dates);
         return $month_dates;
     }
-
     protected function getTableQuery(): Builder
     {
         $columns = [DB::raw("employee_id AS id"), "employee_id"];
-
         $month_selected = $this->getTableFilterState("attendance_month")["value"];
+        $this->selectedMonth = $month_selected;
+        // dump($this->selectedMonth);
         $month_dates = $this->getMonthDates($month_selected);
-
-        foreach ($month_dates as $month_date) {
+        // dump($month_dates);
+        foreach ($month_dates as $month_date) { 
             $date = explode("-", $month_date);
             $date = end($date);
             $columns[] = DB::raw("
@@ -63,25 +64,39 @@ trait HasAttendanceCalendar
                     , 2) AS CHAR)
                 ) AS `{$date}`
             ");
+          
         }
-
+        // dump($month_dates);
+        // dd($date);
+        // $this->getTableColumns();
         return Attendance::query()
             ->select($columns)
             ->groupBy(["employee_id"])
             ->whereNotNull("check_out");
     }
+    public function updated($name, $value){
+        $this->selectedMonth = $value;
+        // dump($this->selectedMonth);
 
+        $this->getTableColumns();
+        }
+
+  
     protected function getTableFilters(): array
     {
         $today = Carbon::parse(DB::select(DB::raw('SELECT NOW() AS ctime'))[0]->ctime);
+        // dd($today );
         $months_list = [];
         $day = now();
         for ($i = 0; $i < 12; $i++) {
             $months_list[$day->format('Y-m-01')] = $day->format('F Y');
             $day->subMonth(1);
         }
-        return [
+        // dump( $months_list);
+    //    $this->tableData("1");
 
+
+        return [
             Filter::make('attendance_month')
                 ->form([
                     Select::make('value')
@@ -124,9 +139,7 @@ trait HasAttendanceCalendar
                     if (empty($data['id']) || count($data['id']) < 1) {
                         return null;
                     }
-
                     $employees = Employee::whereIn('id', $data['id'])->pluck('employee_code_with_full_name');
-
                     foreach ($employees as $employee_code_with_full_name) {
                         $indicators[] = $employee_code_with_full_name;
                     }
@@ -134,7 +147,7 @@ trait HasAttendanceCalendar
                 }),
         ];
     }
-
+ 
     protected function getTableColumns(): array
     {
         $columns = [
@@ -145,9 +158,9 @@ trait HasAttendanceCalendar
                     'class' => 'font-bold text-sm'
                 ]),
         ];
-
-        $month_dates = $this->getMonthDates("2022-01-01");
-        foreach ($month_dates as $month_date) {
+        $months_dds = $this->getMonthDates($this->selectedMonth);
+        // $months_dds = $this->getMonthDates("2022-01-01");
+        foreach ($months_dds as $month_date) {
             $date = explode("-", $month_date);
             $date = end($date);
             $columns[] = TextColumn::make("{$date}")
@@ -303,8 +316,12 @@ trait HasAttendanceCalendar
                 })
                 ->alignCenter();
         }
+        // dd();
+        // return array_merge($columns,[$columns[0]]);
         return $columns;
     }
+
+ 
     public function getDefaultTableSortColumn(): ?string
     {
         return "employee.employee_code_with_full_name";

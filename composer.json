@@ -23,6 +23,7 @@
         "phpsa/filament-authentication": "^2.1",
         "psr/simple-cache": "^1.0",
         "pxlrbt/filament-excel": "^1.0",
+        "saade/filament-fullcalendar": "^1.6",
         "spatie/laravel-settings": "^2.4",
         "venturecraft/revisionable": "^1.39",
         "webbingbrasil/filament-advancedfilter": "^1.1"
