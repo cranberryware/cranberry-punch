@@ -326,12 +326,9 @@ $primary-750: theme("colors.green.750");
         to right,
         $primary-750,
         $primary-750 50%,
-        #000 50%
     );
     background-size: 200% 100%;
     background-position: -100%;
-    //   display: inline-block;
-    // padding: 5px 0;
     position: relative;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -340,7 +337,6 @@ $primary-750: theme("colors.green.750");
 
 .hover-effect:before {
     content: "";
-    // background: $primary-450;
     display: block;
     position: absolute;
     bottom: -3px;
