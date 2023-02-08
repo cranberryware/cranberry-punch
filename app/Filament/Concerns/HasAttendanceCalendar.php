@@ -8,19 +8,21 @@ use App\Models\Holiday;
 use App\Settings\AttendanceSettings;
 use Carbon\Carbon;
 use Closure;
-use Exception;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\View as ComponentsView;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Illuminate\View\View as ViewView;
 
 trait HasAttendanceCalendar
 {
     protected ?string $defaultSortDirection = "asc";
-    public  ?string $selectedMonth = "";
+    public  $selectedMonth = "";
     protected function getTable(): Table
     {
         $table = parent::getTable();
@@ -37,7 +39,6 @@ trait HasAttendanceCalendar
             $month_dates[] = $date;
             $start_of_month->addDay();
         }
-        // dump($month_dates);
         return $month_dates;
     }
     protected function getTableQuery(): Builder
@@ -45,10 +46,8 @@ trait HasAttendanceCalendar
         $columns = [DB::raw("employee_id AS id"), "employee_id"];
         $month_selected = $this->getTableFilterState("attendance_month")["value"];
         $this->selectedMonth = $month_selected;
-        // dump($this->selectedMonth);
         $month_dates = $this->getMonthDates($month_selected);
-        // dump($month_dates);
-        foreach ($month_dates as $month_date) { 
+        foreach ($month_dates as $month_date) {
             $date = explode("-", $month_date);
             $date = end($date);
             $columns[] = DB::raw("
@@ -64,38 +63,31 @@ trait HasAttendanceCalendar
                     , 2) AS CHAR)
                 ) AS `{$date}`
             ");
-          
         }
-        // dump($month_dates);
-        // dd($date);
-        // $this->getTableColumns();
+
         return Attendance::query()
             ->select($columns)
             ->groupBy(["employee_id"])
             ->whereNotNull("check_out");
     }
-    public function updated($name, $value){
+    public function updated($name, $value)
+    {
+        // dump($value);
         $this->selectedMonth = $value;
-        // dump($this->selectedMonth);
+        // dump($this->render(parent::$view));
+        $this->render(parent::$view);
+    }
 
-        $this->getTableColumns();
-        }
 
-  
     protected function getTableFilters(): array
     {
         $today = Carbon::parse(DB::select(DB::raw('SELECT NOW() AS ctime'))[0]->ctime);
-        // dd($today );
         $months_list = [];
         $day = now();
         for ($i = 0; $i < 12; $i++) {
             $months_list[$day->format('Y-m-01')] = $day->format('F Y');
             $day->subMonth(1);
         }
-        // dump( $months_list);
-    //    $this->tableData("1");
-
-
         return [
             Filter::make('attendance_month')
                 ->form([
@@ -103,7 +95,7 @@ trait HasAttendanceCalendar
                         ->label(strval(__('cranberry-punch::cranberry-punch.attendance.filter.attendance_month')))
                         ->disablePlaceholderSelection()
                         ->options($months_list)
-                        ->default($today->format('Y-m-01')),
+                    // ->default($today->format('Y-m-01')),
                 ])
                 ->indicateUsing(function (array $data): ?string {
                     if (!$data['value']) {
@@ -137,6 +129,7 @@ trait HasAttendanceCalendar
                     $indicators = [];
 
                     if (empty($data['id']) || count($data['id']) < 1) {
+
                         return null;
                     }
                     $employees = Employee::whereIn('id', $data['id'])->pluck('employee_code_with_full_name');
@@ -147,7 +140,7 @@ trait HasAttendanceCalendar
                 }),
         ];
     }
- 
+
     protected function getTableColumns(): array
     {
         $columns = [
@@ -159,6 +152,8 @@ trait HasAttendanceCalendar
                 ]),
         ];
         $months_dds = $this->getMonthDates($this->selectedMonth);
+        // dump($months_dds);
+        // dump($this->selectedMonth);
         // $months_dds = $this->getMonthDates("2022-01-01");
         foreach ($months_dds as $month_date) {
             $date = explode("-", $month_date);
@@ -181,7 +176,6 @@ trait HasAttendanceCalendar
                     $classes .= " day-" . strtolower($cell_value_date->format('l'));
                     $holidays = Holiday::where(['is_confirmed' => true])->get();
 
-
                     foreach ($holidays as $holiday) {
                         if ($cell_value_date->toDateString() === $holiday->date) {
                             foreach ($holiday_type_color as $holiday_color) {
@@ -203,7 +197,7 @@ trait HasAttendanceCalendar
 
                     if ($cell_value_date->gt(today())) {
                         return [
-                            'class' => "{$classes} bg-slate-200"
+                            'class' => "{$classes} bg-primary-200"
                         ];
                     }
                     if ($cell_value_date->eq(today())) {
@@ -298,14 +292,14 @@ trait HasAttendanceCalendar
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
                     // $holidays = Holiday::all();
-                    $holiday = Holiday::where(['is_confirmed'=> true, 'date' => $cell_value_date->toDateString()])->first();
+                    $holiday = Holiday::where(['is_confirmed' => true, 'date' => $cell_value_date->toDateString()])->first();
                     // dd( $holiday);
                     // foreach ($holidays as $holiday) {
                     //     if ($cell_value_date->toDateString() === $holiday->date) {
                     //         return $holiday->holiday_name;
                     //     }
                     // }
-                    if($holiday){
+                    if ($holiday) {
                         return $holiday->holiday_name;
                     }
                     if (($cell_value_date->gte(today()) || $cell_value === null || $cell_value === "")) {
@@ -316,12 +310,12 @@ trait HasAttendanceCalendar
                 })
                 ->alignCenter();
         }
-        // dd();
-        // return array_merge($columns,[$columns[0]]);
         return $columns;
     }
 
- 
+    
+
+
     public function getDefaultTableSortColumn(): ?string
     {
         return "employee.employee_code_with_full_name";

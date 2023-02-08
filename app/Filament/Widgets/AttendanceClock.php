@@ -35,6 +35,7 @@ class AttendanceClock extends TableWidget
 
     protected function getTableQuery(): Builder
     {
+       
         if(!auth()->user()->employee)
             return null;
         $query = Attendance::query()
