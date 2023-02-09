@@ -1,5 +1,7 @@
 <?php
 
+use App\Filament\Widgets\CustomLatestUser;
+
 return [
     'models' => [
         'User'       => \App\Models\User::class,
@@ -18,7 +20,7 @@ return [
         'LatestUsers' => [
             'enabled' => true,
             'limit'   => 5,
-            'sort'    => 0
+            'sort'    => -1
         ],
     ],
     'preload_roles' => true,

@@ -29,9 +29,7 @@ class EmployeeAttendance extends TableWidget
     protected function getTableQuery(): Builder
     {
        
-        return Attendance::query()
-        // ->where('employee_id', auth()->user()->id)
-        ;
+        return Attendance::query();
     }
 
     protected function getTableColumns(): array
@@ -41,32 +39,26 @@ class EmployeeAttendance extends TableWidget
                 ->sortable(true)
                 ->searchable(true)
                 ->extraAttributes([
-                    'class' => 'font-bold text-sm'
+                    'class' => 'font-bold text-sm '
                 ]),
-            // TextColumn::make("check_in")
-            // ->sortable(true)
-            // ->searchable(true)
-            // ->time()
-            // ->extraAttributes([
-            //     'class' => 'font-bold text-sm',
-            // ]),
-
         ];
         $months_dds = $this->getMonthDates($this->selectedMonth);
         foreach ($months_dds as $month_date) {
             $date = explode("-", $month_date);
             $date = end($date);
-            $columns[] = TextColumn::make("{$date}")->time()
+            $columns[] = TextColumn::make("{$date}")
                 ->getStateUsing(function (Model $record) use ($date) {
-                    $time = Attendance::query()->where('employee_id',  auth()->user()->id)->get();
-                //  dd($time);
-                    foreach($time as $value){
-                        $check_in = ($value->check_in);
-                    //    return $check_in;
-                    }
-                    return $check_in;
-                });
+                    return $record->check_in;
+                })->dateTime('h:i:s A');
         }
         return $columns;
     }
+    public function getColumnSpan(): int | string | array
+    {
+        // if (auth()->user()->hasRole(['employee', 'hr-manager'])) {
+        //     return 2;
+        // }
+        return 3;
+    }
+   
 }

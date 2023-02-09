@@ -283,7 +283,7 @@ $primary-750: theme("colors.green.750");
 
 .filament-tables-component {
     .filament-tables-container {
-        border-color: $primary-250;
+        border-color: $primary-250 ;
     }
 }
 
@@ -382,6 +382,7 @@ $primary-750: theme("colors.green.750");
 .filament-forms-tabs-component-button-active {
     @apply bg-[#059669] text-white rounded-lg
 }
+
 
 
 

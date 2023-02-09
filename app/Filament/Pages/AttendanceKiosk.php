@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Filament\Widgets\AttendanceCalendar;
 use App\Filament\Widgets\AttendanceClock;
+use App\Filament\Widgets\EmployeeAttendance;
 use Filament\Pages\Actions\Action;
 use Filament\Pages\Page;
 use Illuminate\Contracts\View\View;

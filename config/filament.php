@@ -14,6 +14,10 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Auth\Login;
+use App\Filament\Widgets\AttendanceCalendar;
+use App\Filament\Widgets\CustomLatestUser;
+use App\Filament\Widgets\EmployeeAttendance;
+use Phpsa\FilamentAuthentication\Widgets\LatestUsersWidget;
 
 return [
 
@@ -145,6 +149,9 @@ return [
         'namespace' => 'App\\Filament\\Widgets',
         'path' => app_path('Filament/Widgets'),
         'register' => [
+            AttendanceCalendar::class,
+            LatestUsersWidget::class,
+            EmployeeAttendance::class,
             // Widgets\AccountWidget::class,
             // Widgets\FilamentInfoWidget::class,
         ],
