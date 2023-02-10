@@ -53,6 +53,7 @@ class EmployeeAttendance extends TableWidget
         }
         return $columns;
     }
+    
     public function getColumnSpan(): int | string | array
     {
         // if (auth()->user()->hasRole(['employee', 'hr-manager'])) {

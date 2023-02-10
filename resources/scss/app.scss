@@ -68,7 +68,7 @@ $primary-750: theme("colors.green.750");
     box-sizing: border-box;
     flex-grow: calc(75vw - 20px);
 }
-@media (min-width:1024px) and (max-width:1840px){
+@media (min-width: 1024px) and (max-width: 1840px) {
     .cp-topbar-main {
         width: 70vw !important;
         float: right;
@@ -77,7 +77,7 @@ $primary-750: theme("colors.green.750");
 }
 .login {
     align-self: center;
-    @apply xxs:max-w-[77%] sm:max-w-full
+    @apply xxs:max-w-[77%] sm:max-w-full;
 }
 
 .login .filament-forms-text-input-component input {
@@ -100,7 +100,7 @@ $primary-750: theme("colors.green.750");
 }
 
 .password {
-    @apply transition duration-75 rounded-lg  disabled:opacity-70  max-w-full ;
+    @apply transition duration-75 rounded-lg  disabled:opacity-70  max-w-full;
 }
 
 .login .filament-forms-text-input-component {
@@ -133,7 +133,7 @@ $primary-750: theme("colors.green.750");
     @apply bg-white shadow-none;
 }
 
-.remember{
+.remember {
     margin-left: 5px;
 }
 
@@ -256,7 +256,6 @@ $primary-750: theme("colors.green.750");
     display: flex;
     justify-content: center;
     align-items: center;
-   
 }
 
 .filament-button.bg-primary-600 {
@@ -283,7 +282,7 @@ $primary-750: theme("colors.green.750");
 
 .filament-tables-component {
     .filament-tables-container {
-        border-color: $primary-250 ;
+        border-color: $primary-250;
     }
 }
 
@@ -310,6 +309,10 @@ $primary-750: theme("colors.green.750");
 
 .filament-tables-table tbody {
     @apply border-green-250;
+}
+
+.filament-tables-header-cell button {
+    @apply flex justify-center;
 }
 
 .attendanceClock:hover {
@@ -376,18 +379,9 @@ $primary-750: theme("colors.green.750");
     width: 100%;
 }
 
-.filament-forms-tabs-component-header{
-    @apply bg-green-100 ;
+.filament-forms-tabs-component-header {
+    @apply bg-green-100;
 }
 .filament-forms-tabs-component-button-active {
-    @apply bg-[#059669] text-white rounded-lg
+    @apply bg-[#059669] text-white rounded-lg;
 }
-
-
-
-
-
-
-
-
-
