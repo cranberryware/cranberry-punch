@@ -12,6 +12,8 @@ class AttendanceSettings extends Settings
 
     public array $weekly_day_offs;
 
+    public array $holiday_types;
+
     public static function group(): string
     {
         return 'attendance';

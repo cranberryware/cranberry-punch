@@ -5,7 +5,7 @@ return [
     // Allow login, and registration if enabled, for users with an email for one of the following domains.
     // All domains allowed by default
     // Only use lower case
-    'domain_allowlist' => [],
+    'domain_allowlist' => ['nettantra.com', 'nettantra.net'],
 
     // Allow registration through socials
     'registration' => true,
@@ -14,6 +14,14 @@ return [
     // These should match the socialite providers you have setup in your services.php config.
     // Uses blade UI icons, for example: https://github.com/owenvoke/blade-fontawesome
     'providers' => [
+        'google' => [
+            'label' => 'Login using NetTantra Account',
+            'icon' => 'fab-google',
+            'iconColor' => 'white',
+            'iconBackgroundColor' => 'success-600',
+            'color' => 'gray-600',
+            // 'backgroundColor' => 'primary',
+        ],
     ],
 
     'user_model' => \App\Models\User::class,

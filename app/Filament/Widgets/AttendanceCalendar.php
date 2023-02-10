@@ -20,9 +20,9 @@ class AttendanceCalendar extends TableWidget
 
     public function getColumnSpan(): int | string | array
     {
-        if (auth()->user()->hasRole(['employee'])) {
-            return 2;
-        }
-        return 1;
+        // if (auth()->user()->hasRole(['employee', 'hr-manager'])) {
+        //     return 2;
+        // }
+        return 2;
     }
 }

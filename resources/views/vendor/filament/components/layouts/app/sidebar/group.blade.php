@@ -8,9 +8,8 @@
 
 <li x-data="{ label: {{ \Illuminate\Support\Js::from((filled($parentGroup) ? "{$parentGroup}." : null) . $label) }} }"
     @if (filled($parentGroup)) x-bind:class="{{ config('filament.layout.sidebar.is_collapsible_on_desktop') ? '$store.sidebar.isOpen' : 'true' }} ? 'ml-11 pr-3 pt-3' : 'hidden'" @endif
-    @if ($label != '') class={{ ' filament-sidebar-group ' }}
-    @else
-        class="filament-sidebar-group dashboard-nav" @endif>
+    class={{ ' filament-sidebar-group ' }}
+   >
     @if ($label)
         <button @if ($collapsible) x-on:click.prevent="$store.sidebar.toggleCollapsedGroup(label)" @endif
             @if (config('filament.layout.sidebar.is_collapsible_on_desktop')) x-show="$store.sidebar.isOpen" @endif

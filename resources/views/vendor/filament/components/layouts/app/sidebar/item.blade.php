@@ -12,12 +12,12 @@
 <li @class([
     'filament-sidebar-item overflow-hidden w-full',
     'pl-6' => $label == 'Dashboard',
-    'pl-8 border border-l-0 border-green-750' => $label != 'Dashboard',
+    'pl-8 border border-l-0 border-green-750' ,
     'filament-sidebar-item-active ' => $active,
-    'text-white active-nav' => $active && $label != 'Dashboard',
+    'text-white active-nav' => $active,
     'hover:bg-green-650 hover:rounded-r-full hover:green-450 hover:border hover:border-l-0
         focus:bg-green-650 focus:rounded-r-full focus:green-450 focus:border focus:border-l-0  helo-ps' =>
-        !$active && $label != 'Dashboard',
+        !$active ,
 ]) @if (config('filament.layout.sidebar.is_collapsible_on_desktop'))
     x-bind:class="$store.sidebar.isOpen ? '' : 'pl-0'"
     @endif
@@ -40,14 +40,13 @@
             "
             x-tooltip.html="tooltip" @endif
         @class([
-            'flex items-center justify-center gap-3 px-3 py-2 rounded-lg font-medium transition' =>
-                $label != 'Dashboard',
+            'flex items-center justify-center gap-3 pl-3 py-2 rounded-lg font-medium transition',
 
             'dark:text-gray-300 dark:hover:bg-gray-700' =>
                 !$active && config('filament.dark_mode'),
 
-            ' uppercase text-[16px] flex items-center justify-center gap-3 px-3 py-2  font-medium transition' =>
-                $label == 'Dashboard',
+            // ' capitalize text-[16px] flex items-center justify-center gap-3 px-3 py-2  font-medium transition' =>
+            //     $label == 'Dashboard',
         ])>
         <x-dynamic-component :component="$active && $activeIcon ? $activeIcon : $icon" class="h-6 w-6 shrink-0" />
 

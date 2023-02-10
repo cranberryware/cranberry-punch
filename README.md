@@ -97,12 +97,3 @@ To run the Cypress test suite, run the following command:
 ```
 npx cypress open
 ```
-
-## Security
-
-If you find a security issue with this application please send an email to contact@cranberryware.com Please follow responsible disclosure procedures if you detect an issue. For further information on responsible disclosure please read [here](https://cheatsheetseries.owasp.org/cheatsheets/Vulnerability_Disclosure_Cheat_Sheet.html)
-
-## License
-
-Cranberry Punch is released under the Elastic License.  
-See [LICENSE](LICENSE.md) for details.
