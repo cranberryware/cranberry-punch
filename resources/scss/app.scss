@@ -301,25 +301,7 @@ $primary-750: theme("colors.green.750");
 .btn-cmn:hover {
     background-color: $primary-750 !important;
 }
-.helo-ps {
-    --clr: #fff;
-    --outline: 2px solid #54b999;
-    color: var(--clr);
-    margin-left: -2px;
-    transition: outline-width 200ms ease, outline-offset 200ms ease;
-}
 
-.helo-ps:hover,
-.helo-ps:focus {
-    // outline: var(--outline);
-    border: var(--outline);
-    // outline-offset: -2px;
-    outline: var(--outline);
-    outline-width: 2px;
-    outline-offset: -2px;
-    // because of normalize
-    margin-left: -2px;
-}
 
 .hover-effect {
     background-image: linear-gradient(
@@ -356,4 +338,147 @@ $primary-750: theme("colors.green.750");
 
 .filament-forms-tabs-component-header{
     @apply bg-emerald-50 ;
+}
+
+.filament-sidebar-nav ul {
+    padding-left: 0px !important;
+}
+
+.filament-sidebar-group p{
+    color: #fff !important;
+    font-size: 16px !important;
+}
+
+
+
+.filament-sidebar-item a{
+    padding-right: 0px !important;
+    background-color: transparent !important;
+    padding-right: 18px !important;
+}
+
+.filament-sidebar-item a:hover{
+    background-color: transparent !important;
+}
+
+.filament-sidebar-item a:focus{
+    background-color: transparent !important;
+}
+
+.filament-sidebar-item a:active{
+    background-color: transparent !important;
+}
+
+.filament-sidebar-item{
+    padding-left: 32px;
+    border-left: 0px;
+    border-color: $primary-750;
+
+}
+
+.filament-sidebar-item:hover{
+    background:  $primary-650;
+    border-top-right-radius: 40px !important;
+    border-bottom-right-radius: 40px !important;
+}
+
+.filament-sidebar-item:focus{
+    background:  $primary-650;
+    border-top-right-radius: 40px !important;
+    border-bottom-right-radius: 40px !important;
+}
+
+.filament-sidebar-item {
+    --clr: #fff;
+    --outline: 2px solid #54b999;
+    color: var(--clr);
+    margin-left: -2px;
+    transition: outline-width 200ms ease, outline-offset 200ms ease;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.filament-sidebar-item:hover,
+.filament-sidebar-item:focus {
+    outline: var(--outline);
+    outline-width: 2px;
+    outline-offset: -2px;
+    margin-left: -2px;
+}
+
+.filament-sidebar-item-active {
+    @apply bg-green-650 rounded-r-full border-green-450 border border-l-0 -ml-[2px];
+}
+
+.filament-sidebar-header{
+    background-color: $primary-750 !important;
+    height: 6rem !important;
+    border-bottom: 0px;
+    justify-content: normal ;
+}
+
+.filament-sidebar-header::before{
+    background-image: none;
+}
+
+.filament-sidebar-header div {
+    height: 74px;
+    padding-right: 0px !important;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    @apply bg-gradient-to-r from-green-650 to-green-750
+}
+.filament-sidebar-header div button svg{
+    color: #fff;
+    height: 32px;
+    width: 32px;
+}
+
+.filament-sidebar-header div a{
+    height: 100%;
+    width: 100%;
+    margin-left: 0px !important;
+}
+
+.filament-sidebar-header div a div{
+    color: #fff;
+    background-image: url('../../public/assets/topBarIcon.svg');
+    height: inherit;
+    width: inherit;
+    background-repeat: round;
+
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.filament-sidebar-group button {
+    margin-left: 10px;
+}
+
+.filament-sidebar-close-button svg path{
+    display: none;
+}
+
+.filament-sidebar-close-button svg {
+    background-image: url('../../public/assets/openMenu.svg');
+}
+
+.filament-sidebar-close-button{
+    padding-left: 15px;
+    padding-right: 5px;
+    width: 85%;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    background-color: $primary-650;
+    padding-top: 35px !important;
+    padding-bottom: 35px !important;
+}
+
+.filament-sidebar-close-button:hover{
+    background-color: $primary-650 !important;
+}
+
+.filament-sidebar-close-button:focus{
+    background-color: $primary-650 !important;
 }
