@@ -12,7 +12,7 @@ describe("Appraisal Forms", () => {
         cy.wait(2000);
         cy.contains("Name");
         cy.contains("Guard Name");
-        cy.get(".filament-tables-component > form:nth-child(3)").submit();
+        cy.get(".filament-tables-component > form:nth-child(2)").submit();
         cy.wait(2000);
 
         // delete selected
@@ -30,9 +30,10 @@ describe("Appraisal Forms", () => {
         // delete
         cy.wait(2000);
         cy.get(
-            ".filament-tables-row:nth-child(1) .filament-link:nth-child(3)"
+            ".filament-tables-row:nth-child(1) .filament-link:nth-child(2)"
         ).click();
         cy.get(".filament-tables-component > form:nth-child(2)").submit();
+
         cy.wait(2000);
     });
 });

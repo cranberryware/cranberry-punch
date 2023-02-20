@@ -42,5 +42,27 @@ describe("employee", () => {
             ".filament-tables-filters-trigger > .filament-icon-button-icon"
         ).click();
     });
+    it("delete selected  ", () => {
+        cy.get(
+            ".filament-tables-row:nth-child(9) > .filament-tables-checkbox-cell > .block"
+        ).click();
+        cy.get(
+            ".filament-tables-row:nth-child(8) > .filament-tables-checkbox-cell > .block"
+        ).click();
+        cy.get(
+            ".filament-tables-bulk-actions-trigger > .filament-icon-button-icon"
+        ).click();
+        cy.get(
+            ".hover\\3A bg-danger-500 > .filament-dropdown-list-item-label"
+        ).click();
+        cy.get(".bg-danger-600").click();
+        cy.get(".filament-tables-component > form:nth-child(3)").submit();
+        cy.wait(2000);
+        cy.get(
+            ".filament-tables-row:nth-child(10) > .filament-tables-checkbox-cell > .block"
+        ).click();
+        cy.get(".filament-tables-bulk-actions-trigger path").click();
+        cy.get(".filament-tables-bulk-action:nth-child(2)").click();
+    });
 
 });

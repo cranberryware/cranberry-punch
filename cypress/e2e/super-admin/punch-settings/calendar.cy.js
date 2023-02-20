@@ -8,7 +8,7 @@ describe("Attendance Setting", () => {
         ).click();
     });
 
-    it("calendar  ", () => {
+    it("calendar", () => {
         cy.get('[aria-controls="-calendar-cell-colors-tab"] > span').click();
         cy.get("#-calendar-cell-colors-tab").click();
         cy.get(
@@ -18,7 +18,17 @@ describe("Attendance Setting", () => {
             "#-calendar-cell-colors-tab .filament-forms-repeater-component > .relative"
         ).click();
         cy.get(".bg-white:nth-child(6) li .w-4").click();
+
+
+    });
+    it("calendar add color with no values ", () => {
+        cy.get('[aria-controls="-calendar-cell-colors-tab"] > span').click();
+        cy.get("#-calendar-cell-colors-tab").click();
+        cy.get(
+            "#-calendar-cell-colors-tab .filament-button > .flex > span"
+        ).click();
         cy.get("span:nth-child(3)").click();
         cy.get(".filament-form").submit();
     });
+
 });
