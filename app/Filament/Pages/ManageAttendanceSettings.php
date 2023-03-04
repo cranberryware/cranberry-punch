@@ -6,6 +6,7 @@ use App\Rules\IpAddress;
 use App\Rules\Slug;
 use Filament\Pages\SettingsPage;
 use App\Settings\AttendanceSettings;
+use App\Support\Str;
 use Closure;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Grid;
@@ -145,11 +146,33 @@ class ManageAttendanceSettings extends SettingsPage
                                             })
                                             ->columns(5)
                                             ->required(),
-                                        ]),
-                       ])
-                       ->activeTab(1)
-             ])
+                                    ]),
+                                    Tab::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.holiday_types'))
+                                    ->schema([
+                                        Repeater::make('holiday_types')
+                                            ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holiday_type'))
+                                            ->schema([
+                                                TextInput::make('name')
+                                                    ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holiday_type.name'))
+                                                    ->reactive()
+                                                    ->afterStateUpdated(function (Closure $set, $state) {
+                                                        $set('slug', Str::slug($state));
+                                                    })->required(),
+                                                TextInput::make('slug')
+                                                    ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holiday_type.slug'))
+                                                    ->required(),
+                                                TailwindColorPicker::make('holiday_color')
+                                                    ->bgScope()
+                                                    ->label(__('cranberry-punch::cranberry-punch.section.cranberry-punch.input.holiday_type.holiday_color'))
+                                                    ->required()
+                                            ])
+                                            ->defaultItems(1)
+                                            ->columns(3)
+                                    ])
+                            ])
+                            ->activeTab(1)
+                    ])
 
-        ];
+            ];
     }
 }

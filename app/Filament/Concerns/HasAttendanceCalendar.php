@@ -4,6 +4,7 @@ namespace App\Filament\Concerns;
 
 use App\Models\Attendance;
 use App\Models\Employee;
+use App\Models\Holiday;
 use App\Settings\AttendanceSettings;
 use Carbon\Carbon;
 use Closure;
@@ -157,7 +158,7 @@ trait HasAttendanceCalendar
                 ->extraAttributes(function (Model $record) use ($date) {
                     $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
                     $weekly_day_offs = app(AttendanceSettings::class)->weekly_day_offs;
-
+                    $holiday_types = app(AttendanceSettings::class)->holiday_types;
                     $first_max_value = reset($calendar_cell_colors);
 
                     $cell_value = $record->{$date};
@@ -172,11 +173,30 @@ trait HasAttendanceCalendar
 
                     $classes .= " day-" . strtolower($cell_value_date->format('l'));
 
-                    foreach($weekly_day_offs as $weekly_day_off) {
-                        $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
-                        if($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
-                            $classes .= " bg-primary-500 text-white";
+
+                    $holidays = Holiday::where('is_confirmed', true)->get();
+
+                    foreach ($holidays as $holiday) {
+                        if ($cell_value_date->toDateString() === $holiday->date) {
+                            foreach ($holiday_types as $holiday_type) {
+                                if($holiday_type['slug'] === $holiday->holiday_type){
+                                    return [
+                                        'class' => "{$classes} {$holiday_type['holiday_color']}"
+                                    ];
+                                }
+                            }
                         }
+                    };
+
+                    $weekly_day_off_dates = [];
+                    foreach($weekly_day_offs as $weekly_day_off) {
+                        array_push($weekly_day_off_dates,Carbon::parse("{$weekly_day_off} {$cell_value_month}"));
+                    }
+
+                    if( in_array($cell_value_date,$weekly_day_off_dates) && (empty($cell_value) || $cell_value == '0.00')) {
+                        return [
+                            'class' => "{$classes} bg-primary-500 text-white"
+                        ];
                     }
 
                     if($cell_value_date->gt(today())) {
@@ -229,20 +249,26 @@ trait HasAttendanceCalendar
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
 
-
                     foreach($weekly_day_offs as $weekly_day_off) {
                         $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
-                        if($cell_value_date->eq($weekly_day_off_date) && empty($cell_value)) {
+                        if($cell_value_date->eq($weekly_day_off_date) && (empty($cell_value) || $cell_value == '0.00')) {
                             return $cell_value_date->format('D');
                         }
                     }
 
-                    if($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
-                        return '';
-                    }
-
                     if($cell_value_date->eq(today())) {
                         return $cell_value;
+                    }
+
+                    $holidays = Holiday::where('is_confirmed', true)->get();
+                    foreach ($holidays as $holiday) {
+                        if ($cell_value_date->toDateString() === $holiday->date) {
+                            return "H";
+                        }
+                    };
+
+                    if($cell_value_date->gt(today()) || $cell_value === null || $cell_value === "") {
+                        return '';
                     }
 
                     if (floatval($cell_value) < floatval($first_max_value['max_value'])) {
@@ -263,6 +289,11 @@ trait HasAttendanceCalendar
                     $cell_value_date = Carbon::parse($cell_value_date);
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
+
+                    $holiday = Holiday::where(['is_confirmed'=> true, 'date' => $cell_value_date->toDateString()])->first();
+                    if ($holiday) {
+                        return $holiday->holiday_name;
+                    }
 
                     if($cell_value_date->gte(today()) || $cell_value === null || $cell_value === "") {
                         return '';
