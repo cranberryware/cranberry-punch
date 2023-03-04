@@ -140,5 +140,10 @@
     "cranberry-punch::cranberry-punch.section.holiday.input.day_name": "Day",
     "cranberry-punch::cranberry-punch.section.holiday.input.holiday_name": "Holiday Name",
     "cranberry-punch::cranberry-punch.section.holiday.input.holiday_type": "Holiday Type",
-    "cranberry-punch::cranberry-punch.section.holiday.input.holiday_status": "Holiday Confirmation Status"
+    "cranberry-punch::cranberry-punch.section.holiday.input.holiday_status": "Holiday Confirmation Status",
+    "cranberry-punch::cranberry-punch.device.status.active": "Active",
+    "cranberry-punch::cranberry-punch.device.status.inactive": "Inactive",
+    "cranberry-punch::cranberry-punch.device.mode.check_in": "Check In",
+    "cranberry-punch::cranberry-punch.device.mode.check_out": "Check Out",
+    "cranberry-punch::cranberry-punch.device.mode.both": "Both"
 }
