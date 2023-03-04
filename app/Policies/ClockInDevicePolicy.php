@@ -41,7 +41,7 @@ class ClockInDevicePolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->hasAnyRole(['super-admin','hr-manager']);
     }
 
     /**
