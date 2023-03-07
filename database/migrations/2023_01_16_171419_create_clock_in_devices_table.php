@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('device_identifier')->unique();
             $table->string('device_status');
             $table->string('device_mode');
+            $table->string('emp_prefix')->nullable();
             $table->timestamps();
         });
     }

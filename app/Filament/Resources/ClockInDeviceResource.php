@@ -35,19 +35,27 @@ class ClockInDeviceResource extends Resource
         return $form
             ->schema([
                 TextInput::make('device_name')
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_name'))
                     ->required(),
                 TextInput::make('device_location')
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_location'))
                     ->required(),
                 TextInput::make('device_serial')
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_serial'))
                     ->required(),
                 TextInput::make('device_identifier')
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_identifier'))
                     ->required(),
                 Select::make('device_status')
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_status'))
                     ->options(DeviceStatus::getStatuses())
                     ->required(),
                 Select::make('device_mode')
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_mode'))
                     ->options(DeviceMode::getModes())
                     ->required(),
+                TextInput::make('emp_prefix')
+                    ->label(__('cranberry-punch::cranberry-punch.device.emp_prefix')),
             ]);
     }
 
@@ -55,18 +63,26 @@ class ClockInDeviceResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('device_name'),
-                TextColumn::make('device_location'),
-                TextColumn::make('device_serial'),
-                TextColumn::make('device_identifier'),
+                TextColumn::make('device_name')
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_name')),
+                TextColumn::make('device_location')
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_location')),
+                TextColumn::make('device_serial')
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_serial')),
+                TextColumn::make('device_identifier')
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_identifier')),
                 TextColumn::make('device_status')
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_status'))
                     ->formatStateUsing(function ($state) {
                         return (__("cranberry-punch::cranberry-punch.device.status.{$state}"));
                     }),
                 TextColumn::make('device_mode')
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_mode'))
                     ->formatStateUsing(function ($state) {
                         return (__("cranberry-punch::cranberry-punch.device.mode.{$state}"));
                     }),
+                TextColumn::make('emp_prefix')
+                    ->label(__('cranberry-punch::cranberry-punch.device.emp_prefix')),
             ])
             ->filters([
                 SelectFilter::make('device_status')
@@ -77,6 +93,7 @@ class ClockInDeviceResource extends Resource
                     ->options(DeviceMode::getModes())
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -96,6 +113,7 @@ class ClockInDeviceResource extends Resource
         return [
             'index' => Pages\ListClockInDevices::route('/'),
             'create' => Pages\CreateClockInDevice::route('/create'),
+            'view' => Pages\ViewClockInDevices::route('/{record}'),
             'edit' => Pages\EditClockInDevice::route('/{record}/edit'),
         ];
     }

@@ -500,6 +500,6 @@ $primary-750: theme("colors.green.750");
     font-weight: 800;
 }
 
-.filament-sidebar-nav ul li:nth-child(even){
+.filament-sidebar-nav > ul > li:not(.filament-sidebar-group){
     display: none;
 }
