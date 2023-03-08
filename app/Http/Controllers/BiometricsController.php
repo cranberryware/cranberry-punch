@@ -14,7 +14,7 @@ class BiometricsController extends Controller
     public function createAttendance(Request $request)
     {
         // Check if secret key matches environment variable
-        $secretKey = $request->input('secret_key');
+        $secretKey = request()->header('X-Secret-Key');
         $envSecretKey = env('API_SECRET_KEY');
 
         if ($secretKey !== $envSecretKey) {
@@ -24,12 +24,16 @@ class BiometricsController extends Controller
         if (!$request->has('employee_code') || !$request->has('device_serial_number') || !$request->has('device_identifier')) {
             return response()->json(['error' => 'Missing required fields'], 400);
         }
+
         // search clock in device
         $device = ClockInDevice::where([['device_serial', $request->device_serial_number], ['device_identifier', $request->device_identifier], ['device_status', 'active']])->first();
 
         if (!$device) return response()->json(['error' => 'Device not found or not active'], 404);
+
+        // employee code with prefix.
+        $employee_code = $device->emp_prefix.$request->employee_code;
         // search employee
-        $employee = Employee::where('employee_code', $request->employee_code)->first();
+        $employee = Employee::where('employee_code', $employee_code)->first();
 
         if (!$employee) return response()->json(['error' => 'Employee not found'], 404);
         // search last attendance

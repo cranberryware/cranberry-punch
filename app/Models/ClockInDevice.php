@@ -15,6 +15,7 @@ class ClockInDevice extends Model
         'device_serial',
         'device_identifier',
         'device_status',
-        'device_mode'
+        'device_mode',
+        'emp_prefix'
     ];
 }
