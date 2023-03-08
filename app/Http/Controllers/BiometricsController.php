@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\CheckInMode;
 use App\Models\Attendance;
 use App\Models\ClockInDevice;
 use App\Models\Employee;
@@ -36,6 +37,9 @@ class BiometricsController extends Controller
         $employee = Employee::where('employee_code', $employee_code)->first();
 
         if (!$employee) return response()->json(['error' => 'Employee not found'], 404);
+
+        // check employee checkin mode.
+        if ($employee->check_in == CheckInMode::WEB) return response()->json(['error' => 'Employee checkin mode is only web'], 405);
         // search last attendance
         $employeeAttendance = $employee->attendances()->latest()->first();
 

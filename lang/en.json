@@ -152,5 +152,8 @@
     "filament::login.buttons.submit.label": "Login",
     "filament::login.fields.email.placeholder": "Email or Username",
     "filament::login.fields.password.placeholder": "Password",
-    "filament::login.fields.remember.label": "Remember Me"
+    "filament::login.fields.remember.label": "Remember Me",
+    "cranberry-punch::cranberry-punch.employee.check_in_mode.web": "Web",
+    "cranberry-punch::cranberry-punch.employee.check_in_mode.device":"Device",
+    "cranberry-punch::cranberry-punch.employee.check_in_mode.both":"Both"
 }

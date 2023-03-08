@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Enums\CheckInMode;
 use Closure;
 use App\Models\Attendance;
 use Filament\Widgets\TableWidget;
@@ -26,7 +27,7 @@ class AttendanceClock extends TableWidget
 
     public static function canView(): bool
     {
-        if (auth()->user()->employee) {
+        if (auth()->user()->employee && (auth()->user()->employee->check_in != CheckInMode::DEVICE)) {
             return true;
         } else {
             return false;
