@@ -75,7 +75,7 @@ class EmployeeResource extends Resource
                             ->placeholder(__('cranberry-punch::cranberry-punch.employee.input.designation'))
                             ->searchable()
                             ->relationship('Designation', fn () => "name"),
-                        Select::make('check_in')
+                        Select::make('check_in_mode')
                             ->options(CheckInMode::getModes())
                     ])->columns(2),
                 Section::make(__('cranberry-punch::cranberry-punch.section.personal'))
@@ -348,7 +348,7 @@ class EmployeeResource extends Resource
                 TextColumn::make('designation.name')
                     ->label(__('cranberry-punch::cranberry-punch.table.designation.name'))
                     ->sortable(),
-                TextColumn::make('check_in')
+                TextColumn::make('check_in_mode')
                     ->formatStateUsing(function ($state) {
                         return (__("cranberry-punch::cranberry-punch.employee.check_in_mode.{$state}"));
                     }),
