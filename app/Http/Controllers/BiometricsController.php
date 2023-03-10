@@ -16,7 +16,7 @@ class BiometricsController extends Controller
     {
         // Check if api key matches environment variable
         $apiKey = request()->header('X-Api-Key');
-        $envSecretKey = env('API_SECRET_KEY');
+        $envSecretKey = config('app.api_secret_key');
 
         if ($apiKey !== $envSecretKey) {
             return response()->json(['error' => 'Unauthorized', 'error_code' => '401'], 401);

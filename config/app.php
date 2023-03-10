@@ -220,4 +220,6 @@ return [
     'force_https' => env('FORCE_HTTPS', false),
 
     'office_ip_url' => env('OFFICE_IP_URL', ""),
+
+    'api_secret_key' => env('API_SECRET_KEY', "<your-secret-api-key>"),
 ];
