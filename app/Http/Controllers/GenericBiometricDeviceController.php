@@ -9,7 +9,7 @@ use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class BiometricsController extends Controller
+class GenericBiometricDeviceController extends Controller
 {
     //
     public function createAttendance(Request $request)
