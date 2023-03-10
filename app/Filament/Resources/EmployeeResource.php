@@ -76,6 +76,7 @@ class EmployeeResource extends Resource
                             ->searchable()
                             ->relationship('Designation', fn () => "name"),
                         Select::make('check_in_mode')
+                            ->default(app(\App\Settings\AttendanceSettings::class)->default_check_in_mode)
                             ->options(CheckInMode::getModes())
                     ])->columns(2),
                 Section::make(__('cranberry-punch::cranberry-punch.section.personal'))
