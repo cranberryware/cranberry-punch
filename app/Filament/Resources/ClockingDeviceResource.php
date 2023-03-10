@@ -23,7 +23,7 @@ class ClockInDeviceResource extends Resource
 {
     protected static ?string $model = ClockInDevice::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-finger-print';
 
     protected static function getNavigationGroup(): ?string
     {
