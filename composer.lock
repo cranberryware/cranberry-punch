@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5aa2dc851aefcfc84753e3e47a5e10f4",
+    "content-hash": "b5c2cc35a0630574f6be53248e7949b0",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -5298,6 +5298,55 @@
                 }
             ],
             "time": "2023-02-14T16:46:07+00:00"
+        },
+        {
+            "name": "papalardo/filament-password-input",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/papalardo/filament-password-input.git",
+                "reference": "7a5323d68b2ecd3ba869f1f6f8e637e1e763a0a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/papalardo/filament-password-input/zipball/7a5323d68b2ecd3ba869f1f6f8e637e1e763a0a7",
+                "reference": "7a5323d68b2ecd3ba869f1f6f8e637e1e763a0a7",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^2.16",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.10"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Papalardo\\FilamentPasswordInput\\FilamentPasswordInputProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Papalardo\\FilamentPasswordInput\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo Papalardo",
+                    "email": "pablopapalardo2@gmail.com"
+                }
+            ],
+            "description": "Password input for filament built with laravel",
+            "support": {
+                "issues": "https://github.com/papalardo/filament-password-input/issues",
+                "source": "https://github.com/papalardo/filament-password-input/tree/1.0.2"
+            },
+            "time": "2022-10-25T16:51:53+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",

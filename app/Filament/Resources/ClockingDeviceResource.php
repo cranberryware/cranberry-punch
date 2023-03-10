@@ -2,22 +2,23 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Forms;
+use Filament\Tables;
 use App\Enums\DeviceMode;
 use App\Enums\DeviceStatus;
-use App\Filament\Resources\ClockingDeviceResource\Pages;
-use App\Filament\Resources\ClockingDeviceResource\RelationManagers;
-use App\Models\ClockingDevice;
-use Filament\Forms;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
-use Filament\Resources\Resource;
 use Filament\Resources\Table;
-use Filament\Tables;
+use App\Models\ClockingDevice;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Papalardo\FilamentPasswordInput\PasswordInput;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\ClockingDeviceResource\Pages;
+use App\Filament\Resources\ClockingDeviceResource\RelationManagers;
 
 class ClockingDeviceResource extends Resource
 {
@@ -56,7 +57,7 @@ class ClockingDeviceResource extends Resource
                     ->required(),
                 TextInput::make('emp_prefix')
                     ->label(__('cranberry-punch::cranberry-punch.device.emp_prefix')),
-                TextInput::make('device_secret')
+                PasswordInput::make('device_secret')
                     ->label(__('cranberry-punch::cranberry-punch.device.device_secret')),
             ]);
     }
@@ -84,9 +85,7 @@ class ClockingDeviceResource extends Resource
                         return (__("cranberry-punch::cranberry-punch.device.mode.{$state}"));
                     }),
                 TextColumn::make('emp_prefix')
-                    ->label(__('cranberry-punch::cranberry-punch.device.emp_prefix')),
-                TextColumn::make('device_secret')
-                    ->label(__('cranberry-punch::cranberry-punch.device.device_secret')),
+                    ->label(__('cranberry-punch::cranberry-punch.device.emp_prefix'))
             ])
             ->filters([
                 SelectFilter::make('device_status')
