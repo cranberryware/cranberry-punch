@@ -39,7 +39,9 @@ class BiometricsController extends Controller
         if (!$employee) return response()->json(['error' => 'Employee not found', 'error_code' => '404'], 404);
 
         // check employee checkin mode.
-        if ($employee->check_in_mode == CheckInMode::WEB) return response()->json(['error' => 'Employee checkin mode is only web', 'error_code' => '405'], 405);
+        $check_in_mode_override = app(\App\Settings\AttendanceSettings::class)->check_in_mode_override;
+        $check_in_mode = !empty($check_in_mode_override) ? $check_in_mode_override : $employee->check_in_mode;
+        if ($check_in_mode == CheckInMode::WEB) return response()->json(['error' => 'Employee checkin mode is only web', 'error_code' => '405'], 405);
         // search last attendance
         $employeeAttendance = $employee->attendances()->latest()->first();
 
