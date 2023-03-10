@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\GenericBiometricDeviceController;
+use App\Http\Middleware\ClockingDeviceAuth;
+use App\Http\Middleware\ClockingDeviceLogging;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,4 +20,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::POST('/attendance/device/generic-biometric', [GenericBiometricDeviceController::class, 'createAttendance']);
+Route::middleware([ClockingDeviceAuth::class, ClockingDeviceLogging::class])
+    ->post('/attendance/device/generic-biometric', [GenericBiometricDeviceController::class, 'createAttendance']);
