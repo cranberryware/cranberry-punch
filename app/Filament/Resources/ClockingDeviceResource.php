@@ -4,9 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Enums\DeviceMode;
 use App\Enums\DeviceStatus;
-use App\Filament\Resources\ClockInDeviceResource\Pages;
-use App\Filament\Resources\ClockInDeviceResource\RelationManagers;
-use App\Models\ClockInDevice;
+use App\Filament\Resources\ClockingDeviceResource\Pages;
+use App\Filament\Resources\ClockingDeviceResource\RelationManagers;
+use App\Models\ClockingDevice;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -19,9 +19,9 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ClockInDeviceResource extends Resource
+class ClockingDeviceResource extends Resource
 {
-    protected static ?string $model = ClockInDevice::class;
+    protected static ?string $model = ClockingDevice::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-finger-print';
 
@@ -115,10 +115,10 @@ class ClockInDeviceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListClockInDevices::route('/'),
-            'create' => Pages\CreateClockInDevice::route('/create'),
-            'view' => Pages\ViewClockInDevices::route('/{record}'),
-            'edit' => Pages\EditClockInDevice::route('/{record}/edit'),
+            'index' => Pages\ListClockingDevices::route('/'),
+            'create' => Pages\CreateClockingDevice::route('/create'),
+            'view' => Pages\ViewClockingDevices::route('/{record}'),
+            'edit' => Pages\EditClockingDevice::route('/{record}/edit'),
         ];
     }
 }

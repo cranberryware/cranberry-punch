@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('clock_in_devices', function (Blueprint $table) {
+        Schema::create('clocking_devices', function (Blueprint $table) {
             $table->id();
             $table->string('device_name');
             $table->string('device_location');
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clock_in_devices');
+        Schema::dropIfExists('clocking_devices');
     }
 };

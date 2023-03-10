@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Filament\Resources\ClockInDeviceResource\Pages;
+namespace App\Filament\Resources\ClockingDeviceResource\Pages;
 
-use App\Filament\Resources\ClockInDeviceResource;
+use App\Filament\Resources\ClockingDeviceResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateClockInDevice extends CreateRecord
+class CreateClockingDevice extends CreateRecord
 {
-    protected static string $resource = ClockInDeviceResource::class;
+    protected static string $resource = ClockingDeviceResource::class;
 }

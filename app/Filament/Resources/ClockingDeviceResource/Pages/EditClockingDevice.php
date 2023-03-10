@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\ClockInDeviceResource\Pages;
+namespace App\Filament\Resources\ClockingDeviceResource\Pages;
 
-use App\Filament\Resources\ClockInDeviceResource;
+use App\Filament\Resources\ClockingDeviceResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditClockInDevice extends EditRecord
+class EditClockingDevice extends EditRecord
 {
-    protected static string $resource = ClockInDeviceResource::class;
+    protected static string $resource = ClockingDeviceResource::class;
 
     protected function getActions(): array
     {

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\CheckInMode;
 use App\Models\Attendance;
-use App\Models\ClockInDevice;
+use App\Models\ClockingDevice;
 use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ class BiometricsController extends Controller
         }
 
         // search clock in device
-        $device = ClockInDevice::where([['device_serial', $request->device_serial_number], ['device_identifier', $request->device_identifier], ['device_secret', $request->device_secret], ['device_status', 'active']])->first();
+        $device = ClockingDevice::where([['device_serial', $request->device_serial_number], ['device_identifier', $request->device_identifier], ['device_secret', $request->device_secret], ['device_status', 'active']])->first();
 
         if (!$device) return response()->json(['error' => 'Device not found or not active', 'error_code' => '404'], 404);
 

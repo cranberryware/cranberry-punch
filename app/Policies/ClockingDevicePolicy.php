@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\ClockInDevice;
+use App\Models\ClockingDevice;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ClockInDevicePolicy
+class ClockingDevicePolicy
 {
     use HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class ClockInDevicePolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ClockInDevice  $clockInDevice
+     * @param  \App\Models\ClockingDevice  $clockInDevice
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, ClockInDevice $clockInDevice)
+    public function view(User $user, ClockingDevice $clockInDevice)
     {
         return $user->hasAnyRole(['super-admin','hr-manager']);
     }
@@ -48,10 +48,10 @@ class ClockInDevicePolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ClockInDevice  $clockInDevice
+     * @param  \App\Models\ClockingDevice  $clockInDevice
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, ClockInDevice $clockInDevice)
+    public function update(User $user, ClockingDevice $clockInDevice)
     {
         return $user->hasAnyRole(['super-admin','hr-manager']);
     }
@@ -60,10 +60,10 @@ class ClockInDevicePolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ClockInDevice  $clockInDevice
+     * @param  \App\Models\ClockingDevice  $clockInDevice
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, ClockInDevice $clockInDevice)
+    public function delete(User $user, ClockingDevice $clockInDevice)
     {
         return $user->hasAnyRole(['super-admin','hr-manager']);
     }
@@ -72,10 +72,10 @@ class ClockInDevicePolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ClockInDevice  $clockInDevice
+     * @param  \App\Models\ClockingDevice  $clockInDevice
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, ClockInDevice $clockInDevice)
+    public function restore(User $user, ClockingDevice $clockInDevice)
     {
         return $user->hasAnyRole(['super-admin','hr-manager']);
     }
@@ -84,10 +84,10 @@ class ClockInDevicePolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ClockInDevice  $clockInDevice
+     * @param  \App\Models\ClockingDevice  $clockInDevice
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, ClockInDevice $clockInDevice)
+    public function forceDelete(User $user, ClockingDevice $clockInDevice)
     {
         return $user->hasAnyRole(['super-admin','hr-manager']);
     }
