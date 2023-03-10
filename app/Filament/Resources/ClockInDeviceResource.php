@@ -85,6 +85,8 @@ class ClockInDeviceResource extends Resource
                     }),
                 TextColumn::make('emp_prefix')
                     ->label(__('cranberry-punch::cranberry-punch.device.emp_prefix')),
+                TextColumn::make('device_secret')
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_secret')),
             ])
             ->filters([
                 SelectFilter::make('device_status')
