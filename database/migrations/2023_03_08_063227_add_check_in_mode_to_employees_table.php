@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->string('check_in')->default('device');
+            $table->string('check_in_mode')->default('both');
         });
     }
 
