@@ -11,7 +11,7 @@ return new class extends SettingsMigration
      */
     public function up(): void
     {
-        $this->migrator->add('attendance.default_checkin_mode', null);
+        $this->migrator->add('attendance.check_in_mode_override', null);
     }
 
     /**
@@ -21,6 +21,6 @@ return new class extends SettingsMigration
      */
     public function down()
     {
-        $this->migrator->delete('attendance.default_checkin_mode');
+        $this->migrator->delete('attendance.check_in_mode_override');
     }
-}
+};
