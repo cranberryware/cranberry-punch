@@ -56,6 +56,8 @@ class ClockInDeviceResource extends Resource
                     ->required(),
                 TextInput::make('emp_prefix')
                     ->label(__('cranberry-punch::cranberry-punch.device.emp_prefix')),
+                TextInput::make('device_secret')
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_secret')),
             ]);
     }
 

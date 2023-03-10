@@ -14,20 +14,20 @@ class BiometricsController extends Controller
     //
     public function createAttendance(Request $request)
     {
-        // Check if secret key matches environment variable
-        $secretKey = request()->header('X-Secret-Key');
+        // Check if api key matches environment variable
+        $apiKey = request()->header('X-Api-Key');
         $envSecretKey = env('API_SECRET_KEY');
 
-        if ($secretKey !== $envSecretKey) {
+        if ($apiKey !== $envSecretKey) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         // Check if required fields are present in the request
-        if (!$request->has('employee_code') || !$request->has('device_serial_number') || !$request->has('device_identifier')) {
+        if (!$request->has('employee_code') || !$request->has('device_serial_number') || !$request->has('device_identifier') || !$request->has('device_secret')) {
             return response()->json(['error' => 'Missing required fields'], 400);
         }
 
         // search clock in device
-        $device = ClockInDevice::where([['device_serial', $request->device_serial_number], ['device_identifier', $request->device_identifier], ['device_status', 'active']])->first();
+        $device = ClockInDevice::where([['device_serial', $request->device_serial_number], ['device_identifier', $request->device_identifier], ['device_secret', $request->device_secret], ['device_status', 'active']])->first();
 
         if (!$device) return response()->json(['error' => 'Device not found or not active'], 404);
 

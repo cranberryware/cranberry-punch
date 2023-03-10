@@ -20,6 +20,7 @@
     "cranberry-punch::cranberry-punch.device.device_name": "Device Name",
     "cranberry-punch::cranberry-punch.device.device_serial": "Device Serial",
     "cranberry-punch::cranberry-punch.device.device_status": "Device Status",
+    "cranberry-punch::cranberry-punch.device.device_secret": "Device Secret",
     "cranberry-punch::cranberry-punch.device.emp_prefix": "Employee Prefix",
     "cranberry-punch::cranberry-punch.device.mode.both": "Both",
     "cranberry-punch::cranberry-punch.device.mode.check_in": "Check In",

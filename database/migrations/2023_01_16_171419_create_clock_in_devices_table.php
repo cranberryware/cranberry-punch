@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('device_status');
             $table->string('device_mode');
             $table->string('emp_prefix')->nullable();
+            $table->string('device_secret');
             $table->timestamps();
         });
     }
