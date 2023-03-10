@@ -14,6 +14,10 @@ class AttendanceSettings extends Settings
 
     public array $holiday_types;
 
+    public string $checkin_mode_override;
+
+    public string $default_checkin_mode;
+
     public static function group(): string
     {
         return 'attendance';
