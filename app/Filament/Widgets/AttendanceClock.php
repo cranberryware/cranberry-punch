@@ -27,7 +27,7 @@ class AttendanceClock extends TableWidget
 
     public static function canView(): bool
     {
-        if (auth()->user()->employee && (auth()->user()->employee->check_in != CheckInMode::DEVICE)) {
+        if (auth()->user()->employee && (auth()->user()->employee->check_in_mode != CheckInMode::DEVICE)) {
             return true;
         } else {
             return false;
