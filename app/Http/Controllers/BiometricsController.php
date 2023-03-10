@@ -19,27 +19,27 @@ class BiometricsController extends Controller
         $envSecretKey = env('API_SECRET_KEY');
 
         if ($apiKey !== $envSecretKey) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Unauthorized', 'error_code' => '401'], 401);
         }
         // Check if required fields are present in the request
         if (!$request->has('employee_code') || !$request->has('device_serial_number') || !$request->has('device_identifier') || !$request->has('device_secret')) {
-            return response()->json(['error' => 'Missing required fields'], 400);
+            return response()->json(['error' => 'Missing required fields', 'error_code' => '400'], 400);
         }
 
         // search clock in device
         $device = ClockInDevice::where([['device_serial', $request->device_serial_number], ['device_identifier', $request->device_identifier], ['device_secret', $request->device_secret], ['device_status', 'active']])->first();
 
-        if (!$device) return response()->json(['error' => 'Device not found or not active'], 404);
+        if (!$device) return response()->json(['error' => 'Device not found or not active', 'error_code' => '404'], 404);
 
         // employee code with prefix.
         $employee_code = $device->emp_prefix.$request->employee_code;
         // search employee
         $employee = Employee::where('employee_code', $employee_code)->first();
 
-        if (!$employee) return response()->json(['error' => 'Employee not found'], 404);
+        if (!$employee) return response()->json(['error' => 'Employee not found', 'error_code' => '404'], 404);
 
         // check employee checkin mode.
-        if ($employee->check_in == CheckInMode::WEB) return response()->json(['error' => 'Employee checkin mode is only web'], 405);
+        if ($employee->check_in == CheckInMode::WEB) return response()->json(['error' => 'Employee checkin mode is only web', 'error_code' => '405'], 405);
         // search last attendance
         $employeeAttendance = $employee->attendances()->latest()->first();
 
@@ -91,7 +91,7 @@ class BiometricsController extends Controller
                     }
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => $e->getMessage(), 'error_code' => '500'], 500);
         }
     }
 }
