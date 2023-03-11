@@ -97,6 +97,7 @@ class Employee extends Model
         'bank_address_country',
         'bank_phone',
         'bank_email',
+        'check_in_mode',
     ];
 
     public function getAverageTimeOfArrival($date=null)

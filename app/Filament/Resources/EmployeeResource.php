@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\CheckInMode;
 use Closure;
 use Filament\Tables;
 use App\Models\Employee;
@@ -74,6 +75,9 @@ class EmployeeResource extends Resource
                             ->placeholder(__('cranberry-punch::cranberry-punch.employee.input.designation'))
                             ->searchable()
                             ->relationship('Designation', fn () => "name"),
+                        Select::make('check_in_mode')
+                            ->default(app(\App\Settings\AttendanceSettings::class)->default_check_in_mode)
+                            ->options(CheckInMode::getModes())
                     ])->columns(2),
                 Section::make(__('cranberry-punch::cranberry-punch.section.personal'))
                     ->schema([
@@ -345,9 +349,11 @@ class EmployeeResource extends Resource
                 TextColumn::make('designation.name')
                     ->label(__('cranberry-punch::cranberry-punch.table.designation.name'))
                     ->sortable(),
-                // TextColumn::make('user.name')
-                //     ->label(__('cranberry-punch::cranberry-punch.table.user.name'))
-                //     ->sortable(),
+                TextColumn::make('check_in_mode')
+                    ->formatStateUsing(function ($state) {
+                        return (__("cranberry-punch::cranberry-punch.employee.check_in_mode.{$state}"));
+                    }),
+                    // ->label(__('cranberry-punch::cranberry-punch.table.user.name'))
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
