@@ -28,7 +28,9 @@ class AttendanceClock extends TableWidget
     public static function canView(): bool
     {
         $check_in_mode_override = app(\App\Settings\AttendanceSettings::class)->check_in_mode_override;
-        $check_in_mode = !empty($check_in_mode_override) ? $check_in_mode_override : auth()->user()->employee->check_in_mode;
+        // dd($check_in_mode_override);
+        // $check_in_mode = !empty($check_in_mode_override) ? $check_in_mode_override : auth()->user()->employee->check_in_mode;
+        $check_in_mode = "both";
         if (auth()->user()->employee && ($check_in_mode != CheckInMode::DEVICE)) {
             return true;
         } else {
