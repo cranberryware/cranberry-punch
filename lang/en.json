@@ -97,6 +97,18 @@
     "cranberry-punch::cranberry-punch.employee.input.work_email": "Work Email",
     "cranberry-punch::cranberry-punch.employee.input.work_phone_1": "Work Phone 1",
     "cranberry-punch::cranberry-punch.employee.input.work_phone_2": "Work Phone 2",
+    "cranberry-punch::cranberry-punch.leave.input.name": "Name",
+    "cranberry-punch::cranberry-punch.leave.input.slug": "Slug",
+    "cranberry-punch::cranberry-punch.leave.input.description": "Description",
+    "cranberry-punch::cranberry-punch.leave.input.total_allowance": "Total Allowance",
+    "cranberry-punch::cranberry-punch.leave.input.claim_allowance_limit": "Claim Allowance Limit",
+    "cranberry-punch::cranberry-punch.leave.input.notify_before": "Notify Before",
+    "cranberry-punch::cranberry-punch.leave.input.title": "Title",
+    "cranberry-punch::cranberry-punch.leave.input.from": "From",
+    "cranberry-punch::cranberry-punch.leave.input.to": "To",
+    "cranberry-punch::cranberry-punch.leave.input.status": "Status",
+
+
     "cranberry-punch::cranberry-punch.form.designation.name": "Designation Name",
     "cranberry-punch::cranberry-punch.form.input.department.description": "Department Description",
     "cranberry-punch::cranberry-punch.form.input.department.name": "Department Name",
@@ -136,6 +148,7 @@
     "cranberry-punch::cranberry-punch.section.group-attendance-management": "Attendance Management",
     "cranberry-punch::cranberry-punch.section.group-cranberry-punch-settings": "Cranberry Punch Settings",
     "cranberry-punch::cranberry-punch.section.group-employee-management": "Employee Management",
+    "cranberry-punch::cranberry-punch.section.group-leave-management": "Leave Management",
     "cranberry-punch::cranberry-punch.section.holiday.input.date": "Date",
     "cranberry-punch::cranberry-punch.section.holiday.input.day_name": "Day",
     "cranberry-punch::cranberry-punch.section.holiday.input.holiday_name": "Holiday Name",
@@ -144,6 +157,9 @@
     "cranberry-punch::cranberry-punch.section.identity": "Identity",
     "cranberry-punch::cranberry-punch.section.personal": "Personal",
     "cranberry-punch::cranberry-punch.section.personal_contact": "Personal Contact",
+    "cranberry-punch::cranberry-punch.section.leave-sessions": "Leave Sessions",
+    "cranberry-punch::cranberry-punch.section.leave-types": "Leave Types",
+    "cranberry-punch::cranberry-punch.section.leave-requests": "Leave Requests",
     "cranberry-punch::cranberry-punch.table.attendance.check-in": "Check In",
     "cranberry-punch::cranberry-punch.table.attendance.check-out": "Check Out",
     "cranberry-punch::cranberry-punch.table.attendance.choose-columns": "Choose Columns",
@@ -166,5 +182,7 @@
     "filament::login.fields.password.placeholder": "Password",
     "filament::login.fields.remember.label": "Remember Me",
     "filament::resources\/pages\/edit-record.form.actions.cancel.label": "Cancel",
-    "filament::resources\/pages\/edit-record.form.actions.save.label": "Save"
+    "filament::resources\/pages\/edit-record.form.actions.save.label": "Save",
+    "cranberry-punch::cranberry-punch.leave-session.status.active": "Active",
+    "cranberry-punch::cranberry-punch.leave-session.status.inactive": "Inactive"
 }
