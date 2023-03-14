@@ -56,7 +56,7 @@ class LeaveRequestResource extends Resource
             ->schema([
                 Card::make()->schema([
                     Select::make('employee_id')
-                        ->label('Employee')
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.employee'))
                         // ->relationship('employee', fn () => "employee_code_with_full_name")
                         ->searchable()
                         ->options(function () {
@@ -70,11 +70,11 @@ class LeaveRequestResource extends Resource
                         ->required(),
                     Select::make('leave_type_id')
                         ->required()
-                        ->label('Leave Type')
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_type'))
                         ->relationship('leaveType', 'name'),
                     Select::make('leave_session_id')
                         ->required()
-                        ->label('Leave Session')
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_session'))
                         ->options(function () {
                             $options = [];
                             $sessions = LeaveSession::where('status', 'active')->get();
@@ -84,12 +84,13 @@ class LeaveRequestResource extends Resource
                             return $options;
                         }),
                     TextInput::make('short_description')
-                        ->label('Short Description')
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.short_description'))
                         ->required(),
                     TextInput::make('reason')
-                        ->label('Reason')
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.reason'))
                         ->required(),
                     DatePicker::make('from')
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.from'))
                         ->required()
                         ->reactive()
                         ->minDate(Carbon::now())
@@ -101,6 +102,7 @@ class LeaveRequestResource extends Resource
                             $set('duration', self::getDuration($get('to'), $state));
                         }),
                     DatePicker::make('to')
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.to'))
                         ->required()
                         ->reactive()
                         ->minDate(Carbon::now())
@@ -113,10 +115,11 @@ class LeaveRequestResource extends Resource
                             $set('duration', self::getDuration($get('from'), $state));
                         }),
                     Hidden::make('duration')
-                        ->label('Duration')
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.duration'))
                         ->required()
                         ->disabled(),
                     DatePicker::make('applied_on')
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.applied_on'))
                         ->required()
                         ->default(Carbon::now())
 
@@ -131,18 +134,26 @@ class LeaveRequestResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('employee.employee_code_with_full_name')
-                    ->label(strval(__('cranberry-punch::cranberry-punch.table.attendance.employee-name-with-code')))
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.leave.employee-name-with-code')))
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('leaveType.name'),
-                TextColumn::make('duration'),
-                TextColumn::make('from')->date(),
-                TextColumn::make('to')->date(),
+                TextColumn::make('leaveType.name')
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.leave.leave_type'))),
+                TextColumn::make('duration')
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.leave.duration'))),
+                TextColumn::make('from')
+                    ->date()
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.leave.from'))),
+
+                TextColumn::make('to')
+                    ->date()
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.leave.to'))),
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

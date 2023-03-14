@@ -107,6 +107,13 @@
     "cranberry-punch::cranberry-punch.leave.input.from": "From",
     "cranberry-punch::cranberry-punch.leave.input.to": "To",
     "cranberry-punch::cranberry-punch.leave.input.status": "Status",
+    "cranberry-punch::cranberry-punch.leave.input.employee": "Employee",
+    "cranberry-punch::cranberry-punch.leave.input.leave_type": "Leave Type",
+    "cranberry-punch::cranberry-punch.leave.input.leave_session": "Leave Session",
+    "cranberry-punch::cranberry-punch.leave.input.short_description": "Short Description",
+    "cranberry-punch::cranberry-punch.leave.input.reason": "Reason",
+    "cranberry-punch::cranberry-punch.leave.input.duration": "Duration",
+    "cranberry-punch::cranberry-punch.leave.input.applied_on": "Applied On",
 
 
     "cranberry-punch::cranberry-punch.form.designation.name": "Designation Name",
@@ -167,6 +174,12 @@
     "cranberry-punch::cranberry-punch.table.attendance.employee.employee_code": "Employee Code",
     "cranberry-punch::cranberry-punch.table.attendance.employee.full_name": "Employee Name",
     "cranberry-punch::cranberry-punch.table.attendance.worked-hours": "Worked Hours",
+    "cranberry-punch::cranberry-punch.table.leave.employee-name-with-code": "Employee",
+    "cranberry-punch::cranberry-punch.table.leave.leave_type": "Leave Type",
+    "cranberry-punch::cranberry-punch.table.leave.duration": "Duration",
+    "cranberry-punch::cranberry-punch.table.leave.from": "From",
+    "cranberry-punch::cranberry-punch.table.leave.to": "To",
+
     "cranberry-punch::cranberry-punch.table.department.name": "Department Name",
     "cranberry-punch::cranberry-punch.table.designation.name": "Designation Name",
     "cranberry-punch::cranberry-punch.table.employee_code": "Employee Code",
