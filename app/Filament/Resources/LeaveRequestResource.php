@@ -130,7 +130,14 @@ class LeaveRequestResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('employee.employee_code_with_full_name')
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.attendance.employee-name-with-code')))
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('leaveType.name'),
+                TextColumn::make('duration'),
+                TextColumn::make('from')->date(),
+                TextColumn::make('to')->date(),
             ])
             ->filters([
                 //
