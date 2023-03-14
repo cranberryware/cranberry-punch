@@ -90,6 +90,7 @@ class LeaveSessionResource extends Resource
                     ->options(LeaveSessionStatus::getStatuses()),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

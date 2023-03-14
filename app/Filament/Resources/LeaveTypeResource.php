@@ -62,14 +62,7 @@ class LeaveTypeResource extends Resource
                     Repeater::make('total_allowance')
                         ->schema([
                             Select::make('designation')
-                                ->options(function () {
-                                    $options = [];
-                                    $designations = Designation::all('name')->pluck('name');
-                                    foreach ($designations as $designation) {
-                                        $options[$designation] = $designation;
-                                    }
-                                    return $options;
-                                })
+                                ->options(Designation::all('name')->pluck('name', 'name'))
                                 ->required(),
                             TextInput::make('number_of_allowance')->required(),
                         ])
@@ -101,6 +94,7 @@ class LeaveTypeResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
