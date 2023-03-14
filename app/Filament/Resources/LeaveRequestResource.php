@@ -7,10 +7,13 @@ use App\Filament\Resources\LeaveRequestResource\RelationManagers;
 use App\Models\Employee;
 use App\Models\LeaveRequest;
 use App\Models\LeaveSession;
+use Carbon\Carbon;
 use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Component;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
@@ -38,16 +41,33 @@ class LeaveRequestResource extends Resource
         return strval(__('cranberry-punch::cranberry-punch.section.leave-requests'));
     }
 
+    public static function getDuration($from, $to)
+    {
+        $startDate = Carbon::parse($from);
+        $endDate = Carbon::parse($to);
+
+        $duration = $startDate->diff($endDate)->days;
+        return $duration;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Card::make()->schema([
-                    TextInput::make('employee_id')
+                    Select::make('employee_id')
                         ->label('Employee')
-                        ->id(auth()->user()->employee->id)
-                        ->default(auth()->user()->employee->employee_code_with_full_name)
-                        ->disabled(),
+                        // ->relationship('employee', fn () => "employee_code_with_full_name")
+                        ->searchable()
+                        ->options(function () {
+                            $options = [];
+                            $employees = auth()->user()->employee ? Employee::where('id', auth()->user()->employee->id)->get() : Employee::all();
+                            foreach ($employees as $employee) {
+                                $options[$employee->id] = $employee->employee_code_with_full_name;
+                            }
+                            return $options;
+                        })
+                        ->required(),
                     Select::make('leave_type_id')
                         ->required()
                         ->label('Leave Type')
@@ -70,9 +90,37 @@ class LeaveRequestResource extends Resource
                         ->label('Reason')
                         ->required(),
                     DatePicker::make('from')
-                        ->required(),
+                        ->required()
+                        ->reactive()
+                        ->minDate(Carbon::now())
+                        ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
+                            if (Carbon::parse($state)->gt(Carbon::parse($get('to')))) {
+                                $set('to', Carbon::parse($state)->addDay(1)->format('Y-m-d'));
+                                $set('duration', self::getDuration($get('to'), $state));
+                            }
+                            $set('duration', self::getDuration($get('to'), $state));
+                        }),
                     DatePicker::make('to')
-                        ->required(),
+                        ->required()
+                        ->reactive()
+                        ->minDate(Carbon::now())
+                        ->afterOrEqual('from')
+                        ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
+                            if (Carbon::parse($state)->lt(Carbon::parse($get('from')))) {
+                                $set('from', Carbon::parse($state)->subDay(1)->format('Y-m-d'));
+                                $set('duration', self::getDuration($get('from'), $state));
+                            }
+                            $set('duration', self::getDuration($get('from'), $state));
+                        }),
+                    Hidden::make('duration')
+                        ->label('Duration')
+                        ->required()
+                        ->disabled(),
+                    DatePicker::make('applied_on')
+                        ->required()
+                        ->default(Carbon::now())
+
+
                 ])
 
             ]);
