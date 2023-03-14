@@ -13,6 +13,7 @@ use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -20,6 +21,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -121,7 +123,8 @@ class LeaveRequestResource extends Resource
                     DatePicker::make('applied_on')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.applied_on'))
                         ->required()
-                        ->default(Carbon::now())
+                        ->default(Carbon::now()),
+                    FileUpload::make('documents')
 
 
                 ])
@@ -148,6 +151,7 @@ class LeaveRequestResource extends Resource
                 TextColumn::make('to')
                     ->date()
                     ->label(strval(__('cranberry-punch::cranberry-punch.table.leave.to'))),
+                ImageColumn::make('documents')
             ])
             ->filters([
                 //
