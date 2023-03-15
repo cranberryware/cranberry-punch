@@ -15,6 +15,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -81,9 +82,16 @@ class LeaveSessionResource extends Resource
                     ->label(__('cranberry-punch::cranberry-punch.leave.input.to'))
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('status')
-                    ->label(__('cranberry-punch::cranberry-punch.leave.input.status'))
-                    ->searchable()
+                // TextColumn::make('status')
+                //     ->label(__('cranberry-punch::cranberry-punch.leave.input.status'))
+                //     ->searchable()
+                BadgeColumn::make('status')
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.leave.status')))
+                    ->sortable()
+                    ->formatStateUsing(function ($state) {
+                        return (__("cranberry-punch::cranberry-punch.leave-session.status.{$state}"));
+                    })
+                    ->colors(LeaveSessionStatus::getStatusColors()),
             ])
             ->filters([
                 SelectFilter::make('status')

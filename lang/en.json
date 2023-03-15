@@ -103,6 +103,8 @@
     "cranberry-punch::cranberry-punch.leave.input.total_allowance": "Total Allowance",
     "cranberry-punch::cranberry-punch.leave.input.claim_allowance_limit": "Claim Allowance Limit",
     "cranberry-punch::cranberry-punch.leave.input.notify_before": "Notify Before",
+    "cranberry-punch::cranberry-punch.leave.input.number_of_allowance": "No. of Allowance",
+    "cranberry-punch::cranberry-punch.leave.input.designation": "Designation",
     "cranberry-punch::cranberry-punch.leave.input.title": "Title",
     "cranberry-punch::cranberry-punch.leave.input.from": "From",
     "cranberry-punch::cranberry-punch.leave.input.to": "To",
@@ -114,8 +116,7 @@
     "cranberry-punch::cranberry-punch.leave.input.reason": "Reason",
     "cranberry-punch::cranberry-punch.leave.input.duration": "Duration",
     "cranberry-punch::cranberry-punch.leave.input.applied_on": "Applied On",
-
-
+    "cranberry-punch::cranberry-punch.leave.input.document": "Document",
     "cranberry-punch::cranberry-punch.form.designation.name": "Designation Name",
     "cranberry-punch::cranberry-punch.form.input.department.description": "Department Description",
     "cranberry-punch::cranberry-punch.form.input.department.name": "Department Name",
@@ -179,7 +180,8 @@
     "cranberry-punch::cranberry-punch.table.leave.duration": "Duration",
     "cranberry-punch::cranberry-punch.table.leave.from": "From",
     "cranberry-punch::cranberry-punch.table.leave.to": "To",
-
+    "cranberry-punch::cranberry-punch.table.leave.document": "Document",
+    "cranberry-punch::cranberry-punch.table.leave.status": "Status",
     "cranberry-punch::cranberry-punch.table.department.name": "Department Name",
     "cranberry-punch::cranberry-punch.table.designation.name": "Designation Name",
     "cranberry-punch::cranberry-punch.table.employee_code": "Employee Code",
@@ -197,5 +199,9 @@
     "filament::resources\/pages\/edit-record.form.actions.cancel.label": "Cancel",
     "filament::resources\/pages\/edit-record.form.actions.save.label": "Save",
     "cranberry-punch::cranberry-punch.leave-session.status.active": "Active",
-    "cranberry-punch::cranberry-punch.leave-session.status.inactive": "Inactive"
+    "cranberry-punch::cranberry-punch.leave-session.status.inactive": "Inactive",
+    "cranberry-punch::cranberry-punch.leave-request.status.pending": "Pending",
+    "cranberry-punch::cranberry-punch.leave-request.status.approved": "Approved",
+    "cranberry-punch::cranberry-punch.leave-request.status.rejected": "Rejected",
+    "cranberry-punch::cranberry-punch.leave-request.status.cancelled": "Cancelled"
 }

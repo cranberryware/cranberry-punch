@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\LeaveRequestStatus;
 use App\Filament\Resources\LeaveRequestResource\Pages;
 use App\Filament\Resources\LeaveRequestResource\RelationManagers;
 use App\Models\Employee;
@@ -21,8 +22,11 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -69,6 +73,16 @@ class LeaveRequestResource extends Resource
                             }
                             return $options;
                         })
+                        ->default(function () {
+                            $options = [];
+                            $employees = auth()->user()->employee ? Employee::where('id', auth()->user()->employee->id)->get() : [];
+                            if (!$employees) return;
+                            foreach ($employees as $employee) {
+                                $options[$employee->id] = $employee->id;
+                            }
+                            return $options[$employee->id];
+                        })
+                        ->disabled(!auth()->user()->hasRole(['hr-manager', 'super-admin']))
                         ->required(),
                     Select::make('leave_type_id')
                         ->required()
@@ -77,11 +91,12 @@ class LeaveRequestResource extends Resource
                     Select::make('leave_session_id')
                         ->required()
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_session'))
+                        // ->relationship('leaveSession', 'title'),
                         ->options(function () {
                             $options = [];
                             $sessions = LeaveSession::where('status', 'active')->get();
                             foreach ($sessions as $session) {
-                                $options[$session->id] = "{$session->from} - {$session->to}";
+                                $options[$session->id] = $session->title;
                             }
                             return $options;
                         }),
@@ -94,8 +109,9 @@ class LeaveRequestResource extends Resource
                     DatePicker::make('from')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.from'))
                         ->required()
+                        ->timezone(config('app.timezone'))
                         ->reactive()
-                        ->minDate(Carbon::now())
+                        // ->minDate(Carbon::now())
                         ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
                             if (Carbon::parse($state)->gt(Carbon::parse($get('to')))) {
                                 $set('to', Carbon::parse($state)->addDay(1)->format('Y-m-d'));
@@ -106,9 +122,10 @@ class LeaveRequestResource extends Resource
                     DatePicker::make('to')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.to'))
                         ->required()
+                        ->timezone(config('app.timezone'))
                         ->reactive()
-                        ->minDate(Carbon::now())
-                        ->afterOrEqual('from')
+                        // ->minDate(Carbon::now())
+                        // ->afterOrEqual('from')
                         ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
                             if (Carbon::parse($state)->lt(Carbon::parse($get('from')))) {
                                 $set('from', Carbon::parse($state)->subDay(1)->format('Y-m-d'));
@@ -120,13 +137,18 @@ class LeaveRequestResource extends Resource
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.duration'))
                         ->required()
                         ->disabled(),
-                    DatePicker::make('applied_on')
+                    Hidden::make('applied_on')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.applied_on'))
                         ->required()
                         ->default(Carbon::now()),
                     FileUpload::make('documents')
-
-
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.document')),
+                    select::make('status')
+                        ->label('Status')
+                        ->options(LeaveRequestStatus::getStatuses())
+                        ->hidden(function () {
+                            return auth()->user()->hasRole(['employee']);
+                        })
                 ])
 
             ]);
@@ -147,18 +169,58 @@ class LeaveRequestResource extends Resource
                 TextColumn::make('from')
                     ->date()
                     ->label(strval(__('cranberry-punch::cranberry-punch.table.leave.from'))),
-
                 TextColumn::make('to')
                     ->date()
                     ->label(strval(__('cranberry-punch::cranberry-punch.table.leave.to'))),
                 ImageColumn::make('documents')
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.leave.document'))),
+                BadgeColumn::make('status')
+                    ->label(strval(__('cranberry-punch::cranberry-punch.table.leave.status')))
+                    ->sortable()
+                    ->formatStateUsing(function ($state) {
+                        return (__("cranberry-punch::cranberry-punch.leave-request.status.{$state}"));
+                    })
+                    ->colors(LeaveRequestStatus::getStatusColors()),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->options(LeaveRequestStatus::getStatuses()),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('change_status')
+                        ->label(function (LeaveRequest $record) {
+                            if ($record->status === LeaveRequestStatus::PENDING()->value) {
+                                return strval(__('cranberry-punch::cranberry-punch.leave-request.status.cancelled'));
+                            }
+
+                            // return ($record->status === LeaveRequestStatus::PENDING()->value)
+                            //     ? __('cranberry-punch::cranberry-punch.leave-request.status.cancelled')
+                            //     : __('cranberry-punch::cranberry-punch.leave-request.status.pending');
+                        })
+                        ->icon(function (LeaveRequest $record): string {
+                            return ($record->status === LeaveRequestStatus::PENDING()->value)
+                                ? 'heroicon-o-x-circle'
+                                : 'heroicon-o-clock';
+                        })
+                        ->color(function (LeaveRequest $record): string {
+                            return ($record->status === LeaveRequestStatus::PENDING()->value)
+                                ? 'danger'
+                                : 'warning';
+                        })
+                        ->action(function (LeaveRequest $record): void {
+                            $record->setAttribute('status', $record->status === LeaveRequestStatus::PENDING()->value ? LeaveRequestStatus::CANCELLED()->value : LeaveRequestStatus::PENDING()->value)->save();
+                        })
+                        ->hidden(function (LeaveRequest $record) {
+                            if (auth()->user()->hasRole(['hr-manager', 'super-admin'])) {
+                                return true;
+                            }
+                            return ($record->status !== LeaveRequestStatus::PENDING()->value && !auth()->user()->hasRole(['hr-manager', 'super-admin']));
+                        })
+                        ->requiresConfirmation(),
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

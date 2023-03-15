@@ -20,4 +20,12 @@ final class LeaveSessionStatus extends Enum
             self::INACTIVE()->value => __('cranberry-punch::cranberry-punch.leave-session.status.inactive'),
         ];
     }
+
+    public static function getStatusColors()
+    {
+        return [
+            'success' => fn ($state): bool => (string)$state === self::ACTIVE()->value,
+            'danger' => fn ($state): bool => (string)$state === self::INACTIVE()->value,
+        ];
+    }
 }
