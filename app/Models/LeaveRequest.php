@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\LeaveRequestScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,6 +34,11 @@ class LeaveRequest extends Model
         'approved_on',
         'rejected_on',
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new LeaveRequestScope);
+    }
 
     public function employee()
     {

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('employee_id')->constrained()->onDelete('cascade');
             $table->foreignId('leave_type_id')->constrained()->onDelete('cascade');
             $table->foreignId('leave_session_id')->constrained()->onDelete('cascade');
-            $table->enum('status', ['approved', 'rejected', 'pending', 'cancelled'])->default('pending');
+            $table->enum('status', ['draft','approved', 'rejected', 'pending', 'cancelled'])->default('draft');
             $table->string('short_description')->nullable();
             $table->text('reason');
             $table->text('documents')->nullable();

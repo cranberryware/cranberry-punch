@@ -47,15 +47,6 @@ class LeaveRequestResource extends Resource
         return strval(__('cranberry-punch::cranberry-punch.section.leave-requests'));
     }
 
-    public static function getDuration($from, $to)
-    {
-        $startDate = Carbon::parse($from);
-        $endDate = Carbon::parse($to);
-
-        $duration = $startDate->diff($endDate)->days;
-        return $duration;
-    }
-
     public static function form(Form $form): Form
     {
         return $form
@@ -111,36 +102,21 @@ class LeaveRequestResource extends Resource
                         ->required()
                         ->timezone(config('app.timezone'))
                         ->reactive()
-                        // ->minDate(Carbon::now())
                         ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
                             if (Carbon::parse($state)->gt(Carbon::parse($get('to')))) {
                                 $set('to', Carbon::parse($state)->addDay(1)->format('Y-m-d'));
-                                $set('duration', self::getDuration($get('to'), $state));
                             }
-                            $set('duration', self::getDuration($get('to'), $state));
                         }),
                     DatePicker::make('to')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.to'))
                         ->required()
                         ->timezone(config('app.timezone'))
                         ->reactive()
-                        // ->minDate(Carbon::now())
-                        // ->afterOrEqual('from')
                         ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
                             if (Carbon::parse($state)->lt(Carbon::parse($get('from')))) {
                                 $set('from', Carbon::parse($state)->subDay(1)->format('Y-m-d'));
-                                $set('duration', self::getDuration($get('from'), $state));
                             }
-                            $set('duration', self::getDuration($get('from'), $state));
                         }),
-                    Hidden::make('duration')
-                        ->label(__('cranberry-punch::cranberry-punch.leave.input.duration'))
-                        ->required()
-                        ->disabled(),
-                    Hidden::make('applied_on')
-                        ->label(__('cranberry-punch::cranberry-punch.leave.input.applied_on'))
-                        ->required()
-                        ->default(Carbon::now()),
                     FileUpload::make('documents')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.document')),
                     select::make('status')
@@ -188,34 +164,57 @@ class LeaveRequestResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\Action::make('change_status')
+                    Tables\Actions\Action::make('change_status_to_cancelled')
                         ->label(function (LeaveRequest $record) {
-                            if ($record->status === LeaveRequestStatus::PENDING()->value) {
-                                return strval(__('cranberry-punch::cranberry-punch.leave-request.status.cancelled'));
+                            if ($record->status === LeaveRequestStatus::DRAFT()->value) {
+                                return strval(__('cranberry-punch::cranberry-punch.leave-request-action.status.cancel'));
                             }
-
-                            // return ($record->status === LeaveRequestStatus::PENDING()->value)
-                            //     ? __('cranberry-punch::cranberry-punch.leave-request.status.cancelled')
-                            //     : __('cranberry-punch::cranberry-punch.leave-request.status.pending');
                         })
                         ->icon(function (LeaveRequest $record): string {
-                            return ($record->status === LeaveRequestStatus::PENDING()->value)
+                            return ($record->status === LeaveRequestStatus::DRAFT()->value)
                                 ? 'heroicon-o-x-circle'
                                 : 'heroicon-o-clock';
                         })
                         ->color(function (LeaveRequest $record): string {
-                            return ($record->status === LeaveRequestStatus::PENDING()->value)
+                            return ($record->status === LeaveRequestStatus::DRAFT()->value)
                                 ? 'danger'
                                 : 'warning';
                         })
                         ->action(function (LeaveRequest $record): void {
-                            $record->setAttribute('status', $record->status === LeaveRequestStatus::PENDING()->value ? LeaveRequestStatus::CANCELLED()->value : LeaveRequestStatus::PENDING()->value)->save();
+                            $record->setAttribute('status', $record->status === LeaveRequestStatus::DRAFT()->value ? LeaveRequestStatus::CANCELLED()->value : LeaveRequestStatus::DRAFT()->value)->save();
                         })
                         ->hidden(function (LeaveRequest $record) {
                             if (auth()->user()->hasRole(['hr-manager', 'super-admin'])) {
                                 return true;
                             }
-                            return ($record->status !== LeaveRequestStatus::PENDING()->value && !auth()->user()->hasRole(['hr-manager', 'super-admin']));
+                            return ($record->status !== LeaveRequestStatus::DRAFT()->value && !auth()->user()->hasRole(['hr-manager', 'super-admin']));
+                        })
+                        ->requiresConfirmation(),
+
+                        Tables\Actions\Action::make('change_status_to_submit')
+                        ->label(function (LeaveRequest $record) {
+                            if ($record->status === LeaveRequestStatus::DRAFT()->value) {
+                                return strval(__('cranberry-punch::cranberry-punch.leave-request-action.status.submit'));
+                            }
+                        })
+                        ->icon(function (LeaveRequest $record): string {
+                            return ($record->status === LeaveRequestStatus::DRAFT()->value)
+                                ? 'heroicon-o-check'
+                                : 'heroicon-o-clock';
+                        })
+                        ->color(function (LeaveRequest $record): string {
+                            return ($record->status === LeaveRequestStatus::DRAFT()->value)
+                                ? 'success'
+                                : 'warning';
+                        })
+                        ->action(function (LeaveRequest $record): void {
+                            $record->setAttribute('status', $record->status === LeaveRequestStatus::DRAFT()->value ? LeaveRequestStatus::PENDING()->value : LeaveRequestStatus::DRAFT()->value)->save();
+                        })
+                        ->hidden(function (LeaveRequest $record) {
+                            if (auth()->user()->hasRole(['hr-manager', 'super-admin'])) {
+                                return true;
+                            }
+                            return ($record->status !== LeaveRequestStatus::DRAFT()->value && !auth()->user()->hasRole(['hr-manager', 'super-admin']));
                         })
                         ->requiresConfirmation(),
                     Tables\Actions\ViewAction::make(),

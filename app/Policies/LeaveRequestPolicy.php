@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\LeaveRequestStatus;
 use App\Models\LeaveRequest;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -54,7 +55,7 @@ class LeaveRequestPolicy
      */
     public function update(User $user, LeaveRequest $leaveRequest)
     {
-        return $user->hasPermissionTo("update leaveRequests") && $user->hasRole(['hr-manager', 'super-admin']);
+        return $user->hasPermissionTo("update leaveRequests") && $leaveRequest->status === LeaveRequestStatus::DRAFT()->value;
     }
 
     /**
