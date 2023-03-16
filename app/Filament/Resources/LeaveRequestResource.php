@@ -126,7 +126,7 @@ class LeaveRequestResource extends Resource
                         ->reactive()
                         ->maxDate(function (Closure $get, Closure $set) {
                             // echo ($get('leave_type_id'));
-                            if (!$get('leave_type_id')) {
+                            if (!$get('leave_type_id') || !$get('employee_id')) {
                                 return;
                             }
                             $maxDate = null;
