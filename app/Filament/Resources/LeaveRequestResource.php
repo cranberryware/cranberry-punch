@@ -31,6 +31,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Collection;
 
 class LeaveRequestResource extends Resource
 {
@@ -75,7 +76,12 @@ class LeaveRequestResource extends Resource
                             return $options[$employee->id];
                         })
                         ->disabled(!auth()->user()->hasRole(['hr-manager', 'super-admin']))
-                        ->required(),
+                        ->required()
+                        ->reactive()
+                        ->afterStateUpdated(function (Closure $set) {
+                            $set('from', null);
+                            $set('to', null);
+                        }),
                     Select::make('leave_type_id')
                         ->required()
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_type'))
@@ -123,8 +129,23 @@ class LeaveRequestResource extends Resource
                             if (!$get('leave_type_id')) {
                                 return;
                             }
+                            $maxDate = null;
                             $data = LeaveType::where('id', $get('leave_type_id'))->first();
-                            return Carbon::parse($get('from'))->addDay($data->claim_allowance_limit)->format('Y-m-d');
+                            // Convert the array to a Laravel Collection
+                            $collection = Collection::make($data->total_allowance);
+
+                            // Filter the collection to find the desired object
+                            $filtered = $collection->where('designation', auth()->user()->hasRole(['hr-manager', 'super-admin']) ? Employee::where('id', $get('employee_id'))->first()->designation->name : auth()->user()->employee->designation->name);
+
+                            // Extract the number_of_allowance value from the filtered object
+                            $number_of_allowance = $filtered->pluck('number_of_allowance')->first();
+
+                            if ($number_of_allowance > $data->claim_allowance_limit) {
+                                $maxDate = $data->claim_allowance_limit;
+                            } else {
+                                $maxDate = $number_of_allowance;
+                            }
+                            return Carbon::parse($get('from'))->addDay($maxDate)->format('Y-m-d');
                         })
                         ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
                             if (Carbon::parse($state)->lt(Carbon::parse($get('from')))) {
@@ -205,7 +226,7 @@ class LeaveRequestResource extends Resource
                         })
                         ->requiresConfirmation(),
 
-                        Tables\Actions\Action::make('change_status_to_submit')
+                    Tables\Actions\Action::make('change_status_to_submit')
                         ->label(function (LeaveRequest $record) {
                             if ($record->status === LeaveRequestStatus::DRAFT()->value) {
                                 return strval(__('cranberry-punch::cranberry-punch.leave-request-action.status.submit'));
