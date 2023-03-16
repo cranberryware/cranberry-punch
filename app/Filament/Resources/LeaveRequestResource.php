@@ -8,6 +8,7 @@ use App\Filament\Resources\LeaveRequestResource\RelationManagers;
 use App\Models\Employee;
 use App\Models\LeaveRequest;
 use App\Models\LeaveSession;
+use App\Models\LeaveType;
 use Carbon\Carbon;
 use Closure;
 use Filament\Forms;
@@ -78,7 +79,12 @@ class LeaveRequestResource extends Resource
                     Select::make('leave_type_id')
                         ->required()
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_type'))
-                        ->relationship('leaveType', 'name'),
+                        ->relationship('leaveType', 'name')
+                        ->reactive()
+                        ->afterStateUpdated(function (Closure $set) {
+                            $set('from', null);
+                            $set('to', null);
+                        }),
                     Select::make('leave_session_id')
                         ->required()
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_session'))
@@ -112,6 +118,14 @@ class LeaveRequestResource extends Resource
                         ->required()
                         ->timezone(config('app.timezone'))
                         ->reactive()
+                        ->maxDate(function (Closure $get, Closure $set) {
+                            // echo ($get('leave_type_id'));
+                            if (!$get('leave_type_id')) {
+                                return;
+                            }
+                            $data = LeaveType::where('id', $get('leave_type_id'))->first();
+                            return Carbon::parse($get('from'))->addDay($data->claim_allowance_limit)->format('Y-m-d');
+                        })
                         ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
                             if (Carbon::parse($state)->lt(Carbon::parse($get('from')))) {
                                 $set('from', Carbon::parse($state)->subDay(1)->format('Y-m-d'));
