@@ -14,12 +14,6 @@ class EditLeaveRequest extends EditRecord
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $data['duration'] = self::getDuration($data['from'], $data['to']);
-        // throw new \Exception('Password and Confirm Password do not match');
-        // $state = $this->state();
-        // $this->form->addError(['confirm_password' => 'Password and Confirm Password do not match']);
-        // return Notification::make()
-        //     ->success()
-        //     ->title("Not correct.");
         return $data;
     }
 
