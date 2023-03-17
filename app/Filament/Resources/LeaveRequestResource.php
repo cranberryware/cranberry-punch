@@ -114,8 +114,39 @@ class LeaveRequestResource extends Resource
                         ->required()
                         ->timezone(config('app.timezone'))
                         ->reactive()
+                        ->minDate(
+                            // Carbon::now()->format('Y-m-d')
+                                function (Closure $get, Closure $set) {
+                                if (!$get('leave_type_id') || !$get('employee_id') || !$get('to')) {
+                                    return Carbon::now()->format('Y-m-d');
+                                }
+
+                                $minDate = null;
+                                $data = LeaveType::where('id', $get('leave_type_id'))->first();
+                                // Convert the array to a Laravel Collection
+                                $collection = Collection::make($data->total_allowance);
+
+                                // Filter the collection to find the desired object
+                                $filtered = $collection->where('designation', auth()->user()->hasRole(['hr-manager', 'super-admin']) ? Employee::where('id', $get('employee_id'))->first()->designation->name : auth()->user()->employee->designation->name);
+
+                                // Extract the number_of_allowance value from the filtered object
+                                $number_of_allowance = $filtered->pluck('number_of_allowance')->first();
+
+                                if ($number_of_allowance > $data->claim_allowance_limit) {
+                                    $minDate = $data->claim_allowance_limit;
+                                } else {
+                                    $minDate = $number_of_allowance;
+                                }
+
+                                if (Carbon::parse($get('to'))->diff(Carbon::parse(now()->format('Y-m-d')))->days < $minDate) {
+                                    return Carbon::now()->format('Y-m-d');
+                                } else {
+                                    return Carbon::parse($get('to'))->subDay($minDate >= 0 && $minDate <= 1  ? $minDate + 1 : $minDate)->format('Y-m-d');
+                                }
+                            }
+                        )
                         ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
-                            if (Carbon::parse($state)->gt(Carbon::parse($get('to')))) {
+                            if (Carbon::parse($state)->gte(Carbon::parse($get('to'))) || !$get('to')) {
                                 $set('to', Carbon::parse($state)->addDay(1)->format('Y-m-d'));
                             }
                         }),
@@ -124,9 +155,30 @@ class LeaveRequestResource extends Resource
                         ->required()
                         ->timezone(config('app.timezone'))
                         ->reactive()
+                        ->minDate(function (Closure $get, Closure $set) {
+                            // if ($get('from')) {
+                            //     $minDate = null;
+                            //     $data = LeaveType::where('id', $get('leave_type_id'))->first();
+                            //     // Convert the array to a Laravel Collection
+                            //     $collection = Collection::make($data->total_allowance);
+
+                            //     // Filter the collection to find the desired object
+                            //     $filtered = $collection->where('designation', auth()->user()->hasRole(['hr-manager', 'super-admin']) ? Employee::where('id', $get('employee_id'))->first()->designation->name : auth()->user()->employee->designation->name);
+
+                            //     // Extract the number_of_allowance value from the filtered object
+                            //     $number_of_allowance = $filtered->pluck('number_of_allowance')->first();
+
+                            //     if ($number_of_allowance > $data->claim_allowance_limit) {
+                            //         $minDate = $data->claim_allowance_limit;
+                            //     } else {
+                            //         $minDate = $number_of_allowance;
+                            //     }
+                            //     return Carbon::parse($get('from'))->subDay($minDate)->format('Y-m-d');
+                            // }
+                            return Carbon::now()->addDay(1)->format('Y-m-d');
+                        })
                         ->maxDate(function (Closure $get, Closure $set) {
-                            // echo ($get('leave_type_id'));
-                            if (!$get('leave_type_id') || !$get('employee_id')) {
+                            if (!$get('leave_type_id') || !$get('employee_id') || !$get('from')) {
                                 return;
                             }
                             $maxDate = null;
@@ -145,10 +197,13 @@ class LeaveRequestResource extends Resource
                             } else {
                                 $maxDate = $number_of_allowance;
                             }
-                            return Carbon::parse($get('from'))->addDay($maxDate)->format('Y-m-d');
+                            return Carbon::parse($get('from'))->addDay($maxDate >= 0 && $maxDate <= 1  ? $maxDate + 1 : $maxDate)->format('Y-m-d');
                         })
                         ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
-                            if (Carbon::parse($state)->lt(Carbon::parse($get('from')))) {
+                            // if (Carbon::parse($state)->lt(Carbon::parse(now()))) {
+                            //     return;
+                            // }
+                            if (Carbon::parse($state)->lte(Carbon::parse($get('from'))) || !$get('from')) {
                                 $set('from', Carbon::parse($state)->subDay(1)->format('Y-m-d'));
                             }
                         }),
