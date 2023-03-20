@@ -29,7 +29,7 @@ $primary-750: theme("colors.green.750");
             > table.filament-tables-table
             > tbody
             > tr:hover {
-            background-color: transparent !important;
+            @apply hover:bg-transparent
         }
         > .filament-tables-pagination-container {
             display: none;
@@ -68,14 +68,12 @@ $primary-750: theme("colors.green.750");
 }
 
 .login .filament-button {
-    background-color: $primary-750 !important;
     @apply rounded-full bg-green-750 hover:bg-green-650 relative right-[25px] min-w-[30%];
 }
 
 .login .filament-button:focus {
-    outline: 0 !important;
-    box-shadow: none !important;
-    @apply bg-slate-50 ring-offset-0 ring-0 text-white;
+    outline: 0 ;
+    @apply bg-slate-50 ring-offset-0 ring-0 text-white focus:shadow-none;
 }
 
 #email {
@@ -91,8 +89,8 @@ $primary-750: theme("colors.green.750");
 }
 
 #password {
-    border-top-right-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 ;
+    border-bottom-right-radius: 0 ;
     @apply min-w-[79%] bg-white p-[15px];
 }
 
@@ -157,25 +155,23 @@ $primary-750: theme("colors.green.750");
 }
 
 .custom-button {
-    @apply bg-green-750 text-white;
+    @apply bg-green-750 text-white ;
 }
 
 .custom-button:hover {
-    background-color: $primary-650 !important;
-    color: white !important;
-    @apply bg-green-650 text-white;
+    @apply hover:bg-green-650 hover:text-white ;
 }
 
 .custom-button:active {
-    @apply bg-green-650 text-white;
+    @apply active:bg-green-650 active:text-white;
 }
 
 .custom-button:focus {
-    background-color: $primary-650 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-    color: white !important;
-    @apply bg-green-650 ring-offset-0 ring-0 text-white;
+    @apply  focus:ring-offset-0 focus:ring-0 focus:text-white focus:bg-green-650 focus:outline-0 focus:shadow-none;
+}
+
+.filament-forms-text-input-component input{
+    @apply focus:ring-green-550
 }
 
 .filament-button.bg-white {
@@ -190,30 +186,24 @@ $primary-750: theme("colors.green.750");
     @apply bg-slate-50 text-black;
 }
 
-.filament-button.bg-white :focus {
-    outline: 0 !important;
-    box-shadow: none !important;
-    @apply bg-slate-50 ring-offset-0 ring-0 text-black;
+.filament-button.bg-white:focus {
+    @apply focus:bg-slate-50 focus:ring-offset-0 focus:ring-0 focus:text-black focus:outline-0 focus:shadow-none;
 }
 
 .filament-dropdown-list-item:hover {
-    background-color: $primary-750 !important;
-    @apply bg-green-750 text-white;
+    @apply   hover:bg-green-750 hover:text-white;
 }
 
 .filament-dropdown-list-item:focus {
-    background-color: $primary-750 !important;
-    @apply bg-green-750 text-white;
+    @apply focus:bg-green-750 focus:text-white;
 }
 
 .clock-btn > button {
-    background-color: white !important;
-    box-shadow: none;
+    @apply bg-white shadow-none
 }
 
 .clock-btn > button:focus {
-    outline: 0 !important;
-    box-shadow: none !important;
+    @apply focus:outline-0 focus:shadow-none
 }
 
 .custom-cl {
@@ -225,20 +215,22 @@ $primary-750: theme("colors.green.750");
 }
 
 .custom-cl:focus {
-    background-color: $primary-650 !important;
-    @apply bg-green-650;
+    @apply focus:bg-green-650;
 }
 
 .custom-cl:hover {
-    background-color: $primary-650 !important;
-    @apply bg-green-650;
+    @apply hover:bg-green-650;
+}
+
+.filament-tables-search-input input{
+    @apply focus:ring-green-550
 }
 
 .attendance-calender-item {
-    padding: 0px !important;
     display: flex;
     justify-content: center;
     align-items: center;
+    @apply p-0
 }
 
 .filament-button.bg-primary-600 {
@@ -246,21 +238,15 @@ $primary-750: theme("colors.green.750");
 }
 
 .filament-button.bg-primary-600:hover {
-    background-color: $primary-650 !important;
-    color: white !important;
-    @apply bg-green-650 text-white;
+    @apply hover:bg-green-650 hover:text-white;
 }
 
 .filament-button.bg-primary-600:active {
-    @apply bg-green-650 text-white;
+    @apply active:bg-green-650 active:text-white;
 }
 
 .filament-button.bg-primary-600 :focus {
-    background-color: $primary-650 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-    color: white !important;
-    @apply bg-green-650 ring-offset-0 ring-0 text-white;
+    @apply focus:bg-green-650 focus:ring-offset-0 focus:ring-0 focus:text-white focus:outline-0 focus:shadow-none;
 }
 
 .filament-tables-component {
@@ -282,8 +268,7 @@ $primary-750: theme("colors.green.750");
 }
 
 .filament-tables-row:hover {
-    background-color: #f0fffa !important;
-    @apply bg-green-250 transition delay-75 duration-75 ease-in-out shadow-lg;
+    @apply hover:bg-[#f0fffa] hover:transition hover:delay-75 hover:duration-200 hover:ease-out hover:shadow-lg;
 }
 
 .filament-tables-table {
@@ -299,7 +284,7 @@ $primary-750: theme("colors.green.750");
 }
 
 .btn-cmn:hover {
-    background-color: $primary-750 !important;
+    @apply hover:bg-green-750
 }
 
 
@@ -342,32 +327,29 @@ $primary-750: theme("colors.green.750");
 }
 
 .filament-sidebar-nav ul {
-    padding-left: 0px !important;
+    @apply pl-0
 }
 
 .filament-sidebar-group p{
-    color: #fff !important;
-    font-size: 16px !important;
+    @apply text-white text-[16px]
 }
 
 
 
 .filament-sidebar-item a{
-    padding-right: 0px !important;
-    background-color: transparent !important;
-    padding-right: 18px !important;
+    @apply  bg-transparent pr-[18px]
 }
 
 .filament-sidebar-item a:hover{
-    background-color: transparent !important;
+    @apply hover:bg-transparent
 }
 
 .filament-sidebar-item a:focus{
-    background-color: transparent !important;
+    @apply focus:bg-transparent
 }
 
 .filament-sidebar-item a:active{
-    background-color: transparent !important;
+    @apply active:bg-transparent
 }
 
 .filament-sidebar-item{
@@ -379,14 +361,12 @@ $primary-750: theme("colors.green.750");
 
 .filament-sidebar-item:hover{
     background:  $primary-650;
-    border-top-right-radius: 40px !important;
-    border-bottom-right-radius: 40px !important;
+    @apply hover:rounded-tr-[40px] hover:rounded-br-[40px]
 }
 
 .filament-sidebar-item:focus{
     background:  $primary-650;
-    border-top-right-radius: 40px !important;
-    border-bottom-right-radius: 40px !important;
+    @apply rounded-tr-[40px] rounded-br-[40px]
 }
 
 .filament-sidebar-item {
@@ -412,10 +392,9 @@ $primary-750: theme("colors.green.750");
 }
 
 .filament-sidebar-header{
-    background-color: $primary-750 !important;
-    height: 6rem !important;
     border-bottom: 0px;
     justify-content: normal ;
+    @apply bg-green-750 h-[6rem]
 }
 
 .filament-sidebar-header::before{
@@ -424,10 +403,9 @@ $primary-750: theme("colors.green.750");
 
 .filament-sidebar-header div {
     height: 74px;
-    padding-right: 0px !important;
     border-top-right-radius: 40px;
     border-bottom-right-radius: 40px;
-    @apply bg-gradient-to-r from-green-650 to-green-750
+    @apply bg-gradient-to-r from-green-650 to-green-750 pr-0
 }
 .filament-sidebar-header div button svg{
     color: #fff;
@@ -438,7 +416,7 @@ $primary-750: theme("colors.green.750");
 .filament-sidebar-header div a{
     height: 100%;
     width: 100%;
-    margin-left: 0px !important;
+    @apply ml-0
 }
 
 .filament-sidebar-header div a div{
@@ -472,14 +450,13 @@ $primary-750: theme("colors.green.750");
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
     background-color: $primary-650;
-    padding-top: 35px !important;
-    padding-bottom: 35px !important;
+    @apply py-[35px]
 }
 
 .filament-sidebar-close-button:hover{
-    background-color: $primary-650 !important;
+    @apply hover:bg-green-650
 }
 
 .filament-sidebar-close-button:focus{
-    background-color: $primary-650 !important;
+    @apply focus:bg-green-650
 }
