@@ -200,7 +200,6 @@
     "filament::resources\/pages\/edit-record.form.actions.save.label": "Save",
     "cranberry-punch::cranberry-punch.leave-session.status.active": "Active",
     "cranberry-punch::cranberry-punch.leave-session.status.inactive": "Inactive",
-    "cranberry-punch::cranberry-punch.leave-request.status.draft": "Draft",
     "cranberry-punch::cranberry-punch.leave-request.status.pending": "Pending",
     "cranberry-punch::cranberry-punch.leave-request.status.approved": "Approved",
     "cranberry-punch::cranberry-punch.leave-request.status.rejected": "Rejected",

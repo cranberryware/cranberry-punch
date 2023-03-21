@@ -55,7 +55,7 @@ class LeaveRequestPolicy
      */
     public function update(User $user, LeaveRequest $leaveRequest)
     {
-        return $user->hasPermissionTo("update leaveRequests") && $leaveRequest->status === LeaveRequestStatus::DRAFT()->value;
+        return $user->hasPermissionTo("update leaveRequests") && $leaveRequest->status === LeaveRequestStatus::PENDING()->value;
     }
 
     /**

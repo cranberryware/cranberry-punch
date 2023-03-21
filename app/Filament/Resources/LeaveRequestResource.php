@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Enums\LeaveRequestStatus;
 use App\Filament\Resources\LeaveRequestResource\Pages;
 use App\Filament\Resources\LeaveRequestResource\RelationManagers;
+use App\Filament\Resources\LeaveRequestResource\Widgets\LeaveRequestStatsOverview;
 use App\Models\Employee;
 use App\Models\LeaveRequest;
 use App\Models\LeaveSession;
@@ -38,6 +39,7 @@ class LeaveRequestResource extends Resource
     protected static ?string $model = LeaveRequest::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationLabel = 'Leave Apply';
 
     protected static function getNavigationGroup(): ?string
     {
@@ -95,13 +97,8 @@ class LeaveRequestResource extends Resource
                         ->required()
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_session'))
                         // ->relationship('leaveSession', 'title'),
-                        ->options(function () {
-                            $options = [];
-                            $sessions = LeaveSession::where('status', 'active')->get();
-                            foreach ($sessions as $session) {
-                                $options[$session->id] = $session->title;
-                            }
-                            return $options;
+                        ->relationship('leaveSession', 'title', function ($query) {
+                            return $query->where('status', 'active');
                         }),
                     TextInput::make('short_description')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.short_description'))
@@ -236,7 +233,7 @@ class LeaveRequestResource extends Resource
                         return (__("cranberry-punch::cranberry-punch.leave-request.status.{$state}"));
                     })
                     ->colors(LeaveRequestStatus::getStatusColors()),
-            ])
+            ])->defaultSort('created_at', 'desc')
             ->filters([
                 SelectFilter::make('status')
                     ->options(LeaveRequestStatus::getStatuses()),
@@ -245,55 +242,28 @@ class LeaveRequestResource extends Resource
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('change_status_to_cancelled')
                         ->label(function (LeaveRequest $record) {
-                            if ($record->status === LeaveRequestStatus::DRAFT()->value) {
+                            if ($record->status === LeaveRequestStatus::PENDING()->value) {
                                 return strval(__('cranberry-punch::cranberry-punch.leave-request-action.status.cancel'));
                             }
                         })
                         ->icon(function (LeaveRequest $record): string {
-                            return ($record->status === LeaveRequestStatus::DRAFT()->value)
+                            return ($record->status === LeaveRequestStatus::PENDING()->value)
                                 ? 'heroicon-o-x-circle'
                                 : 'heroicon-o-clock';
                         })
                         ->color(function (LeaveRequest $record): string {
-                            return ($record->status === LeaveRequestStatus::DRAFT()->value)
+                            return ($record->status === LeaveRequestStatus::PENDING()->value)
                                 ? 'danger'
                                 : 'warning';
                         })
                         ->action(function (LeaveRequest $record): void {
-                            $record->setAttribute('status', $record->status === LeaveRequestStatus::DRAFT()->value ? LeaveRequestStatus::CANCELLED()->value : LeaveRequestStatus::DRAFT()->value)->save();
+                            $record->setAttribute('status', $record->status === LeaveRequestStatus::PENDING()->value ? LeaveRequestStatus::CANCELLED()->value : LeaveRequestStatus::PENDING()->value)->save();
                         })
                         ->hidden(function (LeaveRequest $record) {
                             if (auth()->user()->hasRole(['hr-manager', 'super-admin'])) {
                                 return true;
                             }
-                            return ($record->status !== LeaveRequestStatus::DRAFT()->value && !auth()->user()->hasRole(['hr-manager', 'super-admin']));
-                        })
-                        ->requiresConfirmation(),
-
-                    Tables\Actions\Action::make('change_status_to_submit')
-                        ->label(function (LeaveRequest $record) {
-                            if ($record->status === LeaveRequestStatus::DRAFT()->value) {
-                                return strval(__('cranberry-punch::cranberry-punch.leave-request-action.status.submit'));
-                            }
-                        })
-                        ->icon(function (LeaveRequest $record): string {
-                            return ($record->status === LeaveRequestStatus::DRAFT()->value)
-                                ? 'heroicon-o-check'
-                                : 'heroicon-o-clock';
-                        })
-                        ->color(function (LeaveRequest $record): string {
-                            return ($record->status === LeaveRequestStatus::DRAFT()->value)
-                                ? 'success'
-                                : 'warning';
-                        })
-                        ->action(function (LeaveRequest $record): void {
-                            $record->setAttribute('status', $record->status === LeaveRequestStatus::DRAFT()->value ? LeaveRequestStatus::PENDING()->value : LeaveRequestStatus::DRAFT()->value)->save();
-                        })
-                        ->hidden(function (LeaveRequest $record) {
-                            if (auth()->user()->hasRole(['hr-manager', 'super-admin'])) {
-                                return true;
-                            }
-                            return ($record->status !== LeaveRequestStatus::DRAFT()->value && !auth()->user()->hasRole(['hr-manager', 'super-admin']));
+                            return ($record->status !== LeaveRequestStatus::PENDING()->value && !auth()->user()->hasRole(['hr-manager', 'super-admin']));
                         })
                         ->requiresConfirmation(),
                     Tables\Actions\ViewAction::make(),
@@ -309,6 +279,13 @@ class LeaveRequestResource extends Resource
     {
         return [
             //
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            LeaveRequestStatsOverview::class,
         ];
     }
 

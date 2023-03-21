@@ -97,7 +97,7 @@ class LeaveTypeResource extends Resource
                     ->label(__('cranberry-punch::cranberry-punch.leave.input.slug')),
                 TextColumn::make('description')
                     ->label(__('cranberry-punch::cranberry-punch.leave.input.description')),
-            ])
+            ])->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])

@@ -92,7 +92,7 @@ class LeaveSessionResource extends Resource
                         return (__("cranberry-punch::cranberry-punch.leave-session.status.{$state}"));
                     })
                     ->colors(LeaveSessionStatus::getStatusColors()),
-            ])
+            ])->defaultSort('created_at', 'desc')
             ->filters([
                 SelectFilter::make('status')
                     ->options(LeaveSessionStatus::getStatuses()),
