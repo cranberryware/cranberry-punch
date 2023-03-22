@@ -17,6 +17,7 @@ class ClockingDevice extends Model
         'device_status',
         'device_mode',
         'emp_prefix',
-        'device_secret'
+        'device_secret',
+        'device_timezone',
     ];
 }
