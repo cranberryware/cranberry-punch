@@ -12,6 +12,7 @@ use App\Models\LeaveSession;
 use App\Models\LeaveType;
 use Carbon\Carbon;
 use Closure;
+
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Component;
@@ -27,6 +28,8 @@ use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Grid;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
@@ -103,9 +106,16 @@ class LeaveRequestResource extends Resource
                     TextInput::make('short_description')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.short_description'))
                         ->required(),
-                    TextInput::make('reason')
+                   
+                    Textarea::make('reason')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.reason'))
                         ->required(),
+                    Textarea::make('notes')
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.notes'))
+                        ->required(),
+
+                    Grid::make(2)
+                        ->schema([
                     DatePicker::make('from')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.from'))
                         ->required()
@@ -193,6 +203,7 @@ class LeaveRequestResource extends Resource
                                 $set('from', Carbon::parse($state)->subDay(1)->format('Y-m-d'));
                             }
                         }),
+                    ]),
                     FileUpload::make('documents')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.document')),
                     select::make('status')

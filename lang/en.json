@@ -115,6 +115,7 @@
     "cranberry-punch::cranberry-punch.leave.input.leave_session": "Leave Session",
     "cranberry-punch::cranberry-punch.leave.input.short_description": "Short Description",
     "cranberry-punch::cranberry-punch.leave.input.reason": "Reason",
+    "cranberry-punch::cranberry-punch.leave.input.notes": "Notes",
     "cranberry-punch::cranberry-punch.leave.input.duration": "Duration",
     "cranberry-punch::cranberry-punch.leave.input.applied_on": "Applied On",
     "cranberry-punch::cranberry-punch.leave.input.document": "Document",
