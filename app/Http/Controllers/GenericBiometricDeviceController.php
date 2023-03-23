@@ -2,12 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use App\Models\Employee;
-use App\Enums\CheckInMode;
-use App\Models\Attendance;
 use Illuminate\Http\Request;
-use App\Models\ClockingDevice;
 use App\Support\AttendanceDevice;
 
 class GenericBiometricDeviceController extends Controller

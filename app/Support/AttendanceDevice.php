@@ -6,6 +6,7 @@ use App\Models\Employee;
 use App\Enums\CheckInMode;
 use App\Models\Attendance;
 use App\Models\ClockingDevice;
+use Illuminate\Support\Carbon;
 
 class AttendanceDevice
 {
@@ -35,6 +36,11 @@ class AttendanceDevice
         $employee_attendance = $employee->attendances()->latest()->first();
 
         $is_active_attendance = $employee_attendance && !$employee_attendance->check_out;
+
+        if($device->device_timezone != "UTC") {
+            $timestamp_original = $timestamp;
+            $timestamp = Carbon::createFromFormat('Y-m-d H:i:s', $timestamp_original, $device->device_timezone)->setTimezone('UTC');
+        }
 
         $attendance_data = [
             'check_in' => [
