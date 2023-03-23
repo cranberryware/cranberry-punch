@@ -98,6 +98,7 @@ class EmployeeResource extends Resource
                             ->required(),
                         DatePicker::make('date_of_birth')
                             ->label(__('cranberry-punch::cranberry-punch.employee.input.date_of_birth'))
+                            ->maxDate(now())
                             ->placeholder(__('cranberry-punch::cranberry-punch.employee.input.date_of_birth'))
                             ->required(),
                         DatePicker::make('birthday')
@@ -139,6 +140,7 @@ class EmployeeResource extends Resource
                             ->label(__('cranberry-punch::cranberry-punch.employee.input.number_of_children'))
                             ->placeholder(__('cranberry-punch::cranberry-punch.employee.input.number_of_children'))
                             ->numeric()
+                            ->minValue(0)
                             ->hidden(fn (Closure $get) => $get('marital_status') !== 'married')
                             ->required(fn (Closure $get) => $get('marital_status') === 'married'),
                         Fieldset::make('Spouse Details')
@@ -157,6 +159,7 @@ class EmployeeResource extends Resource
                                 DatePicker::make('spouse_date_of_birth')
                                     ->label(__('cranberry-punch::cranberry-punch.employee.input.spouse_date_of_birth'))
                                     ->placeholder(__('cranberry-punch::cranberry-punch.employee.input.spouse_date_of_birth'))
+                                    ->maxDate(now())
                                     ->required(fn (Closure $get) => $get('marital_status') === 'married'),
                                 DatePicker::make('spouse_birthday')
                                     ->label(__('cranberry-punch::cranberry-punch.employee.input.spouse_birthday'))
