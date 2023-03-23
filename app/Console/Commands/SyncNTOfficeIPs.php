@@ -31,7 +31,7 @@ class SyncNTOfficeIPs extends Command
      */
     public function handle()
     {
-        $response = Http::get("https://ga-430.nettantra.com:81/check-network-JFXX45RMsujsndxb0O20xVpC.php?mode=text");
+        $response = Http::get(config('app.office_ip_url'));
         $ips_list = preg_replace(['/enp[\d]s0: ([^:]+)?/', '/: (.*) :.*/'], ['', '$1'], $response);
         $ips_list = explode(PHP_EOL, $ips_list);
         $ips_list = array_filter($ips_list);

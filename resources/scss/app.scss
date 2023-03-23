@@ -293,7 +293,6 @@ $primary-750: theme("colors.green.750");
         to right,
         $primary-750,
         $primary-750 50%,
-        #000 50%
     );
     background-size: 200% 100%;
     background-position: -100%;
@@ -459,4 +458,25 @@ $primary-750: theme("colors.green.750");
 
 .filament-sidebar-close-button:focus{
     @apply focus:bg-green-650
+}
+
+.filament-sidebar-nav ul li:first-child{
+    .filament-sidebar-item span{
+        text-transform: uppercase;
+    }
+}
+
+.filament-sidebar-nav ul li{
+    .filament-sidebar-item span{
+        font-size: 16px;
+        font-weight: 600;
+    }
+}
+
+.filament-sidebar-group button p{
+    font-weight: 800;
+}
+
+.filament-sidebar-nav > ul > li:not(.filament-sidebar-group){
+    display: none;
 }
