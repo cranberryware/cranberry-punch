@@ -19,6 +19,7 @@ use Papalardo\FilamentPasswordInput\PasswordInput;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ClockingDeviceResource\Pages;
 use App\Filament\Resources\ClockingDeviceResource\RelationManagers;
+use Tapp\FilamentTimezoneField\Forms\Components\TimezoneSelect;
 
 class ClockingDeviceResource extends Resource
 {
@@ -59,6 +60,10 @@ class ClockingDeviceResource extends Resource
                     ->label(__('cranberry-punch::cranberry-punch.device.emp_prefix')),
                 PasswordInput::make('device_secret')
                     ->label(__('cranberry-punch::cranberry-punch.device.device_secret')),
+                TimezoneSelect::make('device_timezone')
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_timezone'))
+                    ->searchable()
+                    ->required(),
             ]);
     }
 
