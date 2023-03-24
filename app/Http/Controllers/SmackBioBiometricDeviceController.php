@@ -19,7 +19,7 @@ class SmackBioBiometricDeviceController extends Controller
             "LOG" => "Command,TerminalType,TerminalID,SerialNumber,TransactionID,LogTime,UserID,DoorID,AttendanceStatus,VerifyMode,JobCode,Antipass,DeviceSecret",
             "AdminLog" => "Command,SerialNumber,TerminalID,LogTime,AdminID,UserID,Action,Result",
             "AlarmLog" => "Command,SerialNumber",
-            "KeeyAlive" => "Command,SerialNumber",
+            "KeepAlive" => "Command,SerialNumber",
         ];
         $allowed_commands = array_keys($csv_headers_by_command);
         $enabled_commands = ["LOG"];
