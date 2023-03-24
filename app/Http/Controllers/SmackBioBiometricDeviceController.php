@@ -16,7 +16,7 @@ class SmackBioBiometricDeviceController extends Controller
         $request_message_array = preg_split('/, ?/', $request_message);
         $request_command = $request_message_array[0];
         $csv_headers_by_command = [
-            "LOG" => "Command,TerminalType,TerminalID,SerialNumber,TransactionID,LogTime,UserID,DoorID,AttendanceStatus,VerifyMode,JobCode,Antipass",
+            "LOG" => "Command,TerminalType,TerminalID,SerialNumber,TransactionID,LogTime,UserID,DoorID,AttendanceStatus,VerifyMode,JobCode,Antipass,DeviceSecret",
             "AdminLog" => "Command,SerialNumber,TerminalID,LogTime,AdminID,UserID,Action,Result",
             "AlarmLog" => "Command,SerialNumber",
             "KeeyAlive" => "Command,SerialNumber",
@@ -40,7 +40,7 @@ class SmackBioBiometricDeviceController extends Controller
             $request_message_map['UserID'],
             $request_message_map['SerialNumber'],
             $request_message_map['TerminalID'],
-            $request_message_map['SerialNumber'],
+            $request_message_map['DeviceSecret'],
             $request->ip(),
             $timestamp
         );
