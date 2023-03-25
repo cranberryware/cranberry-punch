@@ -111,8 +111,7 @@ class LeaveRequestResource extends Resource
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.reason'))
                         ->required(),
                     Textarea::make('notes')
-                        ->label(__('cranberry-punch::cranberry-punch.leave.input.notes'))
-                        ->required(),
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.notes')),
 
                     Grid::make(2)
                         ->schema([
@@ -231,10 +230,11 @@ class LeaveRequestResource extends Resource
                     select::make('status')
                         ->label('Status')
                         ->options(LeaveRequestStatus::getStatuses())
+                        ->default(LeaveRequestStatus::PENDING())
+                        ->disabled()
                         ->hidden(function () {
                             return auth()->user()->hasRole(['employee']);
                         })
-                        ->required()
                 ])
 
             ]);
