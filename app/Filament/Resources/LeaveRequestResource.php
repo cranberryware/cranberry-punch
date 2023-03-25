@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\LeaveRequestStatus;
+use App\Enums\LeaveSessionStatus;
 use App\Filament\Resources\LeaveRequestResource\Pages;
 use App\Filament\Resources\LeaveRequestResource\RelationManagers;
 use App\Filament\Resources\LeaveRequestResource\Widgets\LeaveRequestStatsOverview;
@@ -64,21 +65,11 @@ class LeaveRequestResource extends Resource
                         // ->relationship('employee', fn () => "employee_code_with_full_name")
                         ->searchable()
                         ->options(function () {
-                            $options = [];
-                            $employees = auth()->user()->employee ? Employee::where('id', auth()->user()->employee->id)->get() : Employee::all();
-                            foreach ($employees as $employee) {
-                                $options[$employee->id] = $employee->employee_code_with_full_name;
-                            }
-                            return $options;
+                            $employees = optional(auth()->user()->employee)->get() ?? Employee::all();
+                            return $employees->pluck('employee_code_with_full_name', 'id');
                         })
                         ->default(function () {
-                            $options = [];
-                            $employees = auth()->user()->employee ? Employee::where('id', auth()->user()->employee->id)->get() : [];
-                            if (!$employees) return;
-                            foreach ($employees as $employee) {
-                                $options[$employee->id] = $employee->id;
-                            }
-                            return $options[$employee->id];
+                            return auth()->user()->employee->id ?? [];
                         })
                         ->disabled(!auth()->user()->hasRole(['hr-manager', 'super-admin']))
                         ->required()
@@ -101,7 +92,7 @@ class LeaveRequestResource extends Resource
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_session'))
                         // ->relationship('leaveSession', 'title'),
                         ->relationship('leaveSession', 'title', function ($query) {
-                            return $query->where('status', 'active');
+                            return $query->where('status', LeaveSessionStatus::ACTIVE());
                         }),
                     TextInput::make('short_description')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.short_description'))
@@ -121,7 +112,6 @@ class LeaveRequestResource extends Resource
                                 ->timezone(config('app.timezone'))
                                 ->reactive()
                                 ->minDate(
-                                    // Carbon::now()->format('Y-m-d')
                                     function (Closure $get, Closure $set) {
                                         $data = LeaveType::where('id', $get('leave_type_id'))->first();
 
@@ -227,14 +217,14 @@ class LeaveRequestResource extends Resource
                         ]),
                     FileUpload::make('documents')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.document')),
-                    select::make('status')
-                        ->label('Status')
-                        ->options(LeaveRequestStatus::getStatuses())
-                        ->default(LeaveRequestStatus::PENDING())
-                        ->disabled()
-                        ->hidden(function () {
-                            return auth()->user()->hasRole(['employee']);
-                        })
+                    // select::make('status')
+                    //     ->label('Status')
+                    //     ->options(LeaveRequestStatus::getStatuses())
+                    //     ->default(LeaveRequestStatus::PENDING())
+                    //     ->disabled()
+                    //     ->hidden(function () {
+                    //         return auth()->user()->hasRole(['employee']);
+                    //     })
                 ])
 
             ]);
