@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->json('total_allowance');
-            $table->integer('claim_allowance_limit')->unsigned();
+            $table->integer('default_allowance_limit')->unsigned();
+            $table->integer('default_claim_allowance_limit')->unsigned();
             $table->integer('notify_before')->unsigned();
             $table->timestamps();
         });
