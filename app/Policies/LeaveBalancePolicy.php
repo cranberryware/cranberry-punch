@@ -2,15 +2,13 @@
 
 namespace App\Policies;
 
-use App\Enums\LeaveRequestStatus;
-use App\Models\LeaveRequest;
+use App\Models\LeaveBalance;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class LeaveRequestPolicy
+class LeaveBalancePolicy
 {
     use HandlesAuthorization;
-
 
     /**
      * Determine whether the user can view any models.
@@ -20,21 +18,19 @@ class LeaveRequestPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
-        // return $user->hasPermissionTo("viewAny leaveRequests");
+        //
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\LeaveRequest  $leaveRequest
+     * @param  \App\Models\LeaveBalance  $leaveBalance
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, LeaveRequest $leaveRequest)
+    public function view(User $user, LeaveBalance $leaveBalance)
     {
-        return true;
-        // return $user->hasPermissionTo("view leaveRequests");
+        //
     }
 
     /**
@@ -45,55 +41,54 @@ class LeaveRequestPolicy
      */
     public function create(User $user)
     {
-        return true;
-        // return $user->hasPermissionTo("create leaveRequests");
+        //
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\LeaveRequest  $leaveRequest
+     * @param  \App\Models\LeaveBalance  $leaveBalance
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, LeaveRequest $leaveRequest)
+    public function update(User $user, LeaveBalance $leaveBalance)
     {
-        // return $user->hasPermissionTo("update leaveRequests") && $leaveRequest->status === LeaveRequestStatus::PENDING()->value;
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\LeaveRequest  $leaveRequest
+     * @param  \App\Models\LeaveBalance  $leaveBalance
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, LeaveRequest $leaveRequest)
+    public function delete(User $user, LeaveBalance $leaveBalance)
     {
-        // return $user->hasPermissionTo("delete leaveRequests") && $user->hasRole(['hr-manager', 'super-admin']);
+        //
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\LeaveRequest  $leaveRequest
+     * @param  \App\Models\LeaveBalance  $leaveBalance
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, LeaveRequest $leaveRequest)
+    public function restore(User $user, LeaveBalance $leaveBalance)
     {
-        // return $user->hasPermissionTo("restore leaveRequests") && $user->hasRole(['hr-manager', 'super-admin']);
+        //
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\LeaveRequest  $leaveRequest
+     * @param  \App\Models\LeaveBalance  $leaveBalance
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, LeaveRequest $leaveRequest)
+    public function forceDelete(User $user, LeaveBalance $leaveBalance)
     {
-        // return $user->hasPermissionTo("forceDelete leaveRequests") && $user->hasRole(['hr-manager', 'super-admin']);
+        //
     }
 }
