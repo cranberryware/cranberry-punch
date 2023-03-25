@@ -10,6 +10,7 @@ use Closure;
 use Illuminate\Support\Str;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Component;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
@@ -70,12 +71,21 @@ class LeaveTypeResource extends Resource
                             TextInput::make('number_of_allowance')
                                 ->label(__('cranberry-punch::cranberry-punch.leave.input.number_of_allowance'))
                                 ->required(),
+                            TextInput::make('claim_allowance_limit')
+                                ->label(__('cranberry-punch::cranberry-punch.leave.input.claim_allowance_limit'))
+                                ->lte('number_of_allowance')
+                                ->required(),
                         ])
                         ->required()
-                        ->columns(2),
-                    TextInput::make('claim_allowance_limit')
-                        ->label(__('cranberry-punch::cranberry-punch.leave.input.claim_allowance_limit'))
+                        ->columns(3),
+                    TextInput::make('default_allowance_limit')
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.default_allowance_limit'))
                         ->numeric()
+                        ->required(),
+                    TextInput::make('default_claim_allowance_limit')
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.default_claim_allowance_limit'))
+                        ->numeric()
+                        ->lte('default_allowance_limit')
                         ->required(),
                     TextInput::make('notify_before')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.notify_before'))
