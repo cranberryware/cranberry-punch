@@ -42,7 +42,7 @@ class LeaveRequestResource extends Resource
     protected static ?string $model = LeaveRequest::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static ?string $navigationLabel = 'Leave Apply';
+    protected static ?int $navigationSort = 2;
 
     protected static function getNavigationGroup(): ?string
     {
@@ -106,7 +106,7 @@ class LeaveRequestResource extends Resource
                     TextInput::make('short_description')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.short_description'))
                         ->required(),
-                   
+
                     Textarea::make('reason')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.reason'))
                         ->required(),
@@ -116,18 +116,82 @@ class LeaveRequestResource extends Resource
 
                     Grid::make(2)
                         ->schema([
-                    DatePicker::make('from')
-                        ->label(__('cranberry-punch::cranberry-punch.leave.input.from'))
-                        ->required()
-                        ->timezone(config('app.timezone'))
-                        ->reactive()
-                        ->minDate(
-                            // Carbon::now()->format('Y-m-d')
-                            function (Closure $get, Closure $set) {
-                                $data = LeaveType::where('id', $get('leave_type_id'))->first();
+                            DatePicker::make('from')
+                                ->label(__('cranberry-punch::cranberry-punch.leave.input.from'))
+                                ->required()
+                                ->timezone(config('app.timezone'))
+                                ->reactive()
+                                ->minDate(
+                                    // Carbon::now()->format('Y-m-d')
+                                    function (Closure $get, Closure $set) {
+                                        $data = LeaveType::where('id', $get('leave_type_id'))->first();
 
-                                if ($get('leave_type_id') && $get('employee_id') && $get('to')) {
-                                    $minDate = null;
+                                        if ($get('leave_type_id') && $get('employee_id') && $get('to')) {
+                                            $minDate = null;
+                                            // Convert the array to a Laravel Collection
+                                            $collection = Collection::make($data->total_allowance);
+                                            // Filter the collection to find the desired object
+                                            $filtered = $collection->where('designation', auth()->user()->hasRole(['hr-manager', 'super-admin']) ? Employee::where('id', $get('employee_id'))->first()->designation->name : auth()->user()->employee->designation->name);
+
+                                            // Extract the number_of_allowance value from the filtered object
+                                            $number_of_allowance = $filtered->pluck('number_of_allowance')->first();
+                                            $claim_allowance_limit = $filtered->pluck('claim_allowance_limit')->first();
+                                            if ($collection->count() > 0 && $number_of_allowance) {
+                                                if ($claim_allowance_limit && $number_of_allowance > $claim_allowance_limit) {
+                                                    $minDate = $claim_allowance_limit;
+                                                } else {
+                                                    $minDate = $number_of_allowance;
+                                                }
+                                            } else {
+
+                                                // Extract the number_of_allowance value from the default object
+                                                $default_allowance_limit = $data->pluck('default_allowance_limit')->first();
+                                                $default_claim_allowance_limit = $data->pluck('default_claim_allowance_limit')->first();
+                                                if ($default_claim_allowance_limit && $default_allowance_limit > $default_claim_allowance_limit) {
+                                                    $minDate = $default_claim_allowance_limit;
+                                                } else {
+                                                    $minDate = $default_allowance_limit;
+                                                }
+                                            }
+                                            if (Carbon::parse($get('to'))->diff(Carbon::parse(now()->addDay($data->notify_before)->format('Y-m-d')))->days < $minDate) {
+                                                return Carbon::now()->addDay($data->notify_before)->format('Y-m-d');
+                                            } else {
+                                                return Carbon::parse($get('to'))->subDay($minDate)->format('Y-m-d');
+                                            }
+                                        }
+
+                                        if ($get('leave_type_id') && $get('employee_id')) {
+                                            return Carbon::now()->addDay($data->notify_before)->format('Y-m-d');
+                                        }
+
+                                        if (!$get('leave_type_id') || !$get('employee_id') || !$get('to')) {
+                                            return Carbon::now()->format('Y-m-d');
+                                        }
+                                    }
+                                )
+                                ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
+                                    if (Carbon::parse($state)->gte(Carbon::parse($get('to'))) || !$get('to')) {
+                                        $set('to', Carbon::parse($state)->addDay(1)->format('Y-m-d'));
+                                    }
+                                }),
+                            DatePicker::make('to')
+                                ->label(__('cranberry-punch::cranberry-punch.leave.input.to'))
+                                ->required()
+                                ->timezone(config('app.timezone'))
+                                ->reactive()
+                                ->minDate(function (Closure $get, Closure $set) {
+                                    if ($get('leave_type_id')) {
+                                        $data = LeaveType::where('id', $get('leave_type_id'))->first();
+                                        return Carbon::now()->addDay($data->notify_before + 1)->format('Y-m-d');
+                                    }
+                                    return Carbon::now()->addDay(1)->format('Y-m-d');
+                                })
+                                ->maxDate(function (Closure $get, Closure $set) {
+                                    if (!$get('leave_type_id') || !$get('employee_id') || !$get('from')) {
+                                        return;
+                                    }
+                                    $maxDate = null;
+                                    $data = LeaveType::where('id', $get('leave_type_id'))->first();
                                     // Convert the array to a Laravel Collection
                                     $collection = Collection::make($data->total_allowance);
 
@@ -136,74 +200,32 @@ class LeaveRequestResource extends Resource
 
                                     // Extract the number_of_allowance value from the filtered object
                                     $number_of_allowance = $filtered->pluck('number_of_allowance')->first();
-
-                                    if ($number_of_allowance > $data->claim_allowance_limit) {
-                                        $minDate = $data->claim_allowance_limit;
+                                    $claim_allowance_limit = $filtered->pluck('claim_allowance_limit')->first();
+                                    if ($collection->count() > 0 && $number_of_allowance) {
+                                        if ($claim_allowance_limit && $number_of_allowance > $claim_allowance_limit) {
+                                            $maxDate = $claim_allowance_limit;
+                                        } else {
+                                            $maxDate = $number_of_allowance;
+                                        }
                                     } else {
-                                        $minDate = $number_of_allowance;
+
+                                        // Extract the number_of_allowance value from the default object
+                                        $default_allowance_limit = $data->pluck('default_allowance_limit')->first();
+                                        $default_claim_allowance_limit = $data->pluck('default_claim_allowance_limit')->first();
+                                        if ($default_claim_allowance_limit && $default_allowance_limit > $default_claim_allowance_limit) {
+                                            $maxDate = $default_claim_allowance_limit;
+                                        } else {
+                                            $maxDate = $default_allowance_limit;
+                                        }
                                     }
-
-                                    if (Carbon::parse($get('to'))->diff(Carbon::parse(now()->addDay($data->notify_before)->format('Y-m-d')))->days < $minDate) {
-                                        return Carbon::now()->addDay($data->notify_before)->format('Y-m-d');
-                                    } else {
-                                        return Carbon::parse($get('to'))->subDay($minDate)->format('Y-m-d');
+                                    return Carbon::parse($get('from'))->addDay($maxDate)->format('Y-m-d');
+                                })
+                                ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
+                                    if (Carbon::parse($state)->lte(Carbon::parse($get('from'))) || !$get('from')) {
+                                        $set('from', Carbon::parse($state)->subDay(1)->format('Y-m-d'));
                                     }
-                                }
-
-                                if ($get('leave_type_id') && $get('employee_id')) {
-                                    return Carbon::now()->addDay($data->notify_before)->format('Y-m-d');
-                                }
-
-                                if (!$get('leave_type_id') || !$get('employee_id') || !$get('to')) {
-                                    return Carbon::now()->format('Y-m-d');
-                                }
-                            }
-                        )
-                        ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
-                            if (Carbon::parse($state)->gte(Carbon::parse($get('to'))) || !$get('to')) {
-                                $set('to', Carbon::parse($state)->addDay(1)->format('Y-m-d'));
-                            }
-                        }),
-                    DatePicker::make('to')
-                        ->label(__('cranberry-punch::cranberry-punch.leave.input.to'))
-                        ->required()
-                        ->timezone(config('app.timezone'))
-                        ->reactive()
-                        ->minDate(function (Closure $get, Closure $set) {
-                            if ($get('leave_type_id')) {
-                                $data = LeaveType::where('id', $get('leave_type_id'))->first();
-                                return Carbon::now()->addDay($data->notify_before + 1)->format('Y-m-d');
-                            }
-                            return Carbon::now()->addDay(1)->format('Y-m-d');
-                        })
-                        ->maxDate(function (Closure $get, Closure $set) {
-                            if (!$get('leave_type_id') || !$get('employee_id') || !$get('from')) {
-                                return;
-                            }
-                            $maxDate = null;
-                            $data = LeaveType::where('id', $get('leave_type_id'))->first();
-                            // Convert the array to a Laravel Collection
-                            $collection = Collection::make($data->total_allowance);
-
-                            // Filter the collection to find the desired object
-                            $filtered = $collection->where('designation', auth()->user()->hasRole(['hr-manager', 'super-admin']) ? Employee::where('id', $get('employee_id'))->first()->designation->name : auth()->user()->employee->designation->name);
-
-                            // Extract the number_of_allowance value from the filtered object
-                            $number_of_allowance = $filtered->pluck('number_of_allowance')->first();
-
-                            if ($number_of_allowance > $data->claim_allowance_limit) {
-                                $maxDate = $data->claim_allowance_limit;
-                            } else {
-                                $maxDate = $number_of_allowance;
-                            }
-                            return Carbon::parse($get('from'))->addDay($maxDate)->format('Y-m-d');
-                        })
-                        ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
-                            if (Carbon::parse($state)->lte(Carbon::parse($get('from'))) || !$get('from')) {
-                                $set('from', Carbon::parse($state)->subDay(1)->format('Y-m-d'));
-                            }
-                        }),
-                    ]),
+                                }),
+                        ]),
                     FileUpload::make('documents')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.document')),
                     select::make('status')
@@ -212,6 +234,7 @@ class LeaveRequestResource extends Resource
                         ->hidden(function () {
                             return auth()->user()->hasRole(['employee']);
                         })
+                        ->required()
                 ])
 
             ]);
