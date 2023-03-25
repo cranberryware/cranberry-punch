@@ -14,7 +14,8 @@ class LeaveType extends Model
         'slug',
         'description',
         'total_allowance',
-        'claim_allowance_limit',
+        'default_allowance_limit',
+        'default_claim_allowance_limit',
         'notify_before',
     ];
 
