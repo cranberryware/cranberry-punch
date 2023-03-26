@@ -123,7 +123,8 @@ class LeaveRequestResource extends Resource
                                             // Convert the array to a Laravel Collection
                                             $collection = Collection::make($data->total_allowance);
                                             // Filter the collection to find the desired object
-                                            $filtered = $collection->where('designation', auth()->user()->hasRole(['hr-manager', 'super-admin']) ? Employee::where('id', $get('employee_id'))->first()->designation->name : auth()->user()->employee->designation->name);
+                                            // $filtered = $collection->where('designation', auth()->user()->hasRole(['hr-manager', 'super-admin']) ? Employee::where('id', $get('employee_id'))->first()->designation->name : auth()->user()->employee->designation->name);
+                                            $filtered = $collection->where('designation', Employee::where('id', $get('employee_id'))->first()->designation->name);
 
                                             // Extract the number_of_allowance value from the filtered object
                                             $number_of_allowance = $filtered->pluck('number_of_allowance')->first();
@@ -188,7 +189,8 @@ class LeaveRequestResource extends Resource
                                     $collection = Collection::make($data->total_allowance);
 
                                     // Filter the collection to find the desired object
-                                    $filtered = $collection->where('designation', auth()->user()->hasRole(['hr-manager', 'super-admin']) ? Employee::where('id', $get('employee_id'))->first()->designation->name : auth()->user()->employee->designation->name);
+                                    // $filtered = $collection->where('designation', auth()->user()->hasRole(['hr-manager', 'super-admin']) ? Employee::where('id', $get('employee_id'))->first()->designation->name : auth()->user()->employee->designation->name);
+                                    $filtered = $collection->where('designation', Employee::where('id', $get('employee_id'))->first()->designation->name);
 
                                     // Extract the number_of_allowance value from the filtered object
                                     $number_of_allowance = $filtered->pluck('number_of_allowance')->first();
