@@ -92,7 +92,7 @@ class LeaveRequest extends Model
             'leave_session_id' => $this->leave_session_id
         ], [
             'used' => DB::raw('used + ' . $this->duration),
-            'available' => DB::raw('available - ' . $this->duration + $employee_leave_allowances)
+            'available' => DB::raw('available - ' . ($this->duration + $employee_leave_allowances))
         ]);
     }
 
