@@ -2,6 +2,7 @@
 
 namespace App\Models\Scopes;
 
+use App\Enums\LeaveRequestStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
@@ -26,8 +27,11 @@ class LeaveRequestScope implements Scope
                 return;
             }
 
-            if (auth()->user()->can("view attendances")) {
-                $builder->where('employee_id', auth()->user()->employee->id); // LeaveRequest Created by User
+            if (auth()->user()->can("view leaveRequests")) {
+                $builder->where('manager_user_id', auth()->user()->id) // LeaveRequest Manager
+                        ->where(function ($query) {
+                            $query->where('status', '<>', LeaveRequestStatus::CANCELLED);
+                        });
                 if (auth()->user()->employee) {
                     $builder->orWhere('employee_id', auth()->user()->employee->id); // LeaveRequest of User
                 }

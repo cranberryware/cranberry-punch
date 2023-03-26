@@ -46,6 +46,7 @@ class LeaveRequest extends Model
         static::addGlobalScope(new LeaveRequestScope);
         static::creating(function($model) {
             $model->applied_on = Carbon::now();
+            $model->manager_user_id= $model->employee->manager?->user?->id ?? 1;
         });
         static::saving(function($model){
             $model->setAttribute('duration',$model->getDuration());
@@ -99,6 +100,14 @@ class LeaveRequest extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
+
+    // manager_id is a user_id
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'manager_user_id');
+    }
+
 
     public function leaveType()
     {

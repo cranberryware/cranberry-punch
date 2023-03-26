@@ -20,8 +20,7 @@ class LeaveRequestPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
-        // return $user->hasPermissionTo("viewAny leaveRequests");
+        return $user->hasPermissionTo("viewAny leaveRequests");
     }
 
     /**
@@ -33,8 +32,7 @@ class LeaveRequestPolicy
      */
     public function view(User $user, LeaveRequest $leaveRequest)
     {
-        return true;
-        // return $user->hasPermissionTo("view leaveRequests");
+        return $user->hasPermissionTo("view leaveRequests") && ($user->hasRole(['hr-manager', 'super-admin']) || $leaveRequest->employee->user->id === auth()->user()->id || ($leaveRequest->manager_user_id === auth()->user()->id && $leaveRequest->status != LeaveRequestStatus::CANCELLED));
     }
 
     /**
@@ -45,8 +43,8 @@ class LeaveRequestPolicy
      */
     public function create(User $user)
     {
-        return true;
-        // return $user->hasPermissionTo("create leaveRequests");
+        // return true;
+        return $user->hasPermissionTo("create leaveRequests");
     }
 
     /**
@@ -58,7 +56,7 @@ class LeaveRequestPolicy
      */
     public function update(User $user, LeaveRequest $leaveRequest)
     {
-        // return $user->hasPermissionTo("update leaveRequests") && $leaveRequest->status === LeaveRequestStatus::PENDING()->value;
+        return $user->hasPermissionTo("update leaveRequests") && ($user->hasRole(['hr-manager', 'super-admin']) || ($leaveRequest->employee->user->id === auth()->user()->id && $leaveRequest->status === LeaveRequestStatus::PENDING) || ($leaveRequest->manager_user_id === auth()->user()->id && $leaveRequest->status === LeaveRequestStatus::PENDING));
     }
 
     /**
@@ -70,7 +68,7 @@ class LeaveRequestPolicy
      */
     public function delete(User $user, LeaveRequest $leaveRequest)
     {
-        // return $user->hasPermissionTo("delete leaveRequests") && $user->hasRole(['hr-manager', 'super-admin']);
+        return $user->hasPermissionTo("delete leaveRequests") && $user->hasRole(['hr-manager', 'super-admin']);
     }
 
     /**
@@ -82,7 +80,7 @@ class LeaveRequestPolicy
      */
     public function restore(User $user, LeaveRequest $leaveRequest)
     {
-        // return $user->hasPermissionTo("restore leaveRequests") && $user->hasRole(['hr-manager', 'super-admin']);
+        return $user->hasPermissionTo("restore leaveRequests") && $user->hasRole(['hr-manager', 'super-admin']);
     }
 
     /**
@@ -94,6 +92,6 @@ class LeaveRequestPolicy
      */
     public function forceDelete(User $user, LeaveRequest $leaveRequest)
     {
-        // return $user->hasPermissionTo("forceDelete leaveRequests") && $user->hasRole(['hr-manager', 'super-admin']);
+        return $user->hasPermissionTo("forceDelete leaveRequests") && $user->hasRole(['hr-manager', 'super-admin']);
     }
 }

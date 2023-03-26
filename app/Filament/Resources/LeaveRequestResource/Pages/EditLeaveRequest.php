@@ -39,41 +39,77 @@ class EditLeaveRequest extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
-        ];
-    }
-
-    protected function getFormActions(): array
-    {
-
-        return [
-            Action::make('save')
-                ->submit('save'),
-            Action::make('cancel')
-                ->url($this->previousUrl ?? static::getResource()::getUrl()),
-            Action::make('accept')
+            Actions\Action::make('approved')
+                ->color('primary')
+                ->visible(function () {
+                    return ($this->record->status === LeaveRequestStatus::PENDING && (auth()->user()->hasRole(['hr-manager', 'super-admin']) || $this->record->manager_user_id === auth()->user()->id));
+                })
                 ->action(function () {
                     $newRecord = $this->record;
                     $newRecord->notes = $this->data['notes'];
                     $newRecord->status = LeaveRequestStatus::APPROVED()->value;
                     $newRecord->save();
-                }),
-            Action::make('reject')
+                })
+                ->requiresConfirmation(),
+            Actions\Action::make('reject')
+                ->color('danger')
+                ->visible(function () {
+                    return ($this->record->status === LeaveRequestStatus::PENDING && (auth()->user()->hasRole(['hr-manager', 'super-admin']) || $this->record->manager_user_id === auth()->user()->id));
+                })
                 ->action(function () {
                     $newRecord = $this->record;
                     $newRecord->notes = $this->data['notes'];
                     $newRecord->status = LeaveRequestStatus::REJECTED()->value;
                     $newRecord->save();
-                }),
-            Action::make('canceled')
+                })
+                ->requiresConfirmation(),
+            Actions\Action::make('cancel')
+                ->color('warning')
+                ->visible(function () {
+                    return ($this->record->status === LeaveRequestStatus::PENDING && (auth()->user()->hasRole(['hr-manager', 'super-admin']) || $this->record->employee->user->id === auth()->user()->id));
+                })
                 ->action(function () {
                     $newRecord = $this->record;
                     $newRecord->notes = $this->data['notes'];
-                    $newRecord->status = LeaveRequestStatus::CANCELLED()->value;
+                    $newRecord->status = LeaveRequestStatus::REJECTED()->value;
                     $newRecord->save();
                 })
-
+                ->requiresConfirmation(),
         ];
     }
+
+    // protected function getFormActions(): array
+    // {
+
+    //     return [
+    //         Action::make('save')
+    //             ->submit('save'),
+    //         Action::make('cancel')
+    //             ->url($this->previousUrl ?? static::getResource()::getUrl()),
+    //         Action::make('accept')
+    //             ->action(function () {
+    //                 $newRecord = $this->record;
+    //                 $newRecord->notes = $this->data['notes'];
+    //                 $newRecord->status = LeaveRequestStatus::APPROVED()->value;
+    //                 $newRecord->save();
+    //             }),
+    //         Action::make('reject')
+    //             ->action(function () {
+    //                 $newRecord = $this->record;
+    //                 $newRecord->notes = $this->data['notes'];
+    //                 $newRecord->status = LeaveRequestStatus::REJECTED()->value;
+    //                 $newRecord->save();
+    //             }),
+    //         Action::make('canceled')
+    //             ->action(function () {
+    //                 $newRecord = $this->record;
+    //                 $newRecord->notes = $this->data['notes'];
+    //                 $newRecord->status = LeaveRequestStatus::CANCELLED()->value;
+    //                 $newRecord->save();
+    //             })
+
+    //     ];
+    // }
 
     // protected function afterSave(): void
     // {

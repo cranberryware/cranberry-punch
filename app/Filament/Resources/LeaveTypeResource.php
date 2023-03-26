@@ -66,17 +66,17 @@ class LeaveTypeResource extends Resource
                             Select::make('designation')
                                 ->label(__('cranberry-punch::cranberry-punch.leave.input.designation'))
                                 ->options(Designation::all('name')->pluck('name', 'name'))
-                                ->searchable()
-                                ->required(),
+                                ->searchable(),
+                                // ->required(),
                             TextInput::make('number_of_allowance')
-                                ->label(__('cranberry-punch::cranberry-punch.leave.input.number_of_allowance'))
-                                ->required(),
+                                ->label(__('cranberry-punch::cranberry-punch.leave.input.number_of_allowance')),
+                                // ->required(),
                             TextInput::make('claim_allowance_limit')
                                 ->label(__('cranberry-punch::cranberry-punch.leave.input.claim_allowance_limit'))
-                                ->lte('number_of_allowance')
-                                ->required(),
+                                ->lte('number_of_allowance'),
+                                // ->required(),
                         ])
-                        ->required()
+                        // ->required()
                         ->columns(3),
                     TextInput::make('default_allowance_limit')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.default_allowance_limit'))
