@@ -116,50 +116,78 @@ class LeaveRequestResource extends Resource
                                 ->reactive()
                                 ->minDate(
                                     function (Closure $get, Closure $set) {
-                                        $data = LeaveType::where('id', $get('leave_type_id'))->first();
+                                        $leave_type_id = $get('leave_type_id');
+                                        $employee_id = $get('employee_id');
+                                        $to_date = $get('to');
 
-                                        if ($get('leave_type_id') && $get('employee_id') && $get('to')) {
-                                            $minDate = null;
-                                            // Convert the array to a Laravel Collection
-                                            $collection = Collection::make($data->total_allowance);
-                                            // Filter the collection to find the desired object
-                                            // $filtered = $collection->where('designation', auth()->user()->hasRole(['hr-manager', 'super-admin']) ? Employee::where('id', $get('employee_id'))->first()->designation->name : auth()->user()->employee->designation->name);
-                                            $filtered = $collection->where('designation', Employee::where('id', $get('employee_id'))->first()->designation->name);
-
-                                            // Extract the number_of_allowance value from the filtered object
-                                            $number_of_allowance = $filtered->pluck('number_of_allowance')->first();
-                                            $claim_allowance_limit = $filtered->pluck('claim_allowance_limit')->first();
-                                            if ($collection->count() > 0 && $number_of_allowance) {
-                                                if ($claim_allowance_limit && $number_of_allowance > $claim_allowance_limit) {
-                                                    $minDate = $claim_allowance_limit;
-                                                } else {
-                                                    $minDate = $number_of_allowance;
-                                                }
-                                            } else {
-
-                                                // Extract the number_of_allowance value from the default object
-                                                $default_allowance_limit = $data->pluck('default_allowance_limit')->first();
-                                                $default_claim_allowance_limit = $data->pluck('default_claim_allowance_limit')->first();
-                                                if ($default_claim_allowance_limit && $default_allowance_limit > $default_claim_allowance_limit) {
-                                                    $minDate = $default_claim_allowance_limit;
-                                                } else {
-                                                    $minDate = $default_allowance_limit;
-                                                }
-                                            }
-                                            if (Carbon::parse($get('to'))->diff(Carbon::parse(now()->addDay($data->notify_before)->format('Y-m-d')))->days < $minDate) {
-                                                return Carbon::now()->addDay($data->notify_before)->format('Y-m-d');
-                                            } else {
-                                                return Carbon::parse($get('to'))->subDay($minDate)->format('Y-m-d');
-                                            }
-                                        }
-
-                                        if ($get('leave_type_id') && $get('employee_id')) {
-                                            return Carbon::now()->addDay($data->notify_before)->format('Y-m-d');
-                                        }
-
-                                        if (!$get('leave_type_id') || !$get('employee_id') || !$get('to')) {
+                                        if (!$leave_type_id || !$employee_id || !$to_date) {
                                             return Carbon::now()->format('Y-m-d');
                                         }
+
+                                        // fetch leave type data.
+                                        $leave_type = LeaveType::where('id', $leave_type_id)->first();
+
+                                        // leave type allowances
+                                        $leave_allowances = Collection::make($leave_type->total_allowance);
+
+                                        if ($to_date) {
+                                            // get leave allowances for the designations
+                                            $employee = Employee::where('id', $employee_id)->first();
+                                            $designation_leave_allowances = $leave_allowances->where('designation', $employee->designation ? $employee->designation->name : '');
+
+                                            // leave allowances for the particular employee
+                                            $employee_claim_allowances_limit = $designation_leave_allowances->isNotEmpty() ? $designation_leave_allowances->pluck('claim_allowance_limit')->first() : $leave_type->default_claim_allowance_limit;
+
+                                            return Carbon::parse($to_date)->subDay($employee_claim_allowances_limit)->format('Y-m-d');
+                                        }
+
+                                        return Carbon::now()->addDay($leave_type->notify_before)->format('Y-m-d');
+
+
+                                        // $data = LeaveType::where('id', $get('leave_type_id'))->first();
+
+                                        // if ($get('leave_type_id') && $get('employee_id') && $get('to')) {
+                                        //     $minDate = null;
+                                        //     // Convert the array to a Laravel Collection
+                                        //     $collection = Collection::make($data->total_allowance);
+                                        //     // Filter the collection to find the desired object
+                                        //     // $filtered = $collection->where('designation', auth()->user()->hasRole(['hr-manager', 'super-admin']) ? Employee::where('id', $get('employee_id'))->first()->designation->name : auth()->user()->employee->designation->name);
+                                        //     $filtered = $collection->where('designation', Employee::where('id', $get('employee_id'))->first()->designation->name);
+
+                                        //     // Extract the number_of_allowance value from the filtered object
+                                        //     $number_of_allowance = $filtered->pluck('number_of_allowance')->first();
+                                        //     $claim_allowance_limit = $filtered->pluck('claim_allowance_limit')->first();
+                                        //     if ($collection->count() > 0 && $number_of_allowance) {
+                                        //         if ($claim_allowance_limit && $number_of_allowance > $claim_allowance_limit) {
+                                        //             $minDate = $claim_allowance_limit;
+                                        //         } else {
+                                        //             $minDate = $number_of_allowance;
+                                        //         }
+                                        //     } else {
+
+                                        //         // Extract the number_of_allowance value from the default object
+                                        //         $default_allowance_limit = $data->pluck('default_allowance_limit')->first();
+                                        //         $default_claim_allowance_limit = $data->pluck('default_claim_allowance_limit')->first();
+                                        //         if ($default_claim_allowance_limit && $default_allowance_limit > $default_claim_allowance_limit) {
+                                        //             $minDate = $default_claim_allowance_limit;
+                                        //         } else {
+                                        //             $minDate = $default_allowance_limit;
+                                        //         }
+                                        //     }
+                                        //     if (Carbon::parse($get('to'))->diff(Carbon::parse(now()->addDay($data->notify_before)->format('Y-m-d')))->days < $minDate) {
+                                        //         return Carbon::now()->addDay($data->notify_before)->format('Y-m-d');
+                                        //     } else {
+                                        //         return Carbon::parse($get('to'))->subDay($minDate)->format('Y-m-d');
+                                        //     }
+                                        // }
+
+                                        // if ($get('leave_type_id') && $get('employee_id')) {
+                                        //     return Carbon::now()->addDay($data->notify_before)->format('Y-m-d');
+                                        // }
+
+                                        // if (!$get('leave_type_id') || !$get('employee_id') || !$get('to')) {
+                                        //     return Carbon::now()->format('Y-m-d');
+                                        // }
                                     }
                                 )
                                 ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
@@ -180,39 +208,60 @@ class LeaveRequestResource extends Resource
                                     return Carbon::now()->addDay(1)->format('Y-m-d');
                                 })
                                 ->maxDate(function (Closure $get, Closure $set) {
-                                    if (!$get('leave_type_id') || !$get('employee_id') || !$get('from')) {
+                                    $leave_type_id = $get('leave_type_id');
+                                    $employee_id = $get('employee_id');
+                                    $from_date = $get('from');
+
+                                    if (!$leave_type_id || !$employee_id || !$from_date) {
                                         return;
                                     }
-                                    $maxDate = null;
-                                    $data = LeaveType::where('id', $get('leave_type_id'))->first();
-                                    // Convert the array to a Laravel Collection
-                                    $collection = Collection::make($data->total_allowance);
 
-                                    // Filter the collection to find the desired object
-                                    // $filtered = $collection->where('designation', auth()->user()->hasRole(['hr-manager', 'super-admin']) ? Employee::where('id', $get('employee_id'))->first()->designation->name : auth()->user()->employee->designation->name);
-                                    $filtered = $collection->where('designation', Employee::where('id', $get('employee_id'))->first()->designation->name);
+                                    // fetch leave type data.
+                                    $leave_type = LeaveType::where('id', $leave_type_id)->first();
 
-                                    // Extract the number_of_allowance value from the filtered object
-                                    $number_of_allowance = $filtered->pluck('number_of_allowance')->first();
-                                    $claim_allowance_limit = $filtered->pluck('claim_allowance_limit')->first();
-                                    if ($collection->count() > 0 && $number_of_allowance) {
-                                        if ($claim_allowance_limit && $number_of_allowance > $claim_allowance_limit) {
-                                            $maxDate = $claim_allowance_limit;
-                                        } else {
-                                            $maxDate = $number_of_allowance;
-                                        }
-                                    } else {
+                                    // leave type allowances
+                                    $leave_allowances = Collection::make($leave_type->total_allowance);
 
-                                        // Extract the number_of_allowance value from the default object
-                                        $default_allowance_limit = $data->pluck('default_allowance_limit')->first();
-                                        $default_claim_allowance_limit = $data->pluck('default_claim_allowance_limit')->first();
-                                        if ($default_claim_allowance_limit && $default_allowance_limit > $default_claim_allowance_limit) {
-                                            $maxDate = $default_claim_allowance_limit;
-                                        } else {
-                                            $maxDate = $default_allowance_limit;
-                                        }
-                                    }
-                                    return Carbon::parse($get('from'))->addDay($maxDate)->format('Y-m-d');
+                                    $employee = Employee::where('id', $employee_id)->first();
+
+                                    // get leave allowances for the designations
+                                    $designation_leave_allowances = $leave_allowances->where('designation', $employee->designation ? $employee->designation->name : '');
+
+                                    // leave allowances for the particular employee
+                                    $employee_claim_allowances_limit = $designation_leave_allowances->isNotEmpty() ? $designation_leave_allowances->pluck('claim_allowance_limit')->first() : $leave_type->default_claim_allowance_limit;
+
+                                    return Carbon::parse($from_date)->addDay($employee_claim_allowances_limit)->format('Y-m-d');
+
+                                    // $maxDate = null;
+                                    // $data = LeaveType::where('id', $get('leave_type_id'))->first();
+                                    // // Convert the array to a Laravel Collection
+                                    // $collection = Collection::make($data->total_allowance);
+
+                                    // // Filter the collection to find the desired object
+                                    // // $filtered = $collection->where('designation', auth()->user()->hasRole(['hr-manager', 'super-admin']) ? Employee::where('id', $get('employee_id'))->first()->designation->name : auth()->user()->employee->designation->name);
+                                    // $filtered = $collection->where('designation', Employee::where('id', $get('employee_id'))->first()->designation->name);
+
+                                    // // Extract the number_of_allowance value from the filtered object
+                                    // $number_of_allowance = $filtered->pluck('number_of_allowance')->first();
+                                    // $claim_allowance_limit = $filtered->pluck('claim_allowance_limit')->first();
+                                    // if ($collection->count() > 0 && $number_of_allowance) {
+                                    //     if ($claim_allowance_limit && $number_of_allowance > $claim_allowance_limit) {
+                                    //         $maxDate = $claim_allowance_limit;
+                                    //     } else {
+                                    //         $maxDate = $number_of_allowance;
+                                    //     }
+                                    // } else {
+
+                                    //     // Extract the number_of_allowance value from the default object
+                                    //     $default_allowance_limit = $data->pluck('default_allowance_limit')->first();
+                                    //     $default_claim_allowance_limit = $data->pluck('default_claim_allowance_limit')->first();
+                                    //     if ($default_claim_allowance_limit && $default_allowance_limit > $default_claim_allowance_limit) {
+                                    //         $maxDate = $default_claim_allowance_limit;
+                                    //     } else {
+                                    //         $maxDate = $default_allowance_limit;
+                                    //     }
+                                    // }
+                                    // return Carbon::parse($get('from'))->addDay($maxDate)->format('Y-m-d');
                                 })
                                 ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
                                     if (Carbon::parse($state)->lte(Carbon::parse($get('from'))) || !$get('from')) {
