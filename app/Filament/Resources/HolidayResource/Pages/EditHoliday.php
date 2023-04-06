@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\HolidayResource\Pages;
 
 use App\Filament\Resources\HolidayResource;
+use App\Helpers\Helper\Helper;
 use Filament\Pages\Actions;
 use Filament\Pages\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
@@ -18,5 +19,10 @@ class EditHoliday extends EditRecord
             Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
         ];
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return Helper::getRedirectUrl($this);
     }
 }

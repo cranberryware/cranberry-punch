@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.0.2",
         "bensampo/laravel-enum": "^5.3",
+        "doctrine/dbal": "^3.6",
         "dutchcodingcompany/filament-socialite": "^0.2.2",
         "filament/filament": "^2.0",
         "filament/spatie-laravel-settings-plugin": "^2.0",
@@ -47,7 +48,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helper/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

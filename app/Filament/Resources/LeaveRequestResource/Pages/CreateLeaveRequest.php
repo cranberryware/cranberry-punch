@@ -5,6 +5,7 @@ namespace App\Filament\Resources\LeaveRequestResource\Pages;
 use App\Filament\Resources\LeaveRequestResource;
 use Carbon\Carbon;
 use Filament\Pages\Actions;
+use App\Helpers\Helper\Helper;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateLeaveRequest extends CreateRecord
@@ -26,4 +27,8 @@ class CreateLeaveRequest extends CreateRecord
     //     $duration = $startDate->diff($endDate)->days;
     //     return $duration;
     // }
+    protected function getRedirectUrl(): string
+    {
+        return Helper::getRedirectUrl($this);
+    }
 }

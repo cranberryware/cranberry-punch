@@ -6,6 +6,7 @@ use App\Filament\Resources\EmployeeResource;
 use Filament\Pages\Actions;
 use Filament\Pages\Actions\Action;
 use App\Filament\Resources\Pages\EditRecord;
+use App\Helpers\Helper\Helper;
 
 class EditEmployee extends EditRecord
 {
@@ -17,5 +18,10 @@ class EditEmployee extends EditRecord
             Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
         ];
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return Helper::getRedirectUrl($this);
     }
 }

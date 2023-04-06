@@ -7,6 +7,7 @@ use App\Enums\LeaveSessionStatus;
 use App\Filament\Resources\LeaveRequestResource\Pages;
 use App\Filament\Resources\LeaveRequestResource\RelationManagers;
 use App\Filament\Resources\LeaveRequestResource\Widgets\LeaveRequestStatsOverview;
+use App\Helpers\Helper\Helper;
 use App\Models\Employee;
 use App\Models\LeaveRequest;
 use App\Models\LeaveSession;
@@ -81,6 +82,7 @@ class LeaveRequestResource extends Resource
                     Select::make('leave_type_id')
                         ->required()
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_type'))
+                        ->disabled(function(Closure $get){return Helper::manageRoll($get);})
                         ->relationship('leaveType', 'name')
                         ->reactive()
                         ->afterStateUpdated(function (Closure $set) {
@@ -90,16 +92,18 @@ class LeaveRequestResource extends Resource
                     Select::make('leave_session_id')
                         ->required()
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_session'))
-                        // ->relationship('leaveSession', 'title'),
+                        ->disabled(function(Closure $get){return Helper::manageRoll($get);})
                         ->relationship('leaveSession', 'title', function ($query) {
                             return $query->where('status', LeaveSessionStatus::ACTIVE());
                         }),
                     TextInput::make('short_description')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.short_description'))
+                        ->disabled(function(Closure $get){return Helper::manageRoll($get);})
                         ->required(),
 
                     Textarea::make('reason')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.reason'))
+                        ->disabled(function(Closure $get){return Helper::manageRoll($get);})
                         ->required(),
                     Textarea::make('notes')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.notes'))

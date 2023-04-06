@@ -4,6 +4,7 @@ namespace App\Filament\Resources\LeaveRequestResource\Pages;
 
 use App\Enums\LeaveRequestStatus;
 use App\Filament\Resources\LeaveRequestResource;
+use App\Helpers\Helper\Helper;
 use App\Models\Employee;
 use App\Models\LeaveBalance;
 use App\Models\LeaveRequest;
@@ -145,4 +146,8 @@ class EditLeaveRequest extends EditRecord
     //         }
     //     }
     // }
+    protected function getRedirectUrl(): string
+    {
+        return Helper::getRedirectUrl($this);
+    }
 }

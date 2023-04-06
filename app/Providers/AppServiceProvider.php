@@ -38,13 +38,13 @@ class AppServiceProvider extends ServiceProvider
     {
         if (in_array(config('app.env'), ['local', 'dev', 'development'])) {
             DB::listen(function ($query) {
-                Log::info(
-                    $query->sql,
-                    [
-                        'bindings' => $query->bindings,
-                        'time' => $query->time
-                    ]
-                );
+                // Log::info(
+                //     $query->sql,
+                //     [
+                //         'bindings' => $query->bindings,
+                //         'time' => $query->time
+                //     ]
+                // );
             });
         }
 
