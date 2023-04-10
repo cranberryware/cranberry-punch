@@ -67,7 +67,7 @@ class LeaveRequest extends Model
         $start_date = Carbon::parse($this->from);
         $end_date = Carbon::parse($this->to);
         $duration = $start_date->diffInDays($end_date);
-        return $duration;
+        return $duration + 1;  // add +1 for calculate the duration for same day
     }
 
     // update leave balances

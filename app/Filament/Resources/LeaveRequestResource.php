@@ -38,6 +38,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class LeaveRequestResource extends Resource
 {
@@ -196,7 +197,7 @@ class LeaveRequestResource extends Resource
                                 )
                                 ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
                                     if (Carbon::parse($state)->gte(Carbon::parse($get('to'))) || !$get('to')) {
-                                        $set('to', Carbon::parse($state)->addDay(1)->format('Y-m-d'));
+                                        $set('to', Carbon::parse($state)->format('Y-m-d'));
                                     }
                                 }),
                             DatePicker::make('to')
@@ -207,7 +208,7 @@ class LeaveRequestResource extends Resource
                                 ->minDate(function (Closure $get, Closure $set) {
                                     if ($get('leave_type_id')) {
                                         $data = LeaveType::where('id', $get('leave_type_id'))->first();
-                                        return Carbon::now()->addDay($data->notify_before + 1)->format('Y-m-d');
+                                        return Carbon::now()->addDay($data->notify_before)->format('Y-m-d');
                                     }
                                     return Carbon::now()->addDay(1)->format('Y-m-d');
                                 })
@@ -269,7 +270,7 @@ class LeaveRequestResource extends Resource
                                 })
                                 ->afterStateUpdated(function ($state, Closure $set, Closure $get) {
                                     if (Carbon::parse($state)->lte(Carbon::parse($get('from'))) || !$get('from')) {
-                                        $set('from', Carbon::parse($state)->subDay(1)->format('Y-m-d'));
+                                        $set('from', Carbon::parse($state)->format('Y-m-d'));
                                     }
                                 }),
                         ]),
