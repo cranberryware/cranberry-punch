@@ -15,7 +15,7 @@ class CheckOutOldAttendances extends Command
      *
      * @var string
      */
-    protected $signature = 'oa:check-out-old-attendances';
+    protected $signature = 'cp:check-out-old-attendances';
 
     /**
      * The console command description.

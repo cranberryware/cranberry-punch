@@ -14,7 +14,7 @@ class ArchiveClockingDeviceLogs extends Command
      *
      * @var string
      */
-    protected $signature = 'cp-archive:clocking-device-logs';
+    protected $signature = 'cp:archive-clocking-device-logs';
 
     /**
      * The console command description.
