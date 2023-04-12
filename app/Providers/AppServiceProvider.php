@@ -57,6 +57,11 @@ class AppServiceProvider extends ServiceProvider
                 app(Vite::class)('resources/scss/app.scss'),
             );
         });
+        Filament::serving(function () {
+            Filament::registerScripts(
+                [asset('js/main.js')]
+            );
+        });
 
         Filament::registerRenderHook(
             'head.end',
