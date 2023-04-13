@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class LeaveRequest extends Model
 {
@@ -86,13 +87,20 @@ class LeaveRequest extends Model
         $employee_leave_allowances = $designation_leave_allowances->isNotEmpty() ? $designation_leave_allowances->pluck('number_of_allowance')->first() : $this->leaveType->default_allowance_limit;
 
         //Now check and update leave balances
+        $leave_available = 0;
+        $available_leave = LeaveBalance::select('available')->where(['employee_id'=>$this->employee_id,'leave_type_id'=> $this->leave_type_id,'leave_session_id'=>$this->leave_session_id])->first();
+        if($available_leave){
+            $leave_available =  $available_leave->available - $this->duration;
+        }else{
+            $leave_available =  $employee_leave_allowances - $this->duration;
+        }
         $leave_balance = LeaveBalance::updateOrCreate([
             'employee_id' => $this->employee_id,
             'leave_type_id' => $this->leave_type_id,
             'leave_session_id' => $this->leave_session_id
         ], [
             'used' => DB::raw('used + ' . $this->duration),
-            'available' => DB::raw('available - ' . ($this->duration + $employee_leave_allowances))
+            'available' => $leave_available
         ]);
     }
 

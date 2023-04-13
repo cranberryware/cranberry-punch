@@ -2,13 +2,18 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\LeaveSessionStatus;
 use App\Filament\Resources\LeaveBalanceResource\Pages;
 use App\Filament\Resources\LeaveBalanceResource\RelationManagers;
+use App\Helpers\Helper\Helper;
 use App\Models\Employee;
 use App\Models\LeaveBalance;
 use App\Models\LeaveSession;
 use App\Models\LeaveType;
-use Filament\Forms;
+use Closure;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -38,7 +43,48 @@ class LeaveBalanceResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Card::make()->schema([
+                    Select::make('employee_id')
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.employee'))
+                        // ->relationship('employee', fn () => "employee_code_with_full_name")
+                        ->searchable()
+                        ->options(function () {
+                            $employees = optional(auth()->user()->employee)->get() ?? Employee::all();
+                            return $employees->pluck('employee_code_with_full_name', 'id');
+                        })
+                        ->default(function () {
+                            return auth()->user()->employee->id ?? [];
+                        })
+                        ->disabled(!auth()->user()->hasRole(['hr-manager', 'super-admin']))
+                        ->required()
+                        ->reactive(), 
+                    Select::make('leave_type_id')
+                        ->required()
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_type'))
+                        ->disabled(function (Closure $get) {
+                            return Helper::manageRoll($get);
+                        })
+                        ->relationship('leaveType', 'name')
+                        ->reactive(),
+                    Select::make('leave_session_id')
+                        ->required()
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_session'))
+                        ->disabled(function (Closure $get) {
+                            return Helper::manageRoll($get);
+                        })
+                        ->relationship('leaveSession', 'title', function ($query) {
+                            return $query->where('status', LeaveSessionStatus::ACTIVE());
+                        }),
+                    TextInput::make('used')
+                        ->label(__('cranberry-punch::cranberry-punch.table.leave.used'))
+                        ->numeric()
+                        ->required(),
+                    TextInput::make('available')
+                        ->label(__('cranberry-punch::cranberry-punch.table.leave.available'))
+                        ->numeric()
+                        ->required()
+                ]),
+
             ]);
     }
 

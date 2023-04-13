@@ -125,7 +125,7 @@ class LeaveRequestResource extends Resource
                                         $employee_id = $get('employee_id');
                                         $to_date = $get('to');
 
-                                        if (!$leave_type_id || !$employee_id || !$to_date) {
+                                        if (!$leave_type_id || !$employee_id) {
                                             return Carbon::now()->format('Y-m-d');
                                         }
 
@@ -323,32 +323,6 @@ class LeaveRequestResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
-                    // Tables\Actions\Action::make('change_status_to_cancelled')
-                    //     ->label(function (LeaveRequest $record) {
-                    //         if ($record->status === LeaveRequestStatus::PENDING()->value) {
-                    //             return strval(__('cranberry-punch::cranberry-punch.leave-request-action.status.cancel'));
-                    //         }
-                    //     })
-                    //     ->icon(function (LeaveRequest $record): string {
-                    //         return ($record->status === LeaveRequestStatus::PENDING()->value)
-                    //             ? 'heroicon-o-x-circle'
-                    //             : 'heroicon-o-clock';
-                    //     })
-                    //     ->color(function (LeaveRequest $record): string {
-                    //         return ($record->status === LeaveRequestStatus::PENDING()->value)
-                    //             ? 'danger'
-                    //             : 'warning';
-                    //     })
-                    //     ->action(function (LeaveRequest $record): void {
-                    //         $record->setAttribute('status', $record->status === LeaveRequestStatus::PENDING()->value ? LeaveRequestStatus::CANCELLED()->value : LeaveRequestStatus::PENDING()->value)->save();
-                    //     })
-                    //     ->hidden(function (LeaveRequest $record) {
-                    //         if (auth()->user()->hasRole(['hr-manager', 'super-admin'])) {
-                    //             return true;
-                    //         }
-                    //         return ($record->status !== LeaveRequestStatus::PENDING()->value && !auth()->user()->hasRole(['hr-manager', 'super-admin']));
-                    //     })
-                    //     ->requiresConfirmation(),
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                 ]),
