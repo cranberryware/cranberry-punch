@@ -37,8 +37,10 @@ class Attendance extends Model
         'check_out',
         'check_in_ip',
         'check_in_location',
+        'check_in_device_id',
         'check_out_ip',
         'check_out_location',
+        'check_out_device_id',
     ];
 
     protected static function booted()
@@ -81,4 +83,20 @@ class Attendance extends Model
     //     $date = is_a($date, Carbon::class) ? $date : Carbon::parse($date);
 
     // }
+
+    /**
+     * Get the check-in device associated with the attendance.
+     */
+    public function checkInDevice()
+    {
+        return $this->belongsTo(ClockingDevice::class, 'check_in_device_id');
+    }
+
+    /**
+     * Get the check-out device associated with the attendance.
+     */
+    public function checkOutDevice()
+    {
+        return $this->belongsTo(ClockingDevice::class, 'check_out_device_id');
+    }
 }
