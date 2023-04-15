@@ -5,5 +5,6 @@
         </div>
         <div class="text-sm text-gray-400"><strong>From:</strong> {{ $getRecord()->{$getName() . '_location'} }}</div>
         <div class="text-sm text-gray-400"><strong>IP Address:</strong> {{ $getRecord()->{$getName() . '_ip'} }}</div>
+        <div class="text-sm text-gray-400"><strong>Clocking Device:</strong> {{ $getRecord()->{$getName() . '_name'} }}</div>
     </div>
 @endif

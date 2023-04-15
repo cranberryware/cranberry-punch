@@ -99,4 +99,24 @@ class Attendance extends Model
     {
         return $this->belongsTo(ClockingDevice::class, 'check_out_device_id');
     }
+
+    /**
+     * Get the check-in device name associated with the attendance.
+     *
+     * @return string|null
+     */
+    public function getCheckInDeviceNameAttribute()
+    {
+        return $this->checkInDevice ? $this->checkInDevice->device_name : null;
+    }
+
+    /**
+     * Get the check-in device name associated with the attendance.
+     *
+     * @return string|null
+     */
+    public function getCheckOutDeviceNameAttribute()
+    {
+        return $this->checkOutDevice ? $this->checkOutDevice->device_name : null;
+    }
 }
