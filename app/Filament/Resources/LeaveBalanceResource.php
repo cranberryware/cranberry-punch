@@ -34,6 +34,9 @@ class LeaveBalanceResource extends Resource
         return strval(__('cranberry-punch::cranberry-punch.section.group-leave-management'));
     }
 
+    public static function enforceFieldPermissions(Closure $get) {
+        return (auth()->user()->hasRole(['hr-manager', 'super-admin'])) ? false : ($get('employee_id') !== auth()->user()->employee->id);
+    }
     public static function getLabel(): string
     {
         return strval(__('cranberry-punch::cranberry-punch.section.leave-balances'));
@@ -62,7 +65,7 @@ class LeaveBalanceResource extends Resource
                         ->required()
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_type'))
                         ->disabled(function (Closure $get) {
-                            return Helper::manageRoll($get);
+                            return $this->enforceFieldPermissions($get);
                         })
                         ->relationship('leaveType', 'name')
                         ->reactive(),
@@ -70,7 +73,7 @@ class LeaveBalanceResource extends Resource
                         ->required()
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_session'))
                         ->disabled(function (Closure $get) {
-                            return Helper::manageRoll($get);
+                            return $this->enforceFieldPermissions($get);
                         })
                         ->relationship('leaveSession', 'title', function ($query) {
                             return $query->where('status', LeaveSessionStatus::ACTIVE());

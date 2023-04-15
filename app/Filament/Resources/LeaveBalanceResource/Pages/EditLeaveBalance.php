@@ -20,6 +20,6 @@ class EditLeaveBalance extends EditRecord
 
     protected function getRedirectUrl(): string
     {
-        return Helper::getRedirectUrl($this);
+        return $this->getResource()::getUrl('index');
     }
 }

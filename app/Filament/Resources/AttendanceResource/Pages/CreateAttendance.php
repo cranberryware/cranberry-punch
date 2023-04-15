@@ -13,7 +13,7 @@ class CreateAttendance extends CreateRecord
 
     protected function getRedirectUrl(): string
     {
-        return Helper::getRedirectUrl($this);
+        return $this->getResource()::getUrl('index');
     }
 
 }

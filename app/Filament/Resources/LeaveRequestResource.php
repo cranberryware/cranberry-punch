@@ -47,6 +47,10 @@ class LeaveRequestResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?int $navigationSort = 2;
 
+    public static function enforceFieldPermissions(Closure $get) {
+        return (auth()->user()->hasRole(['hr-manager', 'super-admin'])) ? false : ($get('employee_id') !== auth()->user()->employee->id);
+    }
+
     protected static function getNavigationGroup(): ?string
     {
         return strval(__('cranberry-punch::cranberry-punch.section.group-leave-management'));
@@ -83,7 +87,7 @@ class LeaveRequestResource extends Resource
                     Select::make('leave_type_id')
                         ->required()
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_type'))
-                        ->disabled(function(Closure $get){return Helper::manageRoll($get);})
+                        ->disabled(function(Closure $get){return $this->enforceFieldPermissions($get);})
                         ->relationship('leaveType', 'name')
                         ->reactive()
                         ->afterStateUpdated(function (Closure $set) {
@@ -93,18 +97,18 @@ class LeaveRequestResource extends Resource
                     Select::make('leave_session_id')
                         ->required()
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_session'))
-                        ->disabled(function(Closure $get){return Helper::manageRoll($get);})
+                        ->disabled(function(Closure $get){return $this->enforceFieldPermissions($get);})
                         ->relationship('leaveSession', 'title', function ($query) {
                             return $query->where('status', LeaveSessionStatus::ACTIVE());
                         }),
                     TextInput::make('short_description')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.short_description'))
-                        ->disabled(function(Closure $get){return Helper::manageRoll($get);})
+                        ->disabled(function(Closure $get){return $this->enforceFieldPermissions($get);})
                         ->required(),
 
                     Textarea::make('reason')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.reason'))
-                        ->disabled(function(Closure $get){return Helper::manageRoll($get);})
+                        ->disabled(function(Closure $get){return $this->enforceFieldPermissions($get);})
                         ->required(),
                     Textarea::make('notes')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.notes'))

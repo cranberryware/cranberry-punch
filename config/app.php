@@ -211,7 +211,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'Helper' => App\Helpers\Helper::class,
+  
     ])->toArray(),
 
     'user_datetime_format' => 'M d, Y h:i:s A T',
