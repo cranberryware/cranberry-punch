@@ -53,6 +53,7 @@ class LeaveTypeResource extends Resource
                         ->placeholder(__('cranberry-punch::cranberry-punch.leave.input.name'))
                         ->required(),
                     TextInput::make('slug')
+                        ->disabled()
                         ->required(),
                     TextInput::make('description')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.description'))
