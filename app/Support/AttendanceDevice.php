@@ -48,26 +48,31 @@ class AttendanceDevice
                 'user_id' => $employee->user->id,
                 'check_in' => $timestamp,
                 'check_in_ip' => $request_ip,
+                'check_in_device_id' => $device->id,
             ],
             'check_out' => [
                 'employee_id' => $employee->id,
                 'user_id' => $employee->user->id,
                 'check_in' => $timestamp,
                 'check_in_ip' => $request_ip,
+                'check_in_device_id' => $device->id,
                 'check_out' => $timestamp,
                 'check_out_ip' => $request_ip,
+                'check_out_device_id' => $device->id,
             ],
             'both' => [
                 'employee_id' => $employee->id,
                 'user_id' => $employee->user->id,
                 'check_in' => $timestamp,
                 'check_in_ip' => $request_ip,
+                'check_in_device_id' => $device->id,
             ]
         ];
         // if any active attendance update that first.
         if ($is_active_attendance) {
             $employee_attendance->check_out = $timestamp;
             $employee_attendance->check_out_ip = $request_ip;
+            $employee_attendance->check_out_device_id = $device->id;
             $employee_attendance->save();
         }
         // after updating active attendance, if device mode is check in then we create new attendance.
