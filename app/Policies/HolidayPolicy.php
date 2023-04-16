@@ -19,7 +19,7 @@ class HolidayPolicy
     public function viewAny(User $user)
     {
         //
-        return $user->hasAnyRole(['super-admin','hr-manager']);
+        return $user->hasAnyRole(['super-admin','hr-manager','employee']);
     }
 
     /**
