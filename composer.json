@@ -25,6 +25,7 @@
         "phpsa/filament-authentication": "^2.1",
         "psr/simple-cache": "^1.0",
         "pxlrbt/filament-excel": "^1.0",
+        "spatie/db-dumper": "^3.3",
         "spatie/laravel-settings": "^2.4",
         "tapp/filament-timezone-field": "^1.1",
         "venturecraft/revisionable": "^1.39",
