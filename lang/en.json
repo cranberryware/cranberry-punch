@@ -213,5 +213,6 @@
     "cranberry-punch::cranberry-punch.leave-request.status.rejected": "Rejected",
     "cranberry-punch::cranberry-punch.leave-request.status.cancelled": "Cancelled",
     "cranberry-punch::cranberry-punch.leave-request-action.status.submit": "Submit",
-    "cranberry-punch::cranberry-punch.leave-request-action.status.cancel": "Cancel"
+    "cranberry-punch::cranberry-punch.leave-request-action.status.cancel": "Cancel",
+    "cranberry-punch::cranberry-punch.leave.input.leave_type_description": "Leave Type Descriptions"
 }

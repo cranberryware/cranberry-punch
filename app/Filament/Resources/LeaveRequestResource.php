@@ -87,28 +87,32 @@ class LeaveRequestResource extends Resource
                     Select::make('leave_type_id')
                         ->required()
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_type'))
-                        ->disabled(function(Closure $get){return $this->enforceFieldPermissions($get);})
+                        ->disabled(function(Closure $get){return self::enforceFieldPermissions($get);})
                         ->relationship('leaveType', 'name')
                         ->reactive()
-                        ->afterStateUpdated(function (Closure $set) {
+                        ->afterStateUpdated(function ($state, Closure $set) {
                             $set('from', null);
                             $set('to', null);
+                            $set('leave_type_description', LeaveType::find($state)->description);
                         }),
+                    Textarea::make('leave_type_description')
+                        ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_type_description'))
+                        ->disabled(),
                     Select::make('leave_session_id')
                         ->required()
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_session'))
-                        ->disabled(function(Closure $get){return $this->enforceFieldPermissions($get);})
+                        ->disabled(function(Closure $get){return self::enforceFieldPermissions($get);})
                         ->relationship('leaveSession', 'title', function ($query) {
                             return $query->where('status', LeaveSessionStatus::ACTIVE());
                         }),
                     TextInput::make('short_description')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.short_description'))
-                        ->disabled(function(Closure $get){return $this->enforceFieldPermissions($get);})
+                        ->disabled(function(Closure $get){return self::enforceFieldPermissions($get);})
                         ->required(),
 
                     Textarea::make('reason')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.reason'))
-                        ->disabled(function(Closure $get){return $this->enforceFieldPermissions($get);})
+                        ->disabled(function(Closure $get){return self::enforceFieldPermissions($get);})
                         ->required(),
                     Textarea::make('notes')
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.notes'))
