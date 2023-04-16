@@ -100,7 +100,7 @@ class Employee extends Model
         'check_in_mode',
     ];
 
-    public function getAverageTimeOfArrival($date=null)
+    public function getAverageTimeOfArrival($date = null)
     {
         if (empty($date)) $date = now()->format("Y-m-01");
         $date = \Carbon\Carbon::parse($date)->format("Y-m-01");
@@ -128,7 +128,7 @@ class Employee extends Model
     {
         $average_time_of_arrival = $this->getAverageTimeOfArrival();
         $average_time_of_arrival_sec = \Carbon\Carbon::parse($average_time_of_arrival)->secondsSinceMidnight();
-        if($average_time_of_arrival_sec <= 28800) {
+        if ($average_time_of_arrival_sec <= 28800) {
             return "early";
         } elseif ($average_time_of_arrival_sec > 28800 && $average_time_of_arrival_sec <= 32400) {
             return "ontime1";
@@ -200,7 +200,7 @@ class Employee extends Model
             if (!empty($manager_employee_code)) {
                 $manager_id = Employee::where('employee_code', $manager_employee_code)->pluck('id')->first();
                 Employee::where('employee_code', $employee_code)->update(['manager_id' => $manager_id]);
-                $status[$employee_code].= " / manager updated";
+                $status[$employee_code] .= " / manager updated";
             }
         }
         return $status;
@@ -281,12 +281,12 @@ class Employee extends Model
     {
         $unchecked_out_attendances_count = $this->attendances()->where('check_out', null)->count();
         $now = now();
-        if($unchecked_out_attendances_count == 1) {
+        if ($unchecked_out_attendances_count == 1) {
             $unchecked_out_attendance = $this->attendances()->where('check_out', null)->first();
             $last_check_in = Carbon::parse($unchecked_out_attendance->check_in);
-            if($last_check_in->diffInHours($now) > 16) {
+            if ($last_check_in->diffInHours($now) > 16) {
                 $check_out_time = Carbon::parse($unchecked_out_attendance->check_in)->addHours(9);
-                if($check_out_time->gt($now)) {
+                if ($check_out_time->gt($now)) {
                     $check_out_time = $now;
                 }
                 $unchecked_out_attendance->update([
@@ -302,7 +302,7 @@ class Employee extends Model
                     'check_out' => $now
                 ]);
             }
-        } elseif($unchecked_out_attendances_count > 1) {
+        } elseif ($unchecked_out_attendances_count > 1) {
             $unchecked_out_attendances = $this->attendances()->where('check_out', null);
             $unchecked_out_attendances
                 ->update([
@@ -320,5 +320,26 @@ class Employee extends Model
                 'check_in' => $now
             ]);
         }
+    }
+
+    /**
+     * > This function returns the leaveRequests of the employee
+     *
+     * @return The leaveRequests for the employee.
+     */
+    public function leaveRequests()
+    {
+        return $this->hasMany(LeaveRequest::class);
+    }
+
+    /**
+     * > This function returns the leaveBalances of the employee
+     *
+     * @return The leaveBalances for the employee.
+     */
+
+    public function leaveBalances()
+    {
+        return $this->hasMany(LeaveBalance::class);
     }
 }

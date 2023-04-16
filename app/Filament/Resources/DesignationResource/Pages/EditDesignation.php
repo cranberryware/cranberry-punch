@@ -6,6 +6,7 @@ use App\Filament\Resources\DesignationResource;
 use Filament\Pages\Actions;
 use Filament\Pages\Actions\Action;
 use App\Filament\Resources\Pages\EditRecord;
+use App\Helpers\Helper\Helper;
 
 class EditDesignation extends EditRecord
 {
@@ -16,5 +17,10 @@ class EditDesignation extends EditRecord
         return [
             Actions\DeleteAction::make(),
         ];
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 }

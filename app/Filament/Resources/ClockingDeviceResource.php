@@ -59,7 +59,8 @@ class ClockingDeviceResource extends Resource
                 TextInput::make('emp_prefix')
                     ->label(__('cranberry-punch::cranberry-punch.device.emp_prefix')),
                 PasswordInput::make('device_secret')
-                    ->label(__('cranberry-punch::cranberry-punch.device.device_secret')),
+                    ->label(__('cranberry-punch::cranberry-punch.device.device_secret'))
+                    ->required(),
                 TimezoneSelect::make('device_timezone')
                     ->label(__('cranberry-punch::cranberry-punch.device.device_timezone'))
                     ->searchable()

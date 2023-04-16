@@ -12,6 +12,7 @@
         "@tailwindcss/typography": "^0.5.3",
         "autoprefixer": "^10.4.13",
         "axios": "^0.25",
+        "cypress": "^10.11.0",
         "dotenv": "^16.0.1",
         "laravel-vite-plugin": "^0.7.0",
         "lodash": "^4.17.19",
@@ -21,7 +22,5 @@
         "tippy.js": "^6.3.7",
         "vite": "^3.0.0"
     },
-    "dependencies": {
-        "cypress": "^10.3.0"
-    }
+    "dependencies": {}
 }
