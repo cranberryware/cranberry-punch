@@ -110,6 +110,7 @@ class LeaveTypeResource extends Resource
                     ->label(__('cranberry-punch::cranberry-punch.leave.input.description')),
             ])->defaultSort('created_at', 'desc')
             ->filters([
+                Tables\Filters\TrashedFilter::make(),
                 //
             ])
             ->actions([
@@ -118,6 +119,8 @@ class LeaveTypeResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\RestoreBulkAction::make(),
+                Tables\Actions\ForceDeleteBulkAction::make(),
             ]);
     }
 
@@ -135,5 +138,13 @@ class LeaveTypeResource extends Resource
             'create' => Pages\CreateLeaveType::route('/create'),
             'edit' => Pages\EditLeaveType::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }

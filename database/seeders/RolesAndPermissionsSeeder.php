@@ -15,7 +15,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
 
         $policies = ['viewAny', 'view', 'create', 'update', 'delete', 'restore', 'forceDelete'];
-        $models = ['attendances', 'employees', 'departments', 'designations', 'users', 'permissions', 'roles', 'leaveRequests'];
+        $models = ['attendances', 'employees', 'departments', 'designations', 'users', 'permissions', 'roles'];
         foreach ($policies as $policy) {
             foreach ($models as $model) {
                 Permission::create([
@@ -41,50 +41,83 @@ class RolesAndPermissionsSeeder extends Seeder
         ]);
 
         // this can be done as separate statements
-        Role::create(['name' => 'super-admin'])
-            ->givePermissionTo(Permission::all());
+        // Role::create(['name' => 'super-admin'])
+        //     ->givePermissionTo(Permission::all());
+        $superAdminRole = Role::findOrCreate('super-admin', 'web');
 
-        Role::create(['name' => 'hr-manager'])
-            ->givePermissionTo([
-                'viewAny attendances',
-                'view attendances',
-                'create attendances',
-                'update attendances',
-                'delete attendances',
-                'viewAny employees',
-                'view employees',
-                'create employees',
-                'update employees',
-                'delete employees',
-                'viewAny departments',
-                'view departments',
-                'create departments',
-                'update departments',
-                'delete departments',
-                'viewAny designations',
-                'view designations',
-                'create designations',
-                'update departments',
-                'delete departments',
-                // 'viewAny leaveRequests',
-                // 'view leaveRequests',
-                // 'create leaveRequests',
-                // 'update leaveRequests',
-                'manage attendance settings',
-            ]);
+        $superAdminRole->givePermissionTo(Permission::all());
 
-        Role::create(['name' => 'employee'])
-            ->givePermissionTo([
-                'viewAny attendances',
-                'view attendances',
-                'clock attendances',
-                // 'viewAny leaveRequests',
-                // 'view leaveRequests',
-                // 'create leaveRequests',
-                // 'update leaveRequests',
-                // 'create attendances',
-                // 'viewAny departments',
-                // 'viewAny designations',
-            ]);
+
+        $hrManagerRole = Role::findOrCreate('hr-manager');
+        $hrManagerRole->givePermissionTo([
+            'viewAny attendances',
+            'view attendances',
+            'create attendances',
+            'update attendances',
+            'delete attendances',
+            'viewAny employees',
+            'view employees',
+            'create employees',
+            'update employees',
+            'delete employees',
+            'viewAny departments',
+            'view departments',
+            'create departments',
+            'update departments',
+            'delete departments',
+            'viewAny designations',
+            'view designations',
+            'create designations',
+            'update departments',
+            'delete departments',
+            // 'viewAny leaveRequests',
+            // 'view leaveRequests',
+            // 'create leaveRequests',
+            // 'update leaveRequests',
+            'manage attendance settings',
+        ]);
+
+        // Role::create(['name' => 'hr-manager'])
+        //     ->givePermissionTo([
+        //         'viewAny attendances',
+        //         'view attendances',
+        //         'create attendances',
+        //         'update attendances',
+        //         'delete attendances',
+        //         'viewAny employees',
+        //         'view employees',
+        //         'create employees',
+        //         'update employees',
+        //         'delete employees',
+        //         'viewAny departments',
+        //         'view departments',
+        //         'create departments',
+        //         'update departments',
+        //         'delete departments',
+        //         'viewAny designations',
+        //         'view designations',
+        //         'create designations',
+        //         'update departments',
+        //         'delete departments',
+        //         // 'viewAny leaveRequests',
+        //         // 'view leaveRequests',
+        //         // 'create leaveRequests',
+        //         // 'update leaveRequests',
+        //         'manage attendance settings',
+        //     ]);
+
+        $employeeRole = Role::findOrCreate('employee');
+        $employeeRole->givePermissionTo([
+            'viewAny attendances',
+            'view attendances',
+            'clock attendances',
+            // 'viewAny leaveRequests',
+            // 'view leaveRequests',
+            // 'create leaveRequests',
+            // 'update leaveRequests',
+            // 'create attendances',
+            // 'viewAny departments',
+            // 'viewAny designations',
+        ]);
     }
 }

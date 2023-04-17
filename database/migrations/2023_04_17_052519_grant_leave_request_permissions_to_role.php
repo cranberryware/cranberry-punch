@@ -19,6 +19,9 @@ return new class extends Migration
             'view leaveRequests',
             'create leaveRequests',
             'update leaveRequests',
+            'delete leaveRequests',
+            'restore leaveRequests',
+            'forceDelete leaveRequests'
         ];
 
         // Create the permissions in the database
@@ -37,6 +40,10 @@ return new class extends Migration
         // Assign the permissions to the hr-manager role
         $hrManagerRole = Role::findOrCreate('hr-manager');
         $hrManagerRole->givePermissionTo($permissionNames);
+
+        // Assign the permissions to the super-admin role
+        $superAdminRole = Role::findOrCreate('super-admin');
+        $superAdminRole->givePermissionTo(Permission::all());
     }
 
     /**
@@ -46,20 +53,22 @@ return new class extends Migration
      */
     public function down()
     {
-        $employeeRole = Role::findByName('employee');
-        $employeeRole->revokePermissionTo([
+        $permissionNames = [
             'viewAny leaveRequests',
             'view leaveRequests',
             'create leaveRequests',
             'update leaveRequests',
-        ]);
+            'delete leaveRequests',
+            'restore leaveRequests',
+            'forceDelete leaveRequests'
+        ];
+        $employeeRole = Role::findByName('employee');
+        $employeeRole->revokePermissionTo($permissionNames);
 
         $hrManagerRole = Role::findByName('hr-manager');
-        $hrManagerRole->revokePermissionTo([
-            'viewAny leaveRequests',
-            'view leaveRequests',
-            'create leaveRequests',
-            'update leaveRequests',
-        ]);
+        $hrManagerRole->revokePermissionTo($permissionNames);
+
+        $superAdminRole = Role::findOrCreate('super-admin');
+        $superAdminRole->revokePermissionTo($permissionNames);
     }
 };

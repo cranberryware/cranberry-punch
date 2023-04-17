@@ -34,9 +34,6 @@ class LeaveBalanceResource extends Resource
         return strval(__('cranberry-punch::cranberry-punch.section.group-leave-management'));
     }
 
-    public static function enforceFieldPermissions(Closure $get) {
-        return (auth()->user()->hasRole(['hr-manager', 'super-admin'])) ? false : ($get('employee_id') !== auth()->user()->employee->id);
-    }
     public static function getLabel(): string
     {
         return strval(__('cranberry-punch::cranberry-punch.section.leave-balances'));
@@ -60,21 +57,15 @@ class LeaveBalanceResource extends Resource
                         })
                         ->disabled(!auth()->user()->hasRole(['hr-manager', 'super-admin']))
                         ->required()
-                        ->reactive(), 
+                        ->reactive(),
                     Select::make('leave_type_id')
                         ->required()
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_type'))
-                        ->disabled(function (Closure $get) {
-                            return $this->enforceFieldPermissions($get);
-                        })
                         ->relationship('leaveType', 'name')
                         ->reactive(),
                     Select::make('leave_session_id')
                         ->required()
                         ->label(__('cranberry-punch::cranberry-punch.leave.input.leave_session'))
-                        ->disabled(function (Closure $get) {
-                            return $this->enforceFieldPermissions($get);
-                        })
                         ->relationship('leaveSession', 'title', function ($query) {
                             return $query->where('status', LeaveSessionStatus::ACTIVE());
                         }),
@@ -115,13 +106,15 @@ class LeaveBalanceResource extends Resource
                     ->sortable()
             ])
             ->filters([
-                //
+                // Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\RestoreBulkAction::make(),
+                // Tables\Actions\ForceDeleteBulkAction::make(),
             ]);
     }
 
@@ -139,5 +132,13 @@ class LeaveBalanceResource extends Resource
             'create' => Pages\CreateLeaveBalance::route('/create'),
             'edit' => Pages\EditLeaveBalance::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }

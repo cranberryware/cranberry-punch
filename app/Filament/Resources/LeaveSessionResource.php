@@ -94,6 +94,7 @@ class LeaveSessionResource extends Resource
                     ->colors(LeaveSessionStatus::getStatusColors()),
             ])->defaultSort('created_at', 'desc')
             ->filters([
+                Tables\Filters\TrashedFilter::make(),
                 SelectFilter::make('status')
                     ->options(LeaveSessionStatus::getStatuses()),
             ])
@@ -103,6 +104,8 @@ class LeaveSessionResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\RestoreBulkAction::make(),
+                Tables\Actions\ForceDeleteBulkAction::make(),
             ]);
     }
 
@@ -120,5 +123,13 @@ class LeaveSessionResource extends Resource
             'create' => Pages\CreateLeaveSession::route('/create'),
             'edit' => Pages\EditLeaveSession::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }

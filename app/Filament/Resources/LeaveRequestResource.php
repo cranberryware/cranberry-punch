@@ -241,6 +241,7 @@ class LeaveRequestResource extends Resource
                     ->colors(LeaveRequestStatus::getStatusColors()),
             ])->defaultSort('created_at', 'desc')
             ->filters([
+                Tables\Filters\TrashedFilter::make(),
                 SelectFilter::make('status')
                     ->options(LeaveRequestStatus::getStatuses()),
             ])
@@ -252,6 +253,8 @@ class LeaveRequestResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\RestoreBulkAction::make(),
+                Tables\Actions\ForceDeleteBulkAction::make(),
             ]);
     }
 

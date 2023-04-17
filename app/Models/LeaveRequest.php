@@ -11,11 +11,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Log;
+use Venturecraft\Revisionable\RevisionableTrait;
 
 class LeaveRequest extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use RevisionableTrait;
 
     protected $fillable = [
         'employee_id',

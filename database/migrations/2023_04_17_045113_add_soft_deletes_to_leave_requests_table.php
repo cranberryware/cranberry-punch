@@ -16,6 +16,18 @@ return new class extends Migration
         Schema::table('leave_requests', function (Blueprint $table) {
             $table->softDeletes();
         });
+
+        Schema::table('leave_types', function (Blueprint $table) {
+            $table->softDeletes();
+        });
+
+        Schema::table('leave_sessions', function (Blueprint $table) {
+            $table->softDeletes();
+        });
+
+        Schema::table('leave_balances', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -26,6 +38,18 @@ return new class extends Migration
     public function down()
     {
         Schema::table('leave_requests', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+
+        Schema::table('leave_types', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+
+        Schema::table('leave_sessions', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+
+        Schema::table('leave_balances', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
     }
