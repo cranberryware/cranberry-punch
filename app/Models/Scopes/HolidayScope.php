@@ -25,9 +25,9 @@ class HolidayScope implements Scope
             if (auth()->user()->hasRole(['hr-manager', 'super-admin'])) {
                 return;
             }
-            if (auth()->user()->employee) {
-                $builder->where('is_confirmed', true);
-            }
+            // if (auth()->user()->employee) {
+            //     $builder->where('is_confirmed', true);
+            // }
         }
     }
 }
