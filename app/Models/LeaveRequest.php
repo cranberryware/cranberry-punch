@@ -9,11 +9,13 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Log;
 
 class LeaveRequest extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'employee_id',
@@ -40,6 +42,7 @@ class LeaveRequest extends Model
         'applied_on',
         'approved_on',
         'rejected_on',
+        'deleted_at',
     ];
 
     protected static function booted()

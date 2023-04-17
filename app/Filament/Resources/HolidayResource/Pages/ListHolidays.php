@@ -10,6 +10,11 @@ class ListHolidays extends ListRecords
 {
     protected static string $resource = HolidayResource::class;
 
+    protected function getTableBulkActions(): array
+    {
+        return [];
+    }
+
     protected function getActions(): array
     {
         return [

@@ -19,8 +19,7 @@ class HolidayPolicy
     public function viewAny(User $user)
     {
         //
-        return $user->hasAnyRole(['super-admin','hr-manager']);
-        // return $user->hasAnyRole(['super-admin','hr-manager','employee']);
+        return $user->hasAnyRole(['super-admin','hr-manager','employee']);
     }
 
     /**
@@ -73,7 +72,6 @@ class HolidayPolicy
      */
     public function delete(User $user, Holiday $holiday)
     {
-        //
         return $user->hasAnyRole(['super-admin','hr-manager']);
 
     }
