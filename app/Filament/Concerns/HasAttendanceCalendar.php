@@ -74,7 +74,8 @@ trait HasAttendanceCalendar
 
     protected function getTableFilters(): array
     {
-        $today = Carbon::parse(DB::select(DB::raw('SELECT NOW() AS ctime'))[0]->ctime);
+        $today = Carbon::parse(DB::select(DB::raw('
+        SELECT NOW() AS ctime'))[0]->ctime);
         $months_list = [];
         $day = now();
         for ($i = 0; $i < 12; $i++) {
@@ -239,6 +240,7 @@ trait HasAttendanceCalendar
                             ];
                         }
                     }
+                    return [];
                 })
                 ->getStateUsing(function (Model $record) use ($date) {
                     $calendar_cell_colors = app(AttendanceSettings::class)->calendar_cell_colors;
