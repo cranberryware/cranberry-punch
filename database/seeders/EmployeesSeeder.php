@@ -19,7 +19,7 @@ class EmployeesSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 2; $i <= 150; $i++) {
+        for ($i = 2; $i <= 50; $i++) {
             $faker = Factory::create();
             $gender = $faker->randomElement(['male', 'female']);
             $opposite_gender = $gender == "male" ? "female" : "male";

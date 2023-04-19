@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
             DepartmentsSeeder::class,
             EmployeesSeeder::class,
             AttendanceSeeder::class,
+            HolidaySeeder::class,
+            LeaveSessionsSeeder::class,
+            LeaveTypesSeeder::class,
         ];
 
         foreach ($seeders as $seeder) {
