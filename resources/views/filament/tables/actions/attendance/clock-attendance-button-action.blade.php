@@ -35,7 +35,7 @@
             <img src="{{ url('assets/clockOut.svg') }}" alt="image" />
             @endif
         </x-tables::actions.action>
-        <div class="font-semibold whitespace-normal">{{auth()->user()->employee->getLastClockTypeAndTime()}}</div>
+        <div class="text-xs whitespace-normal">{{auth()->user()->employee->getLastClockTypeAndTime()}}</div>
     </div>
     <div class="col-span-3 text-center">
         {{__("cranberry-punch::cranberry-punch.attendance-kiosk.widget.average-time-of-arrival", ["current_month" => now()->format("Y-m")])}}:
