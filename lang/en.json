@@ -3,6 +3,7 @@
     "cranberry-punch::cranberry-punch.attendance-kiosk.button.clock-in": "Clock In",
     "cranberry-punch::cranberry-punch.attendance-kiosk.button.clock-out": "Clock Out",
     "cranberry-punch::cranberry-punch.attendance-kiosk.widget.average-time-of-arrival": "Your average time of arrival for :current_month is",
+    "cranberry-punch::cranberry-punch.attendance-kiosk.widget.last-attendance-record-time":"Last Clocked :type at : :time Using :mode",
     "cranberry-punch::cranberry-punch.attendance.action.attendance_calendar_view": "Calendar View",
     "cranberry-punch::cranberry-punch.attendance.action.attendance_list_view": "List View",
     "cranberry-punch::cranberry-punch.attendance.action.create": "New Attendance",
