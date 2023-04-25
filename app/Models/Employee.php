@@ -285,8 +285,11 @@ class Employee extends Model
         $time = $latest_record->check_out ?? $latest_record->check_in;
         $type = $latest_record->check_out ? 'out' : 'in';
 
+        // $deviceType = ucfirst($type);
+        $device = $latest_record->{'check'.ucfirst($type).'Device'};
+
         // set checkin mode
-        $mode = $latest_record->{'check_'.$type.'_device_id'} ? CheckInMode::DEVICE()->description . ": "  : CheckInMode::WEB()->description;
+        $mode = $latest_record->{'check_'.$type.'_device_id'} ? CheckInMode::DEVICE()->description . ": ".$latest_record->{'check'.ucfirst($type).'Device'}->device_name  : CheckInMode::WEB()->description;
 
         // format timezone.
         $time = Carbon::parse($time)->tz(config('app.user_timezone'))->format('M d, h:i A');
