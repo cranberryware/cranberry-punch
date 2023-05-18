@@ -17,6 +17,7 @@ use App\Filament\Resources\AttendanceResource\Pages;
 use Webbingbrasil\FilamentAdvancedFilter\Filters\DateFilter;
 use Webbingbrasil\FilamentAdvancedFilter\Filters\TextFilter;
 use App\Filament\Resources\AttendanceResource\RelationManagers;
+use Filament\Tables\Filters\SelectFilter;
 
 class AttendanceResource extends Resource
 {
@@ -109,6 +110,16 @@ class AttendanceResource extends Resource
             ->defaultSort('check_in', 'desc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                SelectFilter::make('check_in_device_id')
+                    ->label(__('cranberry-punch::cranberry-punch.table.attendance.check-in-device'))
+                    ->multiple()
+                    ->searchable()
+                    ->attribute('checkInDevice.device_name'),
+                SelectFilter::make('check_out_device_id')
+                    ->label(__('cranberry-punch::cranberry-punch.table.attendance.check-out-device'))
+                    ->multiple()
+                    ->searchable()
+                    ->attribute('checkOutDevice.device_name'),
                 DateFilter::make('check_in'),
                 TextFilter::make('check_in_ip'),
                 DateFilter::make('check_out'),

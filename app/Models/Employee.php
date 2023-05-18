@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CheckInMode;
 use App\Models\Scopes\EmployeeScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -275,6 +276,24 @@ class Employee extends Model
     public function clocked_out()
     {
         return $this->attendances()->where('check_out', null)->count() < 1;
+    }
+
+    // function to get latest attendance record of the employee
+    public function getLastClockTypeAndTime()
+    {
+        $latest_record = $this->attendances()->latest()->first();
+        $time = $latest_record->check_out ?? $latest_record->check_in;
+        $type = $latest_record->check_out ? 'out' : 'in';
+
+        // $deviceType = ucfirst($type);
+        $device = $latest_record->{'check'.ucfirst($type).'Device'};
+
+        // set checkin mode
+        $mode = $latest_record->{'check_'.$type.'_device_id'} ? CheckInMode::DEVICE()->description . ": ".$latest_record->{'check'.ucfirst($type).'Device'}->device_name  : CheckInMode::WEB()->description;
+
+        // format timezone.
+        $time = Carbon::parse($time)->tz(config('app.user_timezone'))->format('M d, h:i A');
+        return __("cranberry-punch::cranberry-punch.attendance-kiosk.widget.last-attendance-record-time", ["type" => $type, 'time' => $time, 'mode' => $mode]);
     }
 
     public function attendance_clock()

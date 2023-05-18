@@ -6,6 +6,7 @@ use App\Console\Commands\Traits\PrependsTimestamp;
 use App\Settings\AttendanceSettings;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Symfony\Component\Yaml\Yaml;
 
 class SyncNTOfficeIPs extends Command
 {
@@ -32,9 +33,13 @@ class SyncNTOfficeIPs extends Command
     public function handle()
     {
         $response = Http::get(config('app.office_ip_url'));
-        $ips_list = preg_replace(['/enp[\d]s0: ([^:]+)?/', '/: (.*) :.*/'], ['', '$1'], $response);
-        $ips_list = explode(PHP_EOL, $ips_list);
+        $ips_list_array = Yaml::parse(preg_replace('/([^:]+): (.*)/', '$1: "$2"', $response));
+        $ips_list = [];
+        foreach($ips_list_array as $key => $ip_data) {
+            $ips_list[] = preg_replace(['/.*IP ADDRESS: ([^:]+).*/', '/NOT WORKING/'], ['$1', ''], $ip_data);
+        }
         $ips_list = array_filter($ips_list);
+        $ips_list = array_values($ips_list);
         print_r($ips_list);
         $ips_list = array_map(function ($ip) {
             $ip_parts = explode(".", $ip);
