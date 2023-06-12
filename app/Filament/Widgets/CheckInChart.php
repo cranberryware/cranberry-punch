@@ -86,13 +86,11 @@ class CheckInChart extends ApexChartWidget
                 })
                 ->toArray();
 
-        $days = array_map(function ($value) {
-            return date('d', strtotime($value));
-        }, array_keys($data));
+        $dayTimeArray = [];
 
-        $times = array_map(function ($value) {
-            return date('h:i', strtotime($value));
-        }, array_values($data));
+        foreach ($data as $day => $time) {
+            $dayTimeArray[date('d', strtotime($day))] = date('H.i', strtotime($time));
+        }
 
         return [
             'chart' => [
@@ -105,11 +103,11 @@ class CheckInChart extends ApexChartWidget
             'series' => [
                 [
                     'name' => 'CheckIn time',
-                    'data' => $times,
+                    'data' => array_values($dayTimeArray),
                 ],
             ],
             'xaxis' => [
-                'categories' => $days,
+                'categories' => array_keys($dayTimeArray),
                 'labels' => [
                     'style' => [
                         'colors' => '#9ca3af',
@@ -121,7 +119,6 @@ class CheckInChart extends ApexChartWidget
                 'title' => [
                     'text' => 'CheckIn Time',
                 ],
-                'type' => 'datetime',
                 'labels' => [
                     'style' => [
                         'colors' => '#9ca3af',
