@@ -37,13 +37,25 @@ class AttendanceSeeder extends Seeder
                     $check_in = Carbon::parse($date . ' ' . $start_check_in);
                     $check_out = Carbon::parse($date . ' ' . $start_check_out);
 
-                    do {
-                        $check_in = Carbon::parse($date . ' ' . $start_check_in)->addMinutes(rand(1, 180));
-                    } while ($check_in->lt(Carbon::parse($date . ' ' . $end_check_in)));
+                    // Generate a random number of minutes between 0 and 180
+                    $random_minutes = rand(0, 180);
 
-                    do {
-                        $check_out = Carbon::parse($date . ' ' . $start_check_out)->addMinutes(rand(1, 180));
-                    } while ($check_out->lt(Carbon::parse($date . ' ' . $end_check_out)));
+                    $check_in->addMinutes($random_minutes);
+
+                    // If the new check-in time is greater than the end check-in time, adjust it accordingly
+                    if ($check_in->gt(Carbon::parse($date . ' ' . $end_check_in))) {
+                        $check_in = Carbon::parse($date . ' ' . $end_check_in);
+                    }
+
+                    // Generate a random number of minutes between 0 and 180
+                    $random_minutes = rand(0, 180);
+
+                    $check_out->addMinutes($random_minutes);
+
+                    // If the new check-out time is greater than the end check-out time, adjust it accordingly
+                    if ($check_out->gt(Carbon::parse($date . ' ' . $end_check_out))) {
+                        $check_out = Carbon::parse($date . ' ' . $end_check_out);
+                    }
 
                     Attendance::create([
                         'user_id' => $employee->user_id,

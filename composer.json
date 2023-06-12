@@ -17,6 +17,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "leandrocfe/filament-apex-charts": "^1.0",
         "marekweb/opaque-id": "dev-master",
         "markrogoyski/math-php": "2.*",
         "monarobase/country-list": "^3.3",
