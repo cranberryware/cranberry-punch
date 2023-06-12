@@ -73,16 +73,18 @@ class CheckInChart extends ApexChartWidget
         $activeFilter = $this->filterFormData;
 
         $data = Attendance::where('user_id', $activeFilter['user_id'])
-                    ->where('attendance_month', $activeFilter['month'])
-                    ->orderBy('check_in', 'asc') // Order by check-in time ascending
-                    ->get()
-                    ->groupBy(function ($attendance) {
-                        return date('Y-m-d', strtotime($attendance->check_in)); // Group by date
-                    })
-                    ->map(function ($groupedAttendances) {
-                        return $groupedAttendances->first()->check_in; // Get the first check-in time of each day
-                    })
-                    ->toArray();
+                ->where('attendance_month', $activeFilter['month'])
+                ->orderBy('check_in')
+                ->get()
+                ->groupBy(function ($attendance) {
+                    return Carbon::parse($attendance->check_in)->format('Y-m-d'); // Group by date
+                })
+                ->map(function ($groupedAttendances) {
+                    $firstCheckIn = $groupedAttendances->first()->check_in;
+                    $timezone = config('app.user_timezone');
+                    return Carbon::parse($firstCheckIn)->timezone($timezone)->format('Y-m-d H:i:s'); // Get the first check-in time of each day
+                })
+                ->toArray();
 
         $days = array_map(function ($value) {
             return date('d', strtotime($value));
