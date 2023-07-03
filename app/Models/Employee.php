@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CheckInMode;
 use App\Models\Scopes\EmployeeScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -97,9 +98,10 @@ class Employee extends Model
         'bank_address_country',
         'bank_phone',
         'bank_email',
+        'check_in_mode',
     ];
 
-    public function getAverageTimeOfArrival($date=null)
+    public function getAverageTimeOfArrival($date = null)
     {
         if (empty($date)) $date = now()->format("Y-m-01");
         $date = \Carbon\Carbon::parse($date)->format("Y-m-01");
@@ -127,7 +129,7 @@ class Employee extends Model
     {
         $average_time_of_arrival = $this->getAverageTimeOfArrival();
         $average_time_of_arrival_sec = \Carbon\Carbon::parse($average_time_of_arrival)->secondsSinceMidnight();
-        if($average_time_of_arrival_sec <= 28800) {
+        if ($average_time_of_arrival_sec <= 28800) {
             return "early";
         } elseif ($average_time_of_arrival_sec > 28800 && $average_time_of_arrival_sec <= 32400) {
             return "ontime1";
@@ -199,7 +201,7 @@ class Employee extends Model
             if (!empty($manager_employee_code)) {
                 $manager_id = Employee::where('employee_code', $manager_employee_code)->pluck('id')->first();
                 Employee::where('employee_code', $employee_code)->update(['manager_id' => $manager_id]);
-                $status[$employee_code].= " / manager updated";
+                $status[$employee_code] .= " / manager updated";
             }
         }
         return $status;
@@ -276,16 +278,34 @@ class Employee extends Model
         return $this->attendances()->where('check_out', null)->count() < 1;
     }
 
+    // function to get latest attendance record of the employee
+    public function getLastClockTypeAndTime()
+    {
+        $latest_record = $this->attendances()->latest()->first();
+        $time = $latest_record->check_out ?? $latest_record->check_in;
+        $type = $latest_record->check_out ? 'out' : 'in';
+
+        // $deviceType = ucfirst($type);
+        $device = $latest_record->{'check'.ucfirst($type).'Device'};
+
+        // set checkin mode
+        $mode = $latest_record->{'check_'.$type.'_device_id'} ? CheckInMode::DEVICE()->description . ": ".$latest_record->{'check'.ucfirst($type).'Device'}->device_name  : CheckInMode::WEB()->description;
+
+        // format timezone.
+        $time = Carbon::parse($time)->tz(config('app.user_timezone'))->format('M d, h:i A');
+        return __("cranberry-punch::cranberry-punch.attendance-kiosk.widget.last-attendance-record-time", ["type" => $type, 'time' => $time, 'mode' => $mode]);
+    }
+
     public function attendance_clock()
     {
         $unchecked_out_attendances_count = $this->attendances()->where('check_out', null)->count();
         $now = now();
-        if($unchecked_out_attendances_count == 1) {
+        if ($unchecked_out_attendances_count == 1) {
             $unchecked_out_attendance = $this->attendances()->where('check_out', null)->first();
             $last_check_in = Carbon::parse($unchecked_out_attendance->check_in);
-            if($last_check_in->diffInHours($now) > 16) {
+            if ($last_check_in->diffInHours($now) > 16) {
                 $check_out_time = Carbon::parse($unchecked_out_attendance->check_in)->addHours(9);
-                if($check_out_time->gt($now)) {
+                if ($check_out_time->gt($now)) {
                     $check_out_time = $now;
                 }
                 $unchecked_out_attendance->update([
@@ -301,7 +321,7 @@ class Employee extends Model
                     'check_out' => $now
                 ]);
             }
-        } elseif($unchecked_out_attendances_count > 1) {
+        } elseif ($unchecked_out_attendances_count > 1) {
             $unchecked_out_attendances = $this->attendances()->where('check_out', null);
             $unchecked_out_attendances
                 ->update([
@@ -319,5 +339,26 @@ class Employee extends Model
                 'check_in' => $now
             ]);
         }
+    }
+
+    /**
+     * > This function returns the leaveRequests of the employee
+     *
+     * @return The leaveRequests for the employee.
+     */
+    public function leaveRequests()
+    {
+        return $this->hasMany(LeaveRequest::class);
+    }
+
+    /**
+     * > This function returns the leaveBalances of the employee
+     *
+     * @return The leaveBalances for the employee.
+     */
+
+    public function leaveBalances()
+    {
+        return $this->hasMany(LeaveBalance::class);
     }
 }

@@ -15,7 +15,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
 
         $policies = ['viewAny', 'view', 'create', 'update', 'delete', 'restore', 'forceDelete'];
-        $models = ['attendances', 'employees', 'departments', 'designations', 'users', 'permissions', 'roles'];
+        $models = ['attendances', 'employees', 'departments', 'designations', 'users', 'permissions', 'roles', 'leaveRequests'];
         foreach ($policies as $policy) {
             foreach ($models as $model) {
                 Permission::create([
@@ -66,6 +66,10 @@ class RolesAndPermissionsSeeder extends Seeder
                 'create designations',
                 'update departments',
                 'delete departments',
+                'viewAny leaveRequests',
+                'view leaveRequests',
+                'create leaveRequests',
+                'update leaveRequests',
                 'manage attendance settings',
             ]);
 
@@ -74,6 +78,10 @@ class RolesAndPermissionsSeeder extends Seeder
                 'viewAny attendances',
                 'view attendances',
                 'clock attendances',
+                'viewAny leaveRequests',
+                'view leaveRequests',
+                'create leaveRequests',
+                'update leaveRequests',
                 // 'create attendances',
                 // 'viewAny departments',
                 // 'viewAny designations',

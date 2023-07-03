@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Enums\CheckInMode;
 use Closure;
 use App\Models\Attendance;
 use Filament\Widgets\TableWidget;
@@ -26,11 +27,16 @@ class AttendanceClock extends TableWidget
 
     public static function canView(): bool
     {
-        if (auth()->user()->employee) {
-            return true;
-        } else {
-            return false;
-        }
+        return auth()->user()->employee ? true : false;
+        // if (!auth()->user()->employee) return false;
+        // $check_in_mode_override = app(\App\Settings\AttendanceSettings::class)->check_in_mode_override;
+        // $check_in_mode = !empty($check_in_mode_override) ? $check_in_mode_override : auth()->user()->employee->check_in_mode;
+
+        // if (auth()->user()->employee && ($check_in_mode != CheckInMode::DEVICE)) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
     }
 
     protected function getTableQuery(): Builder
@@ -84,6 +90,11 @@ class AttendanceClock extends TableWidget
             })
             ->action(function () {
                 auth()->user()->employee->attendance_clock();
+            })
+            ->disabled(function () {
+                $check_in_mode_override = app(\App\Settings\AttendanceSettings::class)->check_in_mode_override;
+                $check_in_mode = !empty($check_in_mode_override) ? $check_in_mode_override : auth()->user()->employee->check_in_mode;
+                return ($check_in_mode == CheckInMode::DEVICE);
             })
             ->size('sm')
             ->requiresConfirmation();

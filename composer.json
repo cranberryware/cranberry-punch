@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.0.2",
         "bensampo/laravel-enum": "^5.3",
+        "doctrine/dbal": "^3.6",
         "dutchcodingcompany/filament-socialite": "^0.2.2",
         "filament/filament": "^2.0",
         "filament/spatie-laravel-settings-plugin": "^2.0",
@@ -16,14 +17,19 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "leandrocfe/filament-apex-charts": "^1.0",
         "marekweb/opaque-id": "dev-master",
         "markrogoyski/math-php": "2.*",
         "monarobase/country-list": "^3.3",
         "owenvoke/blade-fontawesome": "^2.0",
+        "papalardo/filament-password-input": "^1.0",
         "phpsa/filament-authentication": "^2.1",
         "psr/simple-cache": "^1.0",
         "pxlrbt/filament-excel": "^1.0",
+        "spatie/db-dumper": "^3.3",
         "spatie/laravel-settings": "^2.4",
+        "symfony/yaml": "^6.2",
+        "tapp/filament-timezone-field": "^1.1",
         "venturecraft/revisionable": "^1.39",
         "webbingbrasil/filament-advancedfilter": "^1.1"
     },
@@ -45,7 +51,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helper/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

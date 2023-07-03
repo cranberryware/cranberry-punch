@@ -211,7 +211,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
+  
     ])->toArray(),
 
     'user_datetime_format' => 'M d, Y h:i:s A T',
@@ -220,4 +220,6 @@ return [
     'force_https' => env('FORCE_HTTPS', false),
 
     'office_ip_url' => env('OFFICE_IP_URL', ""),
+
+    'api_secret_key' => env('API_SECRET_KEY', "<your-secret-api-key>"),
 ];

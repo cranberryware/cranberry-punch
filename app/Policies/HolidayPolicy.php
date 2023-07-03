@@ -20,6 +20,7 @@ class HolidayPolicy
     {
         //
         return $user->hasAnyRole(['super-admin','hr-manager']);
+        // return $user->hasAnyRole(['super-admin','hr-manager','employee']);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Rules\IpAddress;
 use App\Rules\Slug;
+use App\Enums\CheckInMode;
 use Filament\Pages\SettingsPage;
 use App\Settings\AttendanceSettings;
 use App\Support\Str;
@@ -17,6 +18,7 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
 use HappyToDev\FilamentTailwindColorPicker\Forms\Components\TailwindColorPicker;
 
 class ManageAttendanceSettings extends SettingsPage
@@ -168,7 +170,16 @@ class ManageAttendanceSettings extends SettingsPage
                                             ])
                                             ->defaultItems(1)
                                             ->columns(3)
-                                    ])
+                                    ]),
+                                    Tab::make(__('cranberry-punch::cranberry-punch.section.cranberry-punch-attendance-settings.miscellaneous'))
+                                    ->schema([
+                                        Select::make('default_check_in_mode')
+                                            ->default(null)
+                                            ->options(CheckInMode::getModes()),
+                                        Select::make('check_in_mode_override')
+                                            ->default(null)
+                                            ->options(CheckInMode::getModes()),
+                                    ]),
                             ])
                             ->activeTab(1)
                     ])

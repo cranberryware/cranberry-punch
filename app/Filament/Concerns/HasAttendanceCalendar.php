@@ -74,7 +74,8 @@ trait HasAttendanceCalendar
 
     protected function getTableFilters(): array
     {
-        $today = Carbon::parse(DB::select(DB::raw('SELECT NOW() AS ctime'))[0]->ctime);
+        $today = Carbon::parse(DB::select(DB::raw('
+        SELECT NOW() AS ctime'))[0]->ctime);
         $months_list = [];
         $day = now();
         for ($i = 0; $i < 12; $i++) {
@@ -164,6 +165,13 @@ trait HasAttendanceCalendar
                     $cell_value = $record->{$date};
                     $cell_value_arr = explode(' = ', $cell_value);
                     $cell_value_date = reset($cell_value_arr);
+
+                    if(!$cell_value_date){
+                        return [
+                            'visible' => "hidden",
+                            'class'=>'extra_date_hidden'
+                        ];
+                    }
                     $cell_value_date = Carbon::parse($cell_value_date);
                     $cell_value = end($cell_value_arr);
 
@@ -190,7 +198,7 @@ trait HasAttendanceCalendar
 
                     $weekly_day_off_dates = [];
                     foreach($weekly_day_offs as $weekly_day_off) {
-                        array_push($weekly_day_off_dates,Carbon::parse("{$weekly_day_off} {$cell_value_month}"));
+                        array_push($weekly_day_off_dates,Carbon::parse(date('Y-m-d', strtotime("{$weekly_day_off} of {$cell_value_month}"))));
                     }
 
                     if( in_array($cell_value_date,$weekly_day_off_dates) && (empty($cell_value) || $cell_value == '0.00')) {
@@ -228,7 +236,7 @@ trait HasAttendanceCalendar
                             $text_color_class = ($bg_color_class_darkness > 400) ? 'text-white' : 'text-black';
                             $extra_css_classes = isset($calendar_cell_color['extra_css_classes']) && is_array($calendar_cell_color['extra_css_classes']) ? join(" ", $calendar_cell_color['extra_css_classes']) : "";
                             return [
-                                'class' => "{$classes} {$bg_color_class} {$text_color_class} {$extra_css_classes} rounded-full "
+                                'class' => "{$classes} {$bg_color_class} {$text_color_class} {$extra_css_classes} rounded-full class-for-mutation-observer"
                             ];
                         }
                     }
@@ -248,9 +256,14 @@ trait HasAttendanceCalendar
                     $cell_value_date = Carbon::parse($cell_value_date);
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
-
+                    if(!$cell_value_date){
+                        return [
+                            'visible' => "hidden",
+                            'class'=>'extra_date_hidden'
+                        ];
+                    }
                     foreach($weekly_day_offs as $weekly_day_off) {
-                        $weekly_day_off_date = Carbon::parse("{$weekly_day_off} {$cell_value_month}");
+                        $weekly_day_off_date = Carbon::parse(date('Y-m-d', strtotime("{$weekly_day_off} of {$cell_value_month}")));
                         if($cell_value_date->eq($weekly_day_off_date) && (empty($cell_value) || $cell_value == '0.00')) {
                             return $cell_value_date->format('D');
                         }
@@ -289,6 +302,12 @@ trait HasAttendanceCalendar
                     $cell_value_date = Carbon::parse($cell_value_date);
                     $cell_value = end($cell_value_arr);
                     $cell_value_month = $cell_value_date->format('Y-m');
+                     if(!$cell_value_date){
+                        return [
+                            'visible' => "hidden",
+                            'class'=>'extra_date_hidden'
+                        ];
+                    }
 
                     $holiday = Holiday::where(['is_confirmed'=> true, 'date' => $cell_value_date->toDateString()])->first();
                     if ($holiday) {
